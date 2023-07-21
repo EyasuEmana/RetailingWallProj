@@ -8,11 +8,11 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomSlider from "../../../../../components/CustomSlider";
 import CustomButton from "../../../../../components/CustomButton";
 import centerImg from "../../../../../static/centerImg.png";
-function Index() {
+function Index({ excelDate, setExcelData }) {
   const [stemHeight, setStemHeight] = useState(300);
   const [stemTop, setStemTop] = useState(10);
   const [bottom, setBottom] = useState(0);
@@ -24,7 +24,30 @@ function Index() {
   const [shareLength, setShareLength] = useState(173);
   const [shareDistance, setShareDistance] = useState(10);
   const [shareThickness, setShareThickness] = useState(69);
-
+  useEffect(() => {
+    setExcelData({
+      stemHeight,
+      stemTop,
+      bottom,
+      baseTotalLength,
+      baseToeLength,
+      baseThickness,
+      shareLength,
+      shareDistance,
+      shareThickness,
+    });
+    console.log("here")
+  }, [
+    stemHeight,
+    stemTop,
+    bottom,
+    baseTotalLength,
+    baseToeLength,
+    baseThickness,
+    shareLength,
+    shareDistance,
+    shareThickness,
+  ]);
   const StyledSlider = styled(Slider)((props) => ({
     ...props,
     "& .MuiSlider-track": {
@@ -95,7 +118,7 @@ function Index() {
       </Grid>
     );
   };
-  const SliderComponent = ({ title, setter, value, minimum, maximum }) => {
+  const SliderComponent = ({ title, setter, value, maximum }) => {
     return (
       <Grid
         container
@@ -111,7 +134,7 @@ function Index() {
           <Box>
             <Slider
               value={value}
-              min={minimum}
+              min={0}
               max={maximum}
               sx={{
                 "& .MuiSlider-track": {
@@ -193,21 +216,18 @@ function Index() {
             <Stack direction={"column"}>
               <HeightSliderComponent
                 title={"Height"}
-                minimum={0}
                 maximum={300}
                 setter={setStemHeight}
                 value={stemHeight}
               />
               <SliderComponent
                 title={"Top"}
-                minimum={0}
                 maximum={300}
                 setter={setStemTop}
                 value={stemTop}
               />
               <SliderComponent
                 title={"Bottom"}
-                minimum={0}
                 maximum={300}
                 setter={setBottom}
                 value={bottom}
@@ -223,7 +243,6 @@ function Index() {
               <SliderComponent
                 title={"Total length"}
                 setter={setBaseTotalLength}
-                minimum={0}
                 maximum={450}
                 value={baseTotalLength}
               />
@@ -234,7 +253,6 @@ function Index() {
               />
               <SliderComponent
                 title={"Thickness"}
-                minimum={0}
                 maximum={60}
                 setter={setBaseThickness}
                 value={baseThickness}
@@ -249,7 +267,6 @@ function Index() {
             <Stack direction={"column"}>
               <SliderComponent
                 title={"Length"}
-                minimum={0}
                 maximum={173}
                 setter={setShareLength}
                 value={shareLength}
@@ -261,7 +278,6 @@ function Index() {
               />
               <SliderComponent
                 title={"Thickness"}
-                minimum={0}
                 maximum={69}
                 setter={setShareThickness}
                 value={shareThickness}

@@ -1,13 +1,13 @@
 import { Box, Stack } from "@mui/material";
-import React from "react";
+import React, { useRef } from "react";
 import Appbar from "../../components/LandingPageComps/Appbar";
 import BodyPart from "./BodyPart/index";
 function LangingPage() {
-
+  const componentRef = useRef();
   return (
     <Box>
       <Stack direction={"column"}>
-        <Appbar content={BodyPart} />
+        <Appbar content={BodyPart}/>
         <BodyPart  />
       </Stack>
     </Box>

@@ -2,22 +2,22 @@ import logo from "./logo.svg";
 import "./App.css";
 import LangingPage from "./pages/LandingPage";
 import { Box } from "@mui/material";
-import ThreeDTest from "./pages/ThreeDTest";
+// import ThreeDTest from "./pages/ThreeDTest";
 import { ThemeProvider } from "@mui/material";
 import CustomTheme from "./assets/theme";
 function App() {
   return (
-    <ThemeProvider theme={CustomTheme}>
-      <Box
-        sx={{
-          paddingTop: 15,
-          height: "100%",
-          marginBottom: 0,
-        }}
-      >
-        <LangingPage />
-      </Box>
-    </ThemeProvider>
+      <ThemeProvider theme={CustomTheme}>
+        <Box
+          sx={{
+            paddingTop: 15,
+            height: "100%",
+            marginBottom: 0,
+          }}
+        >
+          <LangingPage />
+        </Box>
+      </ThemeProvider>
   );
 }
 

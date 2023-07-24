@@ -133,7 +133,7 @@ function Index({ excelDate, setExcelData }) {
         <Grid item lg={9} md={9} sm={12}>
           <Stack direction={"row"} spacing={4} alignItems={"center"}>
             <Slider
-              value={value}
+              value={stemTop}
               min={0}
               max={maximum}
               sx={{
@@ -150,7 +150,7 @@ function Index({ excelDate, setExcelData }) {
               }}
               valueLabelDisplay="auto"
               scale={calculateValue}
-              onChange={(event, newValue) => setter(newValue)}
+              onChange={handleChange}
             />
             <Button
               variant="outlined"
@@ -167,6 +167,29 @@ function Index({ excelDate, setExcelData }) {
         </Grid>
       </Grid>
     );
+  };
+  // const [value, setValue] = React.useState(30);
+
+  const handleChange = (event, newValue) => {
+    setStemTop(newValue);
+  };
+  const AlignSliderComp = ({ children }) => {
+    <Grid
+      container
+      alignItems={"center"}
+      justifyContent={"space-between"}
+      spacing={2}
+      mb={0.5}
+    >
+      <Grid item lg={3} md={3} sm={12}>
+        <Typography>{"Top"}</Typography>
+      </Grid>
+      <Grid item lg={9} md={9} sm={12}>
+        <Stack direction={"row"} spacing={4} alignItems={"center"}>
+          {children}
+        </Stack>
+      </Grid>
+    </Grid>;
   };
   return (
     <Box>
@@ -214,24 +237,158 @@ function Index({ excelDate, setExcelData }) {
               Stem
             </Typography>
             <Stack direction={"column"}>
-              <HeightSliderComponent
+              {/* <HeightSliderComponent
                 title={"Height"}
                 maximum={300}
                 setter={setStemHeight}
                 value={stemHeight}
-              />
-              <SliderComponent
-                title={"Top"}
-                maximum={300}
-                setter={setStemTop}
-                value={stemTop}
-              />
-              <SliderComponent
-                title={"Bottom"}
-                maximum={300}
-                setter={setBottom}
-                value={bottom}
-              />
+              /> */}
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>Height</Typography>
+                </Grid>
+
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={stemHeight}
+                      min={0}
+                      max={300}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={(event, newValue) => {
+                        setStemTop((prev) => 300 - newValue);
+                        setStemHeight(newValue);
+                      }}
+                    />
+
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {stemHeight} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
+              {/*stem  Top */}
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>{"Top"}</Typography>
+                </Grid>
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={stemTop}
+                      min={0}
+                      max={100}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={handleChange}
+                    />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {stemTop} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
+
+              {/* stem Bottom */}
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>{"Bottom"}</Typography>
+                </Grid>
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={bottom}
+                      min={0}
+                      max={100}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={(event, newValue) => setBottom(newValue)}
+                    />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {bottom} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
             </Stack>
           </Box>
 
@@ -240,23 +397,146 @@ function Index({ excelDate, setExcelData }) {
               Base
             </Typography>
             <Stack direction={"column"}>
-              <SliderComponent
-                title={"Total length"}
-                setter={setBaseTotalLength}
-                maximum={450}
-                value={baseTotalLength}
-              />
-              <SliderComponent
-                title={"Toe length"}
-                setter={setToeBaseLength}
-                value={baseToeLength}
-              />
-              <SliderComponent
-                title={"Thickness"}
-                maximum={60}
-                setter={setBaseThickness}
-                value={baseThickness}
-              />
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>{"Total Length"}</Typography>
+                </Grid>
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={baseTotalLength}
+                      min={0}
+                      max={450}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={(event, newValue) =>
+                        setBaseTotalLength(newValue)
+                      }
+                    />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {baseTotalLength} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>{"Toe length"}</Typography>
+                </Grid>
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={baseToeLength}
+                      min={0}
+                      max={450}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={(event, newValue) => setToeBaseLength(newValue)}
+                    />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {baseToeLength} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>{"Thickness"}</Typography>
+                </Grid>
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={baseThickness}
+                      min={0}
+                      max={60}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={(event, newValue) => setBaseThickness(newValue)}
+                    />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {baseThickness} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
             </Stack>
           </Box>
 
@@ -265,23 +545,146 @@ function Index({ excelDate, setExcelData }) {
               Shear Key
             </Typography>
             <Stack direction={"column"}>
-              <SliderComponent
-                title={"Length"}
-                maximum={173}
-                setter={setShareLength}
-                value={shareLength}
-              />
-              <SliderComponent
-                title={"Toe Distance"}
-                setter={setShareDistance}
-                value={shareDistance}
-              />
-              <SliderComponent
-                title={"Thickness"}
-                maximum={69}
-                setter={setShareThickness}
-                value={shareThickness}
-              />
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>{"Length"}</Typography>
+                </Grid>
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={shareLength}
+                      min={0}
+                      max={173}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={(event, newValue) => setShareLength(newValue)}
+                    />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {shareLength} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>{"Toe Distance"}</Typography>
+                </Grid>
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={shareDistance}
+                      min={0}
+                      max={173}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={(event, newValue) => setShareDistance(newValue)}
+                    />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {shareDistance} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                spacing={2}
+                mb={0.5}
+              >
+                <Grid item lg={3} md={3} sm={12}>
+                  <Typography>{"Thickness"}</Typography>
+                </Grid>
+                <Grid item lg={9} md={9} sm={12}>
+                  <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                    <Slider
+                      value={shareThickness}
+                      min={0}
+                      max={69}
+                      sx={{
+                        "& .MuiSlider-track": {
+                          background: "#47C5FB",
+                          borderColor: "#47C5FB",
+                        },
+                        "& .MuiSlider-rail": {
+                          background: "#CCC",
+                        },
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#47C5FB",
+                        },
+                      }}
+                      valueLabelDisplay="auto"
+                      scale={calculateValue}
+                      onChange={(event, newValue) =>
+                        setShareThickness(newValue)
+                      }
+                    />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderColor: "#888",
+                        color: "#888",
+                        textTransform: "lowercase",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {shareThickness} ft
+                    </Button>
+                  </Stack>
+                </Grid>
+              </Grid>
             </Stack>
           </Box>
         </Box>

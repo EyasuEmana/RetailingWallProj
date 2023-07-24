@@ -7,9 +7,11 @@ import {
   Typography,
   Stack,
   TextField,
+  IconButton,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomButton from "../../../../../components/CustomButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // import "./styleSvg.css";
 function Index({ excelDate, setExcelData }) {
   const [stemHeight, setStemHeight] = useState(300);
@@ -687,6 +689,15 @@ function Index({ excelDate, setExcelData }) {
               </Grid>
             </Stack>
           </Box>
+          <Stack direction={"row"} spacing={1} alignItems={"center"}>
+            <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
+              Advanced
+            </Typography>
+            <IconButton aria-label="Example">
+              {" "}
+              <ExpandMoreIcon sx={{ color: "#47C5FB" }} />
+            </IconButton>
+          </Stack>
         </Box>
       </Stack>
     </Box>

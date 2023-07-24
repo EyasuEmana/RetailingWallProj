@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import {
   Box,
   Button,
@@ -6,12 +5,14 @@ import {
   Slider,
   Typography,
   Stack,
-  TextField,
   IconButton,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomButton from "../../../../../components/CustomButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Slogan from "../../../../../components/Slogan";
 // import "./styleSvg.css";
 function Index({ excelDate, setExcelData }) {
   const [stemHeight, setStemHeight] = useState(300);
@@ -25,6 +26,10 @@ function Index({ excelDate, setExcelData }) {
   const [shareLength, setShareLength] = useState(173);
   const [shareDistance, setShareDistance] = useState(10);
   const [shareThickness, setShareThickness] = useState(69);
+
+  const theme = useTheme();
+  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+
   useEffect(() => {
     setExcelData({
       stemHeight,
@@ -44,155 +49,22 @@ function Index({ excelDate, setExcelData }) {
     bottom,
     baseTotalLength,
     baseToeLength,
+    setExcelData,
     baseThickness,
     shareLength,
     shareDistance,
     shareThickness,
   ]);
-  const StyledSlider = styled(Slider)((props) => ({
-    ...props,
-    "& .MuiSlider-track": {
-      background: "#47C5FB",
-      borderColor: "#47C5FB",
-    },
-    "& .MuiSlider-rail": {
-      background: "#CCC",
-    },
-    "& .MuiSlider-thumb": {
-      backgroundColor: "#47C5FB",
-    },
-  }));
+
   function calculateValue(value) {
     return 2 ** value;
   }
-  const HeightSliderComponent = ({ title, setter, value }) => {
-    return (
-      <Grid
-        container
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        spacing={2}
-        mb={0.5}
-      >
-        <Grid item lg={3} md={3} sm={12}>
-          <Typography>{title}</Typography>
-        </Grid>
-
-        <Grid item lg={9} md={9} sm={12}>
-          <Stack direction={"row"} spacing={4} alignItems={"center"}>
-            <Slider
-              value={value}
-              min={0}
-              max={300}
-              sx={{
-                "& .MuiSlider-track": {
-                  background: "#47C5FB",
-                  borderColor: "#47C5FB",
-                },
-                "& .MuiSlider-rail": {
-                  background: "#CCC",
-                },
-                "& .MuiSlider-thumb": {
-                  backgroundColor: "#47C5FB",
-                },
-              }}
-              valueLabelDisplay="auto"
-              scale={calculateValue}
-              onChange={(event, newValue) => {
-                setStemTop((prev) => 300 - newValue);
-                setStemHeight(newValue);
-              }}
-            />
-
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: "#888",
-                color: "#888",
-                textTransform: "lowercase",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {value} ft
-            </Button>
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  };
-  const SliderComponent = ({ title, setter, value, maximum }) => {
-    return (
-      <Grid
-        container
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        spacing={2}
-        mb={0.5}
-      >
-        <Grid item lg={3} md={3} sm={12}>
-          <Typography>{title}</Typography>
-        </Grid>
-        <Grid item lg={9} md={9} sm={12}>
-          <Stack direction={"row"} spacing={4} alignItems={"center"}>
-            <Slider
-              value={stemTop}
-              min={0}
-              max={maximum}
-              sx={{
-                "& .MuiSlider-track": {
-                  background: "#47C5FB",
-                  borderColor: "#47C5FB",
-                },
-                "& .MuiSlider-rail": {
-                  background: "#CCC",
-                },
-                "& .MuiSlider-thumb": {
-                  backgroundColor: "#47C5FB",
-                },
-              }}
-              valueLabelDisplay="auto"
-              scale={calculateValue}
-              onChange={handleChange}
-            />
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: "#888",
-                color: "#888",
-                textTransform: "lowercase",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {value} ft
-            </Button>
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  };
   // const [value, setValue] = React.useState(30);
 
   const handleChange = (event, newValue) => {
     setStemTop(newValue);
   };
-  const AlignSliderComp = ({ children }) => {
-    <Grid
-      container
-      alignItems={"center"}
-      justifyContent={"space-between"}
-      spacing={2}
-      mb={0.5}
-    >
-      <Grid item lg={3} md={3} sm={12}>
-        <Typography>{"Top"}</Typography>
-      </Grid>
-      <Grid item lg={9} md={9} sm={12}>
-        <Stack direction={"row"} spacing={4} alignItems={"center"}>
-          {children}
-        </Stack>
-      </Grid>
-    </Grid>;
-  };
+
   return (
     <Box>
       <Stack direction={"column"} spacing={10}>
@@ -201,32 +73,35 @@ function Index({ excelDate, setExcelData }) {
           <hr style={{ width: 150, border: "1px solid #000" }} />
           {/* <TextField variant="standard" width={12}></TextField> */}
         </Stack>
+        {isMatch && <Slogan />}
         <div className="svg-container">
-          <svg
-            width="491"
-            height="426"
-            viewBox="0 0 491 426"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d={`M176 ${stemTop}H243L302.5 ${300 - bottom}H176V0Z`}
-              fill="#D9D9D9"
-            />
-            <rect
-              y="298"
-              width={baseTotalLength}
-              height={baseThickness}
-              fill="#D9D9D9"
-            />
-            <rect
-              x="176"
-              y="357"
-              width={shareLength}
-              height={shareThickness}
-              fill="#D9D9D9"
-            />
-          </svg>
+          <center>
+            <svg
+              width="491"
+              height="426"
+              viewBox="0 0 491 426"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d={`M176 ${stemTop}H243L302.5 ${300 - bottom}H176V0Z`}
+                fill="#D9D9D9"
+              />
+              <rect
+                y="298"
+                width={baseTotalLength}
+                height={baseThickness}
+                fill="#D9D9D9"
+              />
+              <rect
+                x="176"
+                y="357"
+                width={shareLength}
+                height={shareThickness}
+                fill="#D9D9D9"
+              />
+            </svg>
+          </center>
         </div>
         <Box mt={1}>
           <Stack direction={"row"} justifyContent={"flex-end"}>

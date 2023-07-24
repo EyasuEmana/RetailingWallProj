@@ -2,13 +2,27 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/material";
+import {
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Stack,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../../static/logo.png";
 import CustomButton from "../CustomButton";
 import html2pdf from "html2pdf.js";
 import BodyPart from "../../pages/LandingPage/BodyPart/index";
 import * as XLSX from "xlsx";
 export default function Appbar({ excelDate, setExcelData }) {
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const handleExportClick = () => {
     const targetComponent = document.getElementById("exportable");
     if (targetComponent) {
@@ -24,10 +38,10 @@ export default function Appbar({ excelDate, setExcelData }) {
       html2pdf().set(opt).from(targetComponent).save();
     }
   };
-  
-  React.useEffect(()=>{
-    console.log(excelDate)
-  },[excelDate])
+
+  React.useEffect(() => {
+    console.log(excelDate);
+  }, [excelDate]);
   const date = new Date();
   const fileName =
     date.getFullYear() +
@@ -68,20 +82,33 @@ export default function Appbar({ excelDate, setExcelData }) {
               Beta
             </Typography>
           </Stack>
-
-          <Stack direction={"row"} alignItems={"center"} spacing={2}>
-            <CustomButton bgColor={"#D9D9D9"} textColor={"#000"} onClick={handleExcelExport}>
-              Excel
-            </CustomButton>
-            {/* <Button onClick={handleExportPDF}>pdr</Button> */}
-            <CustomButton
-              bgColor={"#171414"}
-              textColor={"#FFF"}
-              onClick={handleExportClick}
-            >
-              Download PDF
-            </CustomButton>
-          </Stack>
+          {isMatch ? (
+            <>
+              <IconButton onClick={() => setOpen(true)}>
+                <MenuIcon sx={{ fontSize: 40 }} />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <Stack direction={"row"} alignItems={"center"} spacing={2}>
+                <CustomButton
+                  bgColor={"#D9D9D9"}
+                  textColor={"#000"}
+                  onClick={handleExcelExport}
+                >
+                  Excel
+                </CustomButton>
+                {/* <Button onClick={handleExportPDF}>pdr</Button> */}
+                <CustomButton
+                  bgColor={"#171414"}
+                  textColor={"#FFF"}
+                  onClick={handleExportClick}
+                >
+                  Download PDF
+                </CustomButton>
+              </Stack>
+            </>
+          )}
         </Stack>
       </AppBar>
 
@@ -90,6 +117,33 @@ export default function Appbar({ excelDate, setExcelData }) {
           <BodyPart excelDate={excelDate} setExcelData={setExcelData} />
         </div>
       </div>
+      {/* drawer */}
+      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
+        <List>
+          <ListItem>
+            <ListItemButton>
+              <CustomButton
+                bgColor={"#D9D9D9"}
+                textColor={"#000"}
+                onClick={handleExcelExport}
+              >
+                Excel
+              </CustomButton>
+            </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton>
+              <CustomButton
+                bgColor={"#171414"}
+                textColor={"#FFF"}
+                onClick={handleExportClick}
+              >
+                Download PDF
+              </CustomButton>
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Drawer>
     </Box>
   );
 }

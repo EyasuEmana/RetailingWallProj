@@ -16,8 +16,8 @@ function Footer() {
         <Box>
           <hr style={{ width: 100, border: "1px solid #FFF" }} />
         </Box>
-        <Typography sx={{backgroundColor:"#000",color:"#171414"}}>San Francisco, CA</Typography>
-        <Typography sx={{backgroundColor:"#000",color:"#171414"}}>Give us feedback</Typography>
+        <Typography sx={{ color: "#FFF" }}>San Francisco, CA</Typography>
+        <Typography sx={{ color: "#FFF" }}>Give us feedback</Typography>
       </Stack>
     </Box>
   );

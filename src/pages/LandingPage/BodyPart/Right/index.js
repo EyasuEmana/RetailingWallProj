@@ -1,8 +1,12 @@
-import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
 import CustomButton from "../../../../components/CustomButton";
+import Slogan from "../../../../components/Slogan";
+import { useTheme } from "@emotion/react";
 
-function index() {
+function Index() {
+  const theme = useTheme();
+  const isMatch = useMediaQuery(theme.breakpoints.up("md"));
   const CustomOutputProgress = () => {
     return (
       <Box sx={{ height: 6, width: "100%", backgroundColor: "#CCC" }}>
@@ -20,15 +24,15 @@ function index() {
         spacing={2}
         mb={0.5}
       >
-        <Grid item lg={4}>
+        <Grid item sm={4}>
           <Typography>{title}</Typography>
         </Grid>
-        <Grid item lg={6}>
+        <Grid item sm={6}>
           <Box>
             <CustomOutputProgress />
           </Box>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2}>
           <Typography>{value}</Typography>
         </Grid>
       </Grid>
@@ -38,18 +42,7 @@ function index() {
   return (
     <Box>
       <Stack spacing={10}>
-        <Stack direction={"column"} spacing={3}>
-          <Typography
-            sx={{ fontSize: 31, textAlign: "left", lineHeight: "1.1" }}
-          >
-            Unlock <b>efficiency</b> with <b>intelligent automation </b>
-            for stability and strength design
-          </Typography>
-          <Stack direction={"row"} spacing={2} alignItems={"center"}>
-            <Typography sx={{ fontSize: 18 }}>INSTANT ANALYSIS</Typography>
-            <hr style={{ width: 150, border: "1px solid #000" }} />
-          </Stack>
-        </Stack>
+        {isMatch && <Slogan />}
 
         <Stack
           direction={"column"}
@@ -124,4 +117,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import LangingPage from "./pages/LandingPage";
 import { Box } from "@mui/material";

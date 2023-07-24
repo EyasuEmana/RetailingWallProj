@@ -14,6 +14,14 @@ import CustomButton from "../../../../../components/CustomButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slogan from "../../../../../components/Slogan";
 // import "./styleSvg.css";
+const styleValueBox = {
+  borderColor: "#D9D9D9",
+  textTransform: "lowercase",
+  whiteSpace: "nowrap",
+  borderRadius: "12px",
+  color: "#000",
+  width: "100px",
+};
 function Index({ excelDate, setExcelData }) {
   const [stemHeight, setStemHeight] = useState(300);
   const [stemTop, setStemTop] = useState(10);
@@ -114,12 +122,6 @@ function Index({ excelDate, setExcelData }) {
               Stem
             </Typography>
             <Stack direction={"column"}>
-              {/* <HeightSliderComponent
-                title={"Height"}
-                maximum={300}
-                setter={setStemHeight}
-                value={stemHeight}
-              /> */}
               <Grid
                 container
                 alignItems={"center"}
@@ -127,11 +129,11 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
                   <Typography>Height</Typography>
                 </Grid>
 
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={stemHeight}
@@ -156,16 +158,10 @@ function Index({ excelDate, setExcelData }) {
                         setStemHeight(newValue);
                       }}
                     />
+                    {/* <Box>
 
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    </Box> */}
+                    <Button variant="outlined" sx={styleValueBox}>
                       {stemHeight} ft
                     </Button>
                   </Stack>
@@ -179,10 +175,10 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
                   <Typography>{"Top"}</Typography>
                 </Grid>
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={stemTop}
@@ -204,15 +200,7 @@ function Index({ excelDate, setExcelData }) {
                       scale={calculateValue}
                       onChange={handleChange}
                     />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <Button variant="outlined" sx={styleValueBox}>
                       {stemTop} ft
                     </Button>
                   </Stack>
@@ -227,10 +215,10 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
                   <Typography>{"Bottom"}</Typography>
                 </Grid>
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={bottom}
@@ -252,15 +240,7 @@ function Index({ excelDate, setExcelData }) {
                       scale={calculateValue}
                       onChange={(event, newValue) => setBottom(newValue)}
                     />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <Button variant="outlined" sx={styleValueBox}>
                       {bottom} ft
                     </Button>
                   </Stack>
@@ -281,10 +261,10 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} xs={12}>
                   <Typography>{"Total Length"}</Typography>
                 </Grid>
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={baseTotalLength}
@@ -308,15 +288,7 @@ function Index({ excelDate, setExcelData }) {
                         setBaseTotalLength(newValue)
                       }
                     />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <Button variant="outlined" sx={styleValueBox}>
                       {baseTotalLength} ft
                     </Button>
                   </Stack>
@@ -329,10 +301,10 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
                   <Typography>{"Toe length"}</Typography>
                 </Grid>
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={baseToeLength}
@@ -354,15 +326,7 @@ function Index({ excelDate, setExcelData }) {
                       scale={calculateValue}
                       onChange={(event, newValue) => setToeBaseLength(newValue)}
                     />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <Button variant="outlined" sx={styleValueBox}>
                       {baseToeLength} ft
                     </Button>
                   </Stack>
@@ -375,10 +339,10 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
                   <Typography>{"Thickness"}</Typography>
                 </Grid>
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={baseThickness}
@@ -400,15 +364,7 @@ function Index({ excelDate, setExcelData }) {
                       scale={calculateValue}
                       onChange={(event, newValue) => setBaseThickness(newValue)}
                     />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <Button variant="outlined" sx={styleValueBox}>
                       {baseThickness} ft
                     </Button>
                   </Stack>
@@ -429,10 +385,10 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
                   <Typography>{"Length"}</Typography>
                 </Grid>
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={shareLength}
@@ -454,15 +410,7 @@ function Index({ excelDate, setExcelData }) {
                       scale={calculateValue}
                       onChange={(event, newValue) => setShareLength(newValue)}
                     />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <Button variant="outlined" sx={styleValueBox}>
                       {shareLength} ft
                     </Button>
                   </Stack>
@@ -475,10 +423,10 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
                   <Typography>{"Toe Distance"}</Typography>
                 </Grid>
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={shareDistance}
@@ -500,15 +448,7 @@ function Index({ excelDate, setExcelData }) {
                       scale={calculateValue}
                       onChange={(event, newValue) => setShareDistance(newValue)}
                     />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <Button variant="outlined" sx={styleValueBox}>
                       {shareDistance} ft
                     </Button>
                   </Stack>
@@ -521,10 +461,10 @@ function Index({ excelDate, setExcelData }) {
                 spacing={2}
                 mb={0.5}
               >
-                <Grid item lg={3} md={3} sm={12}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
                   <Typography>{"Thickness"}</Typography>
                 </Grid>
-                <Grid item lg={9} md={9} sm={12}>
+                <Grid item lg={9} md={9} sm={12} xs={12}>
                   <Stack direction={"row"} spacing={4} alignItems={"center"}>
                     <Slider
                       value={shareThickness}
@@ -548,15 +488,7 @@ function Index({ excelDate, setExcelData }) {
                         setShareThickness(newValue)
                       }
                     />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        borderColor: "#888",
-                        color: "#888",
-                        textTransform: "lowercase",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <Button variant="outlined" sx={styleValueBox}>
                       {shareThickness} ft
                     </Button>
                   </Stack>

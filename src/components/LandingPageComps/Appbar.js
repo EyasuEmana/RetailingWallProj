@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemText,
   Stack,
   useMediaQuery,
   useTheme,

@@ -9,7 +9,7 @@ function Index() {
   const isMatch = useMediaQuery(theme.breakpoints.up("md"));
   const CustomOutputProgress = () => {
     return (
-      <Box sx={{ height: 6, width: "100%", backgroundColor: "#CCC" }}>
+      <Box sx={{ height: 6, width: "100%", backgroundColor: "#CCC",borderRadius:2 }}>
         {/* <Box sx={{ height: 6, width: "90%", backgroundColor: "#999" }}></Box> */}
       </Box>
     );

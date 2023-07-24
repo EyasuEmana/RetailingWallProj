@@ -79,7 +79,7 @@ export default function Appbar({ excelDate, setExcelData }) {
               textColor={"#FFF"}
               onClick={handleExportClick}
             >
-              Dowloan Pdf
+              Download PDF
             </CustomButton>
           </Stack>
         </Stack>

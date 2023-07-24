@@ -39,23 +39,26 @@ function index() {
     <Box>
       <Stack spacing={10}>
         <Stack direction={"column"} spacing={3}>
-          <Box>
-            <Typography sx={{ fontSize: 40 }}>
-              Unlock <b>efficiency</b> with <b>intelligent</b>
-            </Typography>
-            <Typography sx={{ fontSize: 40 }}>
-              <b>automation</b> for stability and
-            </Typography>
-            <Typography sx={{ fontSize: 40 }}>strength design</Typography>
-          </Box>
+          <Typography sx={{ fontSize: 41, lineHeight: "1.1" }}>
+            Unlock <b>efficiency</b> with <b>intelligent automation </b>
+            for stability and strength design
+          </Typography>
           <Stack direction={"row"} spacing={2} alignItems={"center"}>
             <Typography sx={{ fontSize: 18 }}>INSTANT ANALYSIS</Typography>
-            <TextField variant="standard" width={50}></TextField>
+            <hr style={{ width: 150, border: "1px solid #000" }} />
           </Stack>
         </Stack>
 
-        <Stack direction={"column"} spacing={6}>
-          {/* button stack */}
+        <Stack
+          direction={"column"}
+          spacing={6}
+          sx={{
+            backgroundColor: "rgba(236, 236, 236, 0.25)",
+            paddingX: 5,
+            paddingY: 10,
+            borderRadius: 5,
+          }}
+        >
           <Stack
             direction={"row"}
             justifyContent={"center"}

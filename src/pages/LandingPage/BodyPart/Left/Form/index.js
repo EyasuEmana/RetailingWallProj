@@ -9,9 +9,8 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CustomSlider from "../../../../../components/CustomSlider";
 import CustomButton from "../../../../../components/CustomButton";
-import centerImg from "../../../../../static/centerImg.png";
+// import "./styleSvg.css";
 function Index({ excelDate, setExcelData }) {
   const [stemHeight, setStemHeight] = useState(300);
   const [stemTop, setStemTop] = useState(10);
@@ -36,7 +35,7 @@ function Index({ excelDate, setExcelData }) {
       shareDistance,
       shareThickness,
     });
-    console.log("here")
+    console.log("here");
   }, [
     stemHeight,
     stemTop,
@@ -73,11 +72,12 @@ function Index({ excelDate, setExcelData }) {
         spacing={2}
         mb={0.5}
       >
-        <Grid item lg={4} sm={12}>
+        <Grid item lg={3} md={3} sm={12}>
           <Typography>{title}</Typography>
         </Grid>
-        <Grid item lg={6} sm={12}>
-          <Box>
+
+        <Grid item lg={9} md={9} sm={12}>
+          <Stack direction={"row"} spacing={4} alignItems={"center"}>
             <Slider
               value={value}
               min={0}
@@ -101,19 +101,19 @@ function Index({ excelDate, setExcelData }) {
                 setStemHeight(newValue);
               }}
             />
-          </Box>
-        </Grid>
-        <Grid item lg={2} sm={12}>
-          <Button
-            variant="outlined"
-            sx={{
-              borderColor: "#888",
-              color: "#888",
-              textTransform: "lowercase",
-            }}
-          >
-            {value} ft
-          </Button>
+
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: "#888",
+                color: "#888",
+                textTransform: "lowercase",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {value} ft
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     );
@@ -127,11 +127,11 @@ function Index({ excelDate, setExcelData }) {
         spacing={2}
         mb={0.5}
       >
-        <Grid item lg={4} sm={12}>
+        <Grid item lg={3} md={3} sm={12}>
           <Typography>{title}</Typography>
         </Grid>
-        <Grid item lg={6} sm={12}>
-          <Box>
+        <Grid item lg={9} md={9} sm={12}>
+          <Stack direction={"row"} spacing={4} alignItems={"center"}>
             <Slider
               value={value}
               min={0}
@@ -152,19 +152,18 @@ function Index({ excelDate, setExcelData }) {
               scale={calculateValue}
               onChange={(event, newValue) => setter(newValue)}
             />
-          </Box>
-        </Grid>
-        <Grid item lg={2} sm={12}>
-          <Button
-            variant="outlined"
-            sx={{
-              borderColor: "#888",
-              color: "#888",
-              textTransform: "lowercase",
-            }}
-          >
-            {value} ft
-          </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: "#888",
+                color: "#888",
+                textTransform: "lowercase",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {value} ft
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     );
@@ -173,10 +172,11 @@ function Index({ excelDate, setExcelData }) {
     <Box>
       <Stack direction={"column"} spacing={10}>
         <Stack direction={"row"} alignItems="center" spacing={3}>
-          <Typography>LIVE MODE</Typography>
-          <TextField variant="standard" width={12}></TextField>
+          <Typography>LIVE MODEL</Typography>
+          <hr style={{ width: 150, border: "1px solid #000" }} />
+          {/* <TextField variant="standard" width={12}></TextField> */}
         </Stack>
-        <div>
+        <div className="svg-container">
           <svg
             width="491"
             height="426"
@@ -204,7 +204,7 @@ function Index({ excelDate, setExcelData }) {
           </svg>
         </div>
         <Box mt={1}>
-          <Stack direction={"row"} justifyContent={"flex-end"} mr={5}>
+          <Stack direction={"row"} justifyContent={"flex-end"}>
             <CustomButton textColor={"#FFF"} bgColor={"#47C5FB"}>
               AI Fix
             </CustomButton>
@@ -262,7 +262,7 @@ function Index({ excelDate, setExcelData }) {
 
           <Box mt={1}>
             <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
-              Share Key
+              Shear Key
             </Typography>
             <Stack direction={"column"}>
               <SliderComponent

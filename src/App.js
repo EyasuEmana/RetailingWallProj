@@ -2,15 +2,22 @@ import logo from "./logo.svg";
 import "./App.css";
 import LangingPage from "./pages/LandingPage";
 import { Box } from "@mui/material";
-import Footer from "./components/Footer";
-import ImageComponent from "./pages/LandingPage/BodyPart/Left/ImageComponent";
-
+import ThreeDTest from "./pages/ThreeDTest";
+import { ThemeProvider } from "@mui/material";
+import CustomTheme from "./assets/theme";
 function App() {
   return (
-    <Box sx={{ paddingX: 20, paddingY: 15 }}>
-      <LangingPage />
-      <Footer />
-    </Box>
+    <ThemeProvider theme={CustomTheme}>
+      <Box
+        sx={{
+          paddingTop: 15,
+          height: "100%",
+          marginBottom: 0,
+        }}
+      >
+        <LangingPage />
+      </Box>
+    </ThemeProvider>
   );
 }
 

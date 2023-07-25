@@ -6,10 +6,17 @@ import { useTheme } from "@emotion/react";
 
 function Index() {
   const theme = useTheme();
-  const isMatch = useMediaQuery(theme.breakpoints.up("md"));
+  const isMatch = useMediaQuery(theme.breakpoints.up("lg"));
   const CustomOutputProgress = () => {
     return (
-      <Box sx={{ height: 6, width: "100%", backgroundColor: "#CCC",borderRadius:2 }}>
+      <Box
+        sx={{
+          height: 6,
+          width: "100%",
+          backgroundColor: "#CCC",
+          borderRadius: 2,
+        }}
+      >
         {/* <Box sx={{ height: 6, width: "90%", backgroundColor: "#999" }}></Box> */}
       </Box>
     );
@@ -24,15 +31,15 @@ function Index() {
         spacing={2}
         mb={0.5}
       >
-        <Grid item sm={4}>
+        <Grid item sm={4} xs={4}>
           <Typography>{title}</Typography>
         </Grid>
-        <Grid item sm={6}>
+        <Grid item sm={6} xs={6}>
           <Box>
             <CustomOutputProgress />
           </Box>
         </Grid>
-        <Grid item sm={2}>
+        <Grid item sm={2} xs={2}>
           <Typography>{value}</Typography>
         </Grid>
       </Grid>

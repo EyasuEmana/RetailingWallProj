@@ -8,10 +8,10 @@ function LangingPage() {
   return (
     <Box>
       <Grid container justifyContent={"space-around"} spacing={4}>
-        <Grid item sm={10}>
+        <Grid item sm={10} xs={10}>
           <Appbar excelDate={excelDate} setExcelData={setExcelData} />
         </Grid>
-        <Grid item lg={10}>
+        <Grid item lg={10} xs={12}>
           <BodyPart excelDate={excelDate} setExcelData={setExcelData} />
         </Grid>
         <Grid item xs={12}>

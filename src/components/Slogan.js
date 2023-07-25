@@ -1,10 +1,18 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 
 function Slogan() {
+  const theme = useTheme();
+  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Stack direction={"column"} spacing={3}>
-      <Typography sx={{ fontSize: 31, textAlign: "left", lineHeight: "1.1" }}>
+      <Typography
+        sx={{
+          fontSize: isMatch ? 25 : 31,
+          textAlign: "left",
+          lineHeight: "1.1",
+        }}
+      >
         Unlock <b>efficiency</b> with <b>intelligent automation </b>
         for stability and strength design
       </Typography>

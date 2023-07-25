@@ -73,11 +73,17 @@ export default function Appbar({ excelDate, setExcelData }) {
           <Stack direction="row" alignItems="center" spacing={2}>
             <img src={logo} alt="logo" />
             <Typography
-              sx={{ fontWeight: "bold", color: "#000", fontSize: "25px" }}
+              sx={{
+                fontWeight: "bold",
+                color: "#000",
+                fontSize: isMatch ? "18px" : "25px",
+              }}
             >
               Retaining Wall
             </Typography>
-            <Typography sx={{ color: "#000", fontSize: "20px" }}>
+            <Typography
+              sx={{ color: "#000", fontSize: isMatch ? "15px" : "20px" }}
+            >
               Beta
             </Typography>
           </Stack>

@@ -6,12 +6,17 @@ function Index({ excelDate, setExcelData }) {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
   return (
-    <Box marginY={6} marginX={12}>
-      <Grid container spacing={isMatch ? 0 : 20}>
-        <Grid item lg={6} sm={12}>
+    <Box marginY={6}>
+      <Grid
+        container
+        spacing={isMatch ? 0 : 20}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Grid item lg={6} sm={10} xs={10}>
           <Left excelDate={excelDate} setExcelData={setExcelData} />
         </Grid>
-        <Grid item lg={6} sm={12}>
+        <Grid item lg={6} sm={10} xs={10}>
           <Right />
         </Grid>
       </Grid>

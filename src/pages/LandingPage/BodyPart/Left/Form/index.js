@@ -49,7 +49,6 @@ function Index({ excelDate, setExcelData }) {
       shareDistance,
       shareThickness,
     });
-    console.log("here");
   }, [
     stemHeight,
     stemTop,
@@ -111,7 +110,7 @@ function Index({ excelDate, setExcelData }) {
       </div>
       <Box mt={1}>
         <Stack direction={"row"} justifyContent={"flex-end"}>
-          <CustomButton textColor={"#FFF"} bgColor={"#47C5FB"}>
+          <CustomButton txtColor={"#FFF"} bgColor={"#47C5FB"}>
             AI Fix
           </CustomButton>
         </Stack>

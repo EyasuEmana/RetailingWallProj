@@ -7,6 +7,7 @@ import { useTheme } from "@emotion/react";
 function Index() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.up("lg"));
+  const isMatchXS = useMediaQuery(theme.breakpoints.down("sm"));
   const CustomOutputProgress = () => {
     return (
       <Box
@@ -28,18 +29,18 @@ function Index() {
         container
         alignItems={"center"}
         justifyContent={"space-between"}
-        spacing={2}
+        spacing={isMatchXS ? 0 : 2}
         mb={0.5}
       >
-        <Grid item sm={4} xs={4}>
+        <Grid item sm={4} xs={12}>
           <Typography>{title}</Typography>
         </Grid>
-        <Grid item sm={6} xs={6}>
+        <Grid item sm={6} xs={9}>
           <Box>
             <CustomOutputProgress />
           </Box>
         </Grid>
-        <Grid item sm={2} xs={2}>
+        <Grid item sm={2} xs={3}>
           <Typography>{value}</Typography>
         </Grid>
       </Grid>
@@ -62,22 +63,22 @@ function Index() {
           }}
         >
           <Stack
-            direction={"row"}
+            direction={isMatchXS ? "column" : "row"}
             justifyContent={"center"}
             alignItems={"center"}
             spacing={3}
           >
             <CustomButton
               bgColor={"#171414"}
-              textColor={"#FFF"}
-              sx={{ paddingX: 6 }}
+              txtColor={"#FFF"}
+              sx={{ paddingX: isMatchXS ? 12 : 6 }}
             >
               Stability
             </CustomButton>
             <CustomButton
               bgColor={"#D9D9D9"}
-              textColor={"#000"}
-              sx={{ paddingX: 6 }}
+              txtColor={"#000"}
+              sx={{ paddingX: isMatchXS ? 12 : 6 }}
             >
               Strength
             </CustomButton>

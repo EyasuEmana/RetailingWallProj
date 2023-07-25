@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import React from "react";
 
 function CustomButton(props) {
-  const { children, bgColor, textColor } = props;
+  const { children, bgColor, txtColor } = props;
   const StyledBtn = styled(Button)((props) => ({
     ...props,
     fontFamily: "Poppins",
@@ -13,7 +13,7 @@ function CustomButton(props) {
     textTransform: "capitalize",
     paddingY: 2,
     fontSize: 16,
-    color: textColor,
+    color: txtColor,
     boxShadow: "none",
     fontWeight: "bold",
     "&:hover": {
@@ -22,7 +22,7 @@ function CustomButton(props) {
   }));
   return (
     <Box>
-      <StyledBtn variant="contained" {...props}>
+      <StyledBtn variant="contained" >
         {children}
       </StyledBtn>
     </Box>

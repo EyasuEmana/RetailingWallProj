@@ -37,10 +37,6 @@ export default function Appbar({ excelDate, setExcelData }) {
       html2pdf().set(opt).from(targetComponent).save();
     }
   };
-
-  React.useEffect(() => {
-    console.log(excelDate);
-  }, [excelDate]);
   const date = new Date();
   const fileName =
     date.getFullYear() +
@@ -96,21 +92,16 @@ export default function Appbar({ excelDate, setExcelData }) {
           ) : (
             <>
               <Stack direction={"row"} alignItems={"center"} spacing={2}>
-                <CustomButton
-                  bgColor={"#D9D9D9"}
-                  textColor={"#000"}
-                  onClick={handleExcelExport}
-                >
-                  Excel
-                </CustomButton>
-                {/* <Button onClick={handleExportPDF}>pdr</Button> */}
-                <CustomButton
-                  bgColor={"#171414"}
-                  textColor={"#FFF"}
-                  onClick={handleExportClick}
-                >
-                  Download PDF
-                </CustomButton>
+                <div onClick={handleExcelExport}>
+                  <CustomButton bgColor={"#D9D9D9"} txtColor={"#000"}>
+                    Excel
+                  </CustomButton>
+                </div>
+                <div onClick={handleExportClick}>
+                  <CustomButton bgColor={"#171414"} txtColor={"#FFF"}>
+                    Download PDF
+                  </CustomButton>
+                </div>
               </Stack>
             </>
           )}
@@ -126,23 +117,15 @@ export default function Appbar({ excelDate, setExcelData }) {
       <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
         <List>
           <ListItem>
-            <ListItemButton>
-              <CustomButton
-                bgColor={"#D9D9D9"}
-                textColor={"#000"}
-                onClick={handleExcelExport}
-              >
+            <ListItemButton onClick={handleExcelExport}>
+              <CustomButton bgColor={"#D9D9D9"} txtColor={"#000"}>
                 Excel
               </CustomButton>
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
-              <CustomButton
-                bgColor={"#171414"}
-                textColor={"#FFF"}
-                onClick={handleExportClick}
-              >
+            <ListItemButton onClick={handleExportClick}>
+              <CustomButton bgColor={"#171414"} txtColor={"#FFF"}>
                 Download PDF
               </CustomButton>
             </ListItemButton>

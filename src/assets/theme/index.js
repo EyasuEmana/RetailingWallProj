@@ -1,11 +1,7 @@
 import { createTheme } from "@mui/material";
 
-function CustomTheme() {
-  return createTheme({
-    typography: {
-      fontFamily: "Poppins",
-    },
-  });
-}
-
-export default CustomTheme;
+export default createTheme({
+  typography: {
+    fontFamily: "Poppins",
+  },
+});

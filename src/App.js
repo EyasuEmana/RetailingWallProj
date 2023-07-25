@@ -3,10 +3,10 @@ import LangingPage from "./pages/LandingPage";
 import { Box } from "@mui/material";
 // import ThreeDTest from "./pages/ThreeDTest";
 import { ThemeProvider } from "@mui/material";
-import CustomTheme from "./assets/theme";
+import customThemeFunction from "./assets/theme";
 function App() {
   return (
-      <ThemeProvider theme={CustomTheme}>
+      <ThemeProvider theme={customThemeFunction}>
         <Box
           sx={{
             paddingTop: 15,

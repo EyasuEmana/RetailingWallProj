@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "../../../../../components/CustomButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slogan from "../../../../../components/Slogan";
+import { useSelector } from "react-redux";
 const styleValueBox = {
   borderColor: "#D9D9D9",
   textTransform: "lowercase",
@@ -22,17 +23,33 @@ const styleValueBox = {
   width: "100px",
 };
 function Index({ excelDate, setExcelData }) {
-  const [stemHeight, setStemHeight] = useState(300);
-  const [stemTop, setStemTop] = useState(10);
-  const [bottom, setBottom] = useState(0);
+  const { starupData, starupDataLoading } = useSelector(
+    (state) => state.uiReducer
+  );
+  const stemHeightInitialValue = 300;
+  const stemTopInitialValue = 20;
+  const bottomInitialValue = 0;
+  const baseTotalLengthInitialValue = 450;
+  const baseToeLengthInitialValue = 238;
+  const baseThicknessInitialValue = 60;
+  const shareLengthInitialValue = 173;
+  const shareDistanceInitialValue = 119;
+  const shareThicknessInitialValue = 69;
+  const [stemHeight, setStemHeight] = useState(stemHeightInitialValue);
+  const [stemTop, setStemTop] = useState(stemTopInitialValue);
+  const [bottom, setBottom] = useState(bottomInitialValue);
 
-  const [baseTotalLength, setBaseTotalLength] = useState(500);
-  const [baseToeLength, setToeBaseLength] = useState(60);
-  const [baseThickness, setBaseThickness] = useState(60);
+  const [baseTotalLength, setBaseTotalLength] = useState(
+    baseTotalLengthInitialValue
+  );
+  const [baseToeLength, setToeBaseLength] = useState(baseToeLengthInitialValue);
+  const [baseThickness, setBaseThickness] = useState(baseThicknessInitialValue);
 
-  const [shareLength, setShareLength] = useState(173);
-  const [shareDistance, setShareDistance] = useState(10);
-  const [shareThickness, setShareThickness] = useState(69);
+  const [shareLength, setShareLength] = useState(shareLengthInitialValue);
+  const [shareDistance, setShareDistance] = useState(shareDistanceInitialValue);
+  const [shareThickness, setShareThickness] = useState(
+    shareThicknessInitialValue
+  );
 
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
@@ -61,6 +78,9 @@ function Index({ excelDate, setExcelData }) {
     shareDistance,
     shareThickness,
   ]);
+  useEffect(() => {
+    console.log(starupData);
+  }, [starupData]);
 
   function calculateValue(value) {
     return 2 ** value;
@@ -70,7 +90,17 @@ function Index({ excelDate, setExcelData }) {
   const handleChange = (event, newValue) => {
     setStemTop(newValue);
   };
-
+  const aiFixHandler = () => {
+    setStemHeight(stemHeightInitialValue);
+    setStemTop(stemTopInitialValue);
+    setBottom(bottomInitialValue);
+    setBaseTotalLength(baseTotalLengthInitialValue);
+    setToeBaseLength(baseToeLengthInitialValue);
+    setBaseThickness(baseThicknessInitialValue);
+    setShareLength(shareLengthInitialValue);
+    setShareDistance(shareDistanceInitialValue);
+    setShareThickness(shareThicknessInitialValue);
+  };
   return (
     <Stack direction={"column"} spacing={10}>
       <Stack direction={"row"} alignItems="center" spacing={3}>
@@ -79,40 +109,40 @@ function Index({ excelDate, setExcelData }) {
         {/* <TextField variant="standard" width={12}></TextField> */}
       </Stack>
       {isMatch && <Slogan />}
-      <div>
-        <center>
-          <svg
-            width="85%"
-            height="80%"
-            viewBox="0 0 491 426"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d={`M176 ${stemTop}H243L302.5 ${300 - bottom}H176V0Z`}
-              fill="#D9D9D9"
-            />
-            <rect
-              y="298"
-              width={baseTotalLength}
-              height={baseThickness}
-              fill="#D9D9D9"
-            />
-            <rect
-              x="176"
-              y="357"
-              width={shareLength}
-              height={shareThickness}
-              fill="#D9D9D9"
-            />
-          </svg>
-        </center>
-      </div>
+      <center>
+        <svg
+          width="85%"
+          height="80%"
+          viewBox="0 0 491 426"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d={`M176 ${stemTop}H243L302.5 ${300 - bottom}H176V0Z`}
+            fill="#D9D9D9"
+          />
+          <rect
+            y="298"
+            width={baseTotalLength}
+            height={baseThickness}
+            fill="#D9D9D9"
+          />
+          <rect
+            x="176"
+            y="357"
+            width={shareLength}
+            height={shareThickness}
+            fill="#D9D9D9"
+          />
+        </svg>
+      </center>
       <Box mt={1}>
         <Stack direction={"row"} justifyContent={"flex-end"}>
-          <CustomButton txtColor={"#FFF"} bgColor={"#47C5FB"}>
-            AI Fix
-          </CustomButton>
+          <Box onClick={() => aiFixHandler()}>
+            <CustomButton txtColor={"#FFF"} bgColor={"#47C5FB"}>
+              AI Fix
+            </CustomButton>
+          </Box>
         </Stack>
         <Box>
           <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
@@ -220,7 +250,7 @@ function Index({ excelDate, setExcelData }) {
                   <Slider
                     value={bottom}
                     min={0}
-                    max={100}
+                    max={300}
                     sx={{
                       "& .MuiSlider-track": {
                         background: "#47C5FB",

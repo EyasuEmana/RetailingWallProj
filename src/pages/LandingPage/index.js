@@ -1,10 +1,16 @@
 import { Box, Grid } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Appbar from "../../components/LandingPageComps/Appbar";
 import BodyPart from "./BodyPart/index";
 import Footer from "../../components/Footer";
+import { getStarupData } from "../../store/actions/uiActions";
+import {dispatch} from "../../store/index"
 function LangingPage() {
   const [excelDate, setExcelData] = useState({});
+  useEffect(() => {
+    dispatch(getStarupData())
+  }, [])
+  
   return (
     <Box>
       <Grid container justifyContent={"space-around"} spacing={4}>

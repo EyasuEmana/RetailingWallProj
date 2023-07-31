@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
+		scene.fog = new THREE.Fog( 0xcccccc, 10, 15 );const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
@@ -11,23 +11,36 @@ const camera = new THREE.PerspectiveCamera(
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+const geometry = new THREE.BufferGeometry();
+const vertices = new Float32Array([
+  -1.0,
+  -1.0,
+  1.0, // v0
+  1.0,
+  -1.0,
+  1.0, // v1
+  1.0,
+  1.0,
+  1.0, // v2
 
-const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
-const points = [];
-points.push(new THREE.Vector3(-10, 0, 0));
-points.push(new THREE.Vector3(0, 10, 0));
-points.push(new THREE.Vector3(10, 0, 0));
-const geometry = new THREE.BufferGeometry().setFromPoints(points);
-const line = new THREE.Line(geometry, material);
-scene.add(line);
-
+  1.0,
+  1.0,
+  1.0, // v3
+  -1.0,
+  1.0,
+  1.0, // v4
+  -1.0,
+  -1.0,
+  1.0, // v5
+]);
+geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 camera.position.z = 5;
 
+const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+const mesh = new THREE.Mesh( geometry, material );
+// scene.add(mesh);
 function ThreeDTest() {
   requestAnimationFrame(ThreeDTest);
-
-  line.rotation.x += 0.01;
-  line.rotation.y += 0.01;
 
   renderer.render(scene, camera);
 }

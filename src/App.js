@@ -6,8 +6,9 @@ import { ThemeProvider } from "@mui/material";
 import customThemeFunction from "./assets/theme";
 function App() {
   return (
-      <ThemeProvider theme={customThemeFunction}>
-        <Box
+    <ThemeProvider theme={customThemeFunction}>
+      {/* <ThreeDTest /> */}
+      <Box
           sx={{
             paddingTop: 15,
             height: "100%",
@@ -16,7 +17,7 @@ function App() {
         >
           <LangingPage />
         </Box>
-      </ThemeProvider>
+    </ThemeProvider>
   );
 }
 

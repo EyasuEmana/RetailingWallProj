@@ -1,13 +1,20 @@
 import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import CustomButton from "../../../../components/CustomButton";
 import Slogan from "../../../../components/Slogan";
 import { useTheme } from "@emotion/react";
+import { useSelector } from "react-redux";
+import { dispatch } from "../../../../store";
+import { getRightFormData } from "../../../../store/actions/uiActions";
 
 function Index() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.up("lg"));
   const isMatchXS = useMediaQuery(theme.breakpoints.down("sm"));
+  const { model } = useSelector((state) => state.uiReducer);
+  useEffect(() => {
+    if (!Object.keys(model).length == 0) dispatch(getRightFormData(model));
+  }, [model]);
   const CustomOutputProgress = () => {
     return (
       <Box

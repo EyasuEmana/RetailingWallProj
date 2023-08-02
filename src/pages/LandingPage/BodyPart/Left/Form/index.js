@@ -25,8 +25,6 @@ const styleValueBox = {
   width: "100px",
 };
 function Index({ excelDate, setExcelData, model }) {
-  console.log("model:", model);
-
   const stemApiData = model?.dim?.stem;
   const baseApiData = model?.dim?.base;
   const shearKeyApiData = model?.dim?.shear_key;

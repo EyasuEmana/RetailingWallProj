@@ -31,9 +31,7 @@ function Index() {
       </Box>
     );
   };
-  useEffect(() => {
-    console.log("modelRight: ", modelRight);
-  }, [modelRight]);
+
   const OutputComponent = ({ title, value }) => {
     return (
       <Grid

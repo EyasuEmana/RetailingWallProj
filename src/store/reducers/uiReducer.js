@@ -22,6 +22,9 @@ const UiSlice = createSlice({
     setModel: (state, action) => {
       state.model = action.payload;
     },
+    setRightModel: (state, action) => {
+      state.modelRight = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -56,5 +59,5 @@ const UiSlice = createSlice({
   },
 });
 
-export const { setUiMode, setHeight, setModel } = UiSlice.actions;
+export const { setUiMode, setHeight, setModel,setRightModel } = UiSlice.actions;
 export default UiSlice.reducer;

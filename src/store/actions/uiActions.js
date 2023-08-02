@@ -2,44 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../constants";
 import axios from "axios";
 
-const model = {
-  dim: {
-    base: {
-      thickness: 1.5,
-      toe_length: 3,
-      total_length: 8,
-    },
-    shear_key: {
-      height: 1,
-      length: 2,
-      toe_distance: 3,
-    },
-    stem: {
-      bottom: 2,
-      height: 12,
-      top: 1,
-    },
-  },
-  elev: {
-    left_soil: 3,
-    right_soil: 6,
-    water: 2,
-  },
-  info: {
-    format: "NOT JSON, this is a: <class 'str'>",
-    timestamp: "31 July 2023 11:32:36",
-  },
-  materials: {
-    fc: 4000,
-  },
-  soil_data: {
-    active: 43,
-    eq: 85,
-    left_el: 2,
-    passive: 500,
-    right_el: 8,
-  },
-};
 export const getStarupData = createAsyncThunk(
   "modelManip/getModelData",
   async (formData, thunkAPI) => {
@@ -57,7 +19,6 @@ export const getStarupData = createAsyncThunk(
         .then((response) => {
           res = response.data;
         });
-      // return model;
       return res;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.status);
@@ -89,4 +50,3 @@ export const getRightFormData = createAsyncThunk(
     }
   }
 );
-

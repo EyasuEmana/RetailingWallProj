@@ -1,4 +1,11 @@
-import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Slider,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import CustomButton from "../../../../components/CustomButton";
 import Slogan from "../../../../components/Slogan";
@@ -17,6 +24,20 @@ function Index() {
   // useEffect(() => {
   //   if (!Object.keys(model).length == 0) dispatch(getRightFormData(model));
   // }, [model]);
+  const sliderStyle = {
+    "& .MuiSlider-track": {
+      background: "#CCC",
+      borderColor: "#CCC",
+    },
+    "& .MuiSlider-rail": {
+      background: "#CCC",
+    },
+    "& .MuiSlider-thumb": {
+      backgroundColor: "#CCC",
+      width: "10px",
+      height: "10px",
+    },
+  };
   const CustomOutputProgress = () => {
     return (
       <Box
@@ -47,6 +68,15 @@ function Index() {
         <Grid item sm={6} xs={9}>
           <Box>
             <CustomOutputProgress />
+            {/* <Slider
+              step={0.1}
+              value={1.5}
+              min={0}
+              max={2}
+              sx={sliderStyle}
+              valueLabelDisplay="auto"
+              onChange={(event, newValue) => {}}
+            /> */}
           </Box>
         </Grid>
         <Grid item sm={2} xs={3}>

@@ -135,6 +135,18 @@ function Index({ excelDate, setExcelData, model }) {
     setShareDistance(shareDistanceInitialValue);
     setShareThickness(shareThicknessInitialValue);
   };
+  const sliderStyle = {
+    "& .MuiSlider-track": {
+      background: "#47C5FB",
+      borderColor: "#47C5FB",
+    },
+    "& .MuiSlider-rail": {
+      background: "#CCC",
+    },
+    "& .MuiSlider-thumb": {
+      backgroundColor: "#47C5FB",
+    },
+  };
   return (
     <Stack direction={"column"} spacing={10}>
       <Stack direction={"row"} alignItems="center" spacing={3}>
@@ -204,18 +216,7 @@ function Index({ excelDate, setExcelData, model }) {
                     value={stemHeight}
                     min={0}
                     max={24}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => {
@@ -251,18 +252,7 @@ function Index({ excelDate, setExcelData, model }) {
                     min={0}
                     max={2}
                     step={0.1}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={handleChange}
@@ -292,18 +282,7 @@ function Index({ excelDate, setExcelData, model }) {
                     value={bottom}
                     min={0}
                     max={4}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setBottom(newValue)}
@@ -338,18 +317,7 @@ function Index({ excelDate, setExcelData, model }) {
                     value={baseTotalLength}
                     min={0}
                     max={16}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     step={0.1}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
@@ -377,18 +345,7 @@ function Index({ excelDate, setExcelData, model }) {
                     value={baseToeLength}
                     min={0}
                     max={3}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     step={0.1}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
@@ -417,18 +374,7 @@ function Index({ excelDate, setExcelData, model }) {
                     min={0}
                     max={3}
                     step={0.1}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setBaseThickness(newValue)}
@@ -464,18 +410,7 @@ function Index({ excelDate, setExcelData, model }) {
                     value={shareLength}
                     min={0}
                     max={4}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setShareLength(newValue)}
@@ -503,18 +438,7 @@ function Index({ excelDate, setExcelData, model }) {
                     value={shareDistance}
                     min={0}
                     max={6}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setShareDistance(newValue)}
@@ -542,18 +466,7 @@ function Index({ excelDate, setExcelData, model }) {
                     value={shareThickness}
                     min={0}
                     max={2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setShareThickness(newValue)}

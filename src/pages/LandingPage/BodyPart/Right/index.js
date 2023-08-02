@@ -11,10 +11,12 @@ function Index() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.up("lg"));
   const isMatchXS = useMediaQuery(theme.breakpoints.down("sm"));
-  const { model } = useSelector((state) => state.uiReducer);
-  useEffect(() => {
-    if (!Object.keys(model).length == 0) dispatch(getRightFormData(model));
-  }, [model]);
+  const { model, modelRight } = useSelector((state) => state.uiReducer);
+  const { seismic, pmf } = modelRight;
+  const statics = modelRight?.static;
+  // useEffect(() => {
+  //   if (!Object.keys(model).length == 0) dispatch(getRightFormData(model));
+  // }, [model]);
   const CustomOutputProgress = () => {
     return (
       <Box
@@ -29,7 +31,9 @@ function Index() {
       </Box>
     );
   };
-
+  useEffect(() => {
+    console.log("modelRight: ", modelRight);
+  }, [modelRight]);
   const OutputComponent = ({ title, value }) => {
     return (
       <Grid
@@ -94,35 +98,47 @@ function Index() {
           <Stack direction={"column"}>
             <Box mb={4}>
               <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
-                Stem
+                Static
               </Typography>
-              <OutputComponent title={"Overturning"} value={1.2} />
-              <OutputComponent title={"Compression"} value={1.4} />
-              <OutputComponent title={"Bearing"} value={1.3} />
-              <OutputComponent title={"Sliding"} value={12.4} />
-              <OutputComponent title={"Flotation"} value={5.1} />
+              <OutputComponent
+                title={"Overturning"}
+                value={statics?.overturning}
+              />
+              <OutputComponent
+                title={"Compression"}
+                value={statics?.compression}
+              />
+              <OutputComponent title={"Bearing"} value={statics?.bearing} />
+              <OutputComponent title={"Sliding"} value={statics?.sliding} />
+              <OutputComponent title={"Flotation"} value={statics?.flotation} />
               <Stack direction={"column"}></Stack>
             </Box>
             <Box mb={4}>
               <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
                 Seismic
               </Typography>
-              <OutputComponent title={"Overturning"} value={1.2} />
-              <OutputComponent title={"Compression"} value={1.4} />
-              <OutputComponent title={"Bearing"} value={1.3} />
-              <OutputComponent title={"Sliding"} value={2.4} />
-              <OutputComponent title={"Flotation"} value={5.2} />
+              <OutputComponent
+                title={"Overturning"}
+                value={seismic?.overturning}
+              />
+              <OutputComponent
+                title={"Compression"}
+                value={seismic?.compression}
+              />
+              <OutputComponent title={"Bearing"} value={seismic?.bearing} />
+              <OutputComponent title={"Sliding"} value={seismic?.sliding} />
+              <OutputComponent title={"Flotation"} value={seismic?.flotation} />
               <Stack direction={"column"}></Stack>
             </Box>
             <Box mb={4}>
               <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
                 Peak Maximum Flow (PMF)
               </Typography>
-              <OutputComponent title={"Overturning"} value={1.2} />
-              <OutputComponent title={"Compression"} value={1.4} />
-              <OutputComponent title={"Bearing"} value={1.3} />
-              <OutputComponent title={"Sliding"} value={2.4} />
-              <OutputComponent title={"Flotation"} value={5.2} />
+              <OutputComponent title={"Overturning"} value={pmf?.overturning} />
+              <OutputComponent title={"Compression"} value={pmf?.compression} />
+              <OutputComponent title={"Bearing"} value={pmf?.bearing} />
+              <OutputComponent title={"Sliding"} value={pmf?.sliding} />
+              <OutputComponent title={"Flotation"} value={pmf?.flotation} />
               <Stack direction={"column"}></Stack>
             </Box>
           </Stack>

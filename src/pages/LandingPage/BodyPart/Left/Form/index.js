@@ -13,6 +13,9 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "../../../../../components/CustomButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slogan from "../../../../../components/Slogan";
+import { dispatch } from "../../../../../store";
+import { setModel } from "../../../../../store/reducers/uiReducer";
+import { getRightFormData } from "../../../../../store/actions/uiActions";
 const styleValueBox = {
   borderColor: "#D9D9D9",
   textTransform: "lowercase",
@@ -22,7 +25,8 @@ const styleValueBox = {
   width: "100px",
 };
 function Index({ excelDate, setExcelData, model }) {
-  console.log(model);
+  console.log("model:", model);
+
   const stemApiData = model?.dim?.stem;
   const baseApiData = model?.dim?.base;
   const shearKeyApiData = model?.dim?.shear_key;
@@ -60,7 +64,7 @@ function Index({ excelDate, setExcelData, model }) {
   const [shareThickness, setShareThickness] = useState(
     shareThicknessInitialValue
   );
-
+  // const { model } = useSelector((state) => state.uiReducer);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -76,6 +80,31 @@ function Index({ excelDate, setExcelData, model }) {
       shareDistance,
       shareThickness,
     });
+    var newModel = {
+      dim: {
+        base: {
+          thickness: baseThickness,
+          toe_length: baseToeLength,
+          total_length: baseTotalLength,
+        },
+        shear_key: {
+          height: shareThickness,
+          length: shareLength,
+          toe_distance: shareDistance,
+        },
+        stem: {
+          bottom: bottom,
+          height: stemHeight,
+          top: stemTop,
+        },
+      },
+      elev: model.elev,
+      info: model.info,
+      materials: model.materials,
+      soil_data: model.soil_data,
+    };
+    dispatch(setModel(newModel));
+    dispatch(getRightFormData(newModel));
   }, [
     stemHeight,
     stemTop,
@@ -89,7 +118,6 @@ function Index({ excelDate, setExcelData, model }) {
     shareThickness,
   ]);
 
-  // const { height } = useSelector((state) => state.uiReducer);
   function calculateValue(value) {
     return 0.1 ** value;
   }
@@ -119,31 +147,6 @@ function Index({ excelDate, setExcelData, model }) {
       {isMatch && <Slogan />}
 
       <center>
-        {/* <svg
-          width="85%"
-          height="80%"
-          viewBox="0 0 491 426"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d={`M176 ${stemTop * 150}H243L302.5 ${300 - bottom * 75}H176V0Z`}
-            fill="#D9D9D9"
-          />
-          <rect
-            y="298"
-            width={baseTotalLength * 28.125}
-            height={baseThickness * 20}
-            fill="#D9D9D9"
-          />
-          <rect
-            x="176"
-            y="357"
-            width={shareLength * 45.25}
-            height={shareThickness * 34.5}
-            fill="#D9D9D9"
-          />
-        </svg> */}
         <svg
           width="85%"
           height="80%"
@@ -172,33 +175,6 @@ function Index({ excelDate, setExcelData, model }) {
             fill="#D9D9D9"
           />
         </svg>
-
-        {/* <svg
-          width="424"
-          height="447"
-          viewBox="0 0 424 447"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M138 0H199L259 253H138V0Z" fill="#D9D9D9" />
-          <rect y="253" width="424" height="63" fill="#D9D9D9" />
-          <rect x="138" y="306" width="169" height="61" fill="#D9D9D9" />
-          <path d="M178 435H179L180 447H178V435Z" fill="#D9D9D9" />
-          <rect y="143" width="138" height="110" fill="white" />
-        </svg> */}
-
-        {/* <svg
-          width="424"
-          height="447"
-          viewBox="0 0 424 447"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M138 0H199L259 253H135L138 0Z" fill="#D9D9D9" />
-          <rect y="253" width="424" height="63" fill="#D9D9D9" />
-          <rect x="138" y="306" width="169" height="61" fill="#D9D9D9" />
-          <path d="M178 435H179L180 447H178V435Z" fill="#D9D9D9" />
-        </svg> */}
       </center>
       <Box mt={1}>
         <Stack direction={"row"} justifyContent={"flex-end"}>

@@ -5,6 +5,7 @@ import { dispatch } from "..";
 const initialState = {
   starupDataLoading: false,
   model: {},
+  modelRight: {},
   mode: "light",
   height: 0,
 };
@@ -16,10 +17,13 @@ const UiSlice = createSlice({
       state.mode = state.mode === "dark" ? "light" : "dark";
     },
     setHeight: (state, action) => {
-
       // state.height = state.height+5;
     },
+    setModel: (state, action) => {
+      state.model = action.payload;
+    },
   },
+
   extraReducers: (builder) => {
     //left
     builder.addCase(getStarupData.pending, (state) => {
@@ -43,6 +47,7 @@ const UiSlice = createSlice({
       // boom here
     });
     builder.addCase(getRightFormData.fulfilled, (state, action) => {
+      state.modelRight = action.payload;
       // boom here
     });
     builder.addCase(getRightFormData.rejected, (state, action) => {
@@ -51,5 +56,5 @@ const UiSlice = createSlice({
   },
 });
 
-export const { setUiMode, setHeight } = UiSlice.actions;
+export const { setUiMode, setHeight, setModel } = UiSlice.actions;
 export default UiSlice.reducer;

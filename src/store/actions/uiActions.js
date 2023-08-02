@@ -57,8 +57,8 @@ export const getStarupData = createAsyncThunk(
         .then((response) => {
           res = response.data;
         });
-      return model;
-      // return res;
+      // return model;
+      return res;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.status);
     }
@@ -90,37 +90,3 @@ export const getRightFormData = createAsyncThunk(
   }
 );
 
-// var obj={
-//     'dim': {
-//         'stem': {
-//             'height': 12,
-//             'top': 1,
-//             'bottom': 2,
-//         },
-//         'base': {
-//             'total_length': 8,
-//             'toe_length': 3,
-//             'thickness': 1.5
-//         },
-//         'shear_key': {
-//             'length': 2,
-//             'toe_distance': 3,
-//             'height': 1
-//         },
-//     },
-//     'elev': {
-//         'water': 2,
-//         'right_soil': 6,
-//         'left_soil': 3
-//     },
-//     'soil_data': {
-//         'active': 43,
-//         'passive': 500,
-//         'eq': 85,
-//         'right_el': 8,
-//         'left_el': 2
-//     },
-//     'materials': {
-//         'fc': 4000,
-//     }
-// }

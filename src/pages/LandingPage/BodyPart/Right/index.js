@@ -6,7 +6,7 @@ import { useTheme } from "@emotion/react";
 import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store";
 import { getRightFormData } from "../../../../store/actions/uiActions";
-
+import LinearProgress from "@mui/material/LinearProgress";
 function Index() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.up("lg"));
@@ -46,7 +46,19 @@ function Index() {
         </Grid>
         <Grid item sm={6} xs={9}>
           <Box>
-            <CustomOutputProgress />
+            <LinearProgress
+              variant="determinate"
+              sx={{
+                borderColor: "#D9D9D9",
+                borderRadius: "12px",
+                backgroundColor: "#D9D9D9",
+                "& .MuiLinearProgress-bar": {
+                  background: value < 1 ? "#FF6060" : "#94D263",
+                },
+                transition: "background 0.3s ease-in-out",
+              }}
+              value={value * 50}
+            />
           </Box>
         </Grid>
         <Grid item sm={2} xs={3}>

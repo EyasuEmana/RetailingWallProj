@@ -2,8 +2,8 @@ import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import Right from "./Right/index";
 import Left from "./Left/Form/index";
-import LeftParent from "./Left"
-function Index({ excelDate, setExcelData }) {
+import LeftParent from "./Left";
+function Index() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
   return (
@@ -15,7 +15,7 @@ function Index({ excelDate, setExcelData }) {
         alignItems={"flex-start"}
       >
         <Grid item lg={6} sm={10} xs={10}>
-          <LeftParent excelDate={excelDate} setExcelData={setExcelData}/>
+          <LeftParent />
         </Grid>
         <Grid item lg={6} sm={10} xs={10}>
           <Right />

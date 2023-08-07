@@ -6,7 +6,6 @@ import Footer from "../../components/Footer";
 import { getStarupData } from "../../store/actions/uiActions";
 import { dispatch } from "../../store/index";
 function LandingPage() {
-  const [excelDate, setExcelData] = useState({});
   useEffect(() => {
     dispatch(getStarupData());
   }, [dispatch]);
@@ -15,10 +14,10 @@ function LandingPage() {
     <Box>
       <Grid container justifyContent={"space-around"} spacing={4}>
         <Grid item sm={10} xs={10}>
-          <Appbar excelDate={excelDate} setExcelData={setExcelData} />
+          <Appbar />
         </Grid>
         <Grid item lg={10} xs={12}>
-          <BodyPart excelDate={excelDate} setExcelData={setExcelData} />
+          <BodyPart />
         </Grid>
         <Grid item xs={12}>
           <Footer />

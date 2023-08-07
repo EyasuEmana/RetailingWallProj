@@ -19,49 +19,11 @@ import html2pdf from "html2pdf.js";
 import BodyPart from "../../pages/LandingPage/BodyPart/index";
 import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
-export default function Appbar({ excelDate, setExcelData }) {
+export default function Appbar() {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const { model, modelData } = useSelector((state) => state.uiReducer);
-  // React.useEffect(() => {
-  //   console.log("model: ", model);
-  // }, [model]);
-  const handleExportClick = () => {
-    const targetComponent = document.getElementById("exportable");
-    if (targetComponent) {
-      const opt = {
-        margin: 10,
-        filename: "exported_component.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "mm", format: [400, 400], orientation: "portrait" },
-      };
-
-      // html2pdf().from(targetComponent).set(opt).outputPdf();
-      html2pdf().set(opt).from(targetComponent).save();
-    }
-  };
-  const date = new Date();
-  const fileName =
-    date.getFullYear() +
-    "-" +
-    date.getMonth() +
-    "-" +
-    date.getDate() +
-    "-" +
-    date.getHours() +
-    "-" +
-    date.getSeconds() +
-    "-" +
-    date.getMilliseconds();
-
-  const handleExcelExport = () => {
-    const worksheet = XLSX.utils.json_to_sheet([excelDate]);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    XLSX.writeFile(workbook, "EXCEL_" + fileName + ".xlsx");
-  };
 
   const handleDownloadExcel = React.useCallback(async () => {
     try {
@@ -200,12 +162,6 @@ export default function Appbar({ excelDate, setExcelData }) {
           )}
         </Stack>
       </AppBar>
-
-      <div style={{ display: "none" }}>
-        <div id="exportable">
-          <BodyPart excelDate={excelDate} setExcelData={setExcelData} />
-        </div>
-      </div>
       {/* drawer */}
       <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
         <List>

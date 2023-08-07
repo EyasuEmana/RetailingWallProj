@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Left from "./Form";
 import { Box, CircularProgress } from "@mui/material";
-function Index({ excelDate, setExcelData }) {
+function Index() {
   const { model, starupDataLoading } = useSelector((state) => state.uiReducer);
   const [modelLength, setModelLenght] = useState(0);
   useEffect(() => {
@@ -16,9 +16,7 @@ function Index({ excelDate, setExcelData }) {
           <CircularProgress color="inherit" />
         </Box>
       )}
-      {modelLength > 0 && (
-        <Left  setExcelData={setExcelData}  />
-      )}
+      {modelLength > 0 && <Left />}
     </Box>
   );
 }

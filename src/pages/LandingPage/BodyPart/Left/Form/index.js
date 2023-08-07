@@ -25,7 +25,7 @@ const styleValueBox = {
   color: "#000",
   width: "100px",
 };
-function Index({  setExcelData }) {
+function Index() {
   const { model } = useSelector((state) => state.uiReducer);
 
   const stemApiData = model?.dim?.stem;
@@ -100,17 +100,6 @@ function Index({  setExcelData }) {
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
 
   useEffect(() => {
-    setExcelData({
-      stemHeight,
-      stemTop,
-      stemBottom,
-      baseTotalLength,
-      baseToeLength,
-      baseThickness,
-      shareLength,
-      shareDistance,
-      shareThickness,
-    });
     var newModel = {
       dim: {
         base: {
@@ -153,7 +142,6 @@ function Index({  setExcelData }) {
     stemBottom,
     baseTotalLength,
     baseToeLength,
-    setExcelData,
     baseThickness,
     shareLength,
     shareDistance,
@@ -167,7 +155,7 @@ function Index({  setExcelData }) {
     waterElevation,
     soilUnit,
     pga,
-    steelFc
+    steelFc,
   ]);
 
   function calculateValue(value) {
@@ -232,7 +220,7 @@ function Index({  setExcelData }) {
         <Stack direction={"row"} justifyContent={"flex-end"}>
           <Box onClick={() => aiFixHandler()}>
             <CustomButton txtColor={"#FFF"} bgColor={"#47C5FB"}>
-              Fix with AI 
+              Fix with AI
             </CustomButton>
           </Box>
         </Stack>

@@ -16,6 +16,7 @@ import Slogan from "../../../../../components/Slogan";
 import { dispatch } from "../../../../../store";
 import { setModel } from "../../../../../store/reducers/uiReducer";
 import { getRightFormData } from "../../../../../store/actions/uiActions";
+import { useSelector } from "react-redux";
 const styleValueBox = {
   borderColor: "#D9D9D9",
   textTransform: "lowercase",
@@ -24,23 +25,43 @@ const styleValueBox = {
   color: "#000",
   width: "100px",
 };
-function Index({ excelDate, setExcelData, model }) {
+function Index({  setExcelData }) {
+  const { model } = useSelector((state) => state.uiReducer);
+
   const stemApiData = model?.dim?.stem;
   const baseApiData = model?.dim?.base;
+  const soilApiData = model?.soil_data;
+  const materialApiData = model?.materials;
   const shearKeyApiData = model?.dim?.shear_key;
+
   const stemHeightInitialValue = stemApiData?.height;
   const stemTopInitialValue = stemApiData?.top;
-  const bottomInitialValue = stemApiData?.bottom;
+  const stemBottomInitialValue = stemApiData?.bottom;
+
   const baseTotalLengthInitialValue = baseApiData?.total_length;
   const baseToeLengthInitialValue = baseApiData?.toe_length;
   const baseThicknessInitialValue = baseApiData?.thickness;
+
   const shareLengthInitialValue = shearKeyApiData?.length;
   const shareDistanceInitialValue = shearKeyApiData?.toe_distance;
   const shareThicknessInitialValue = shearKeyApiData?.height;
 
+  const rightSoilInitValue = soilApiData?.right_el;
+  const waterInitValue = soilApiData?.water_el;
+  const fcInitValue = model?.materials?.fc_concrete;
+  const activeInitValue = soilApiData?.active;
+  const steelFyInitValue = materialApiData?.fy_steel;
+  const soilUnitWeightInitValue = materialApiData?.soil_unit_weight;
+  const pgaInitValue = soilApiData?.pga;
+  const leftSoilInitValue = soilApiData?.left_el;
+  const passiveInitValue = soilApiData?.passive;
+  const seisPressInitValue = soilApiData?.seismic;
+
+  const [isRotated, setIsRotated] = useState(true);
+
   // const stemHeightInitialValue = 12;
   // const stemTopInitialValue = 1;
-  // const bottomInitialValue = 2;
+  // const stemBottomInitialValue = 2;
   // const baseTotalLengthInitialValue = 8;
   // const baseToeLengthInitialValue = 238;
   // const baseThicknessInitialValue = 1.5;
@@ -49,7 +70,7 @@ function Index({ excelDate, setExcelData, model }) {
   // const shareThicknessInitialValue = 1;
   const [stemHeight, setStemHeight] = useState(stemHeightInitialValue);
   const [stemTop, setStemTop] = useState(stemTopInitialValue);
-  const [bottom, setBottom] = useState(bottomInitialValue);
+  const [stemBottom, setStemBottom] = useState(stemBottomInitialValue);
 
   const [baseTotalLength, setBaseTotalLength] = useState(
     baseTotalLengthInitialValue
@@ -62,7 +83,19 @@ function Index({ excelDate, setExcelData, model }) {
   const [shareThickness, setShareThickness] = useState(
     shareThicknessInitialValue
   );
-  // const { model } = useSelector((state) => state.uiReducer);
+
+  const [activePressure, setActivePressure] = useState(activeInitValue);
+  const [steelFy, setSteelFy] = useState(steelFyInitValue);
+  const [passivePressure, setPassivePressure] = useState(passiveInitValue);
+  const [seismicPressure, setSeismicPressure] = useState(seisPressInitValue);
+  const [leftEl, setleftEl] = useState(leftSoilInitValue);
+  const [rightEl, setRightEl] = useState(rightSoilInitValue);
+  const [waterElevation, setWaterElevation] = useState(waterInitValue);
+  const [soilUnit, setSoilUnit] = useState(soilUnitWeightInitValue);
+
+  const [pga, setPga] = useState(pgaInitValue);
+  const [steelFc, setSteelFc] = useState(fcInitValue);
+
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -70,7 +103,7 @@ function Index({ excelDate, setExcelData, model }) {
     setExcelData({
       stemHeight,
       stemTop,
-      bottom,
+      stemBottom,
       baseTotalLength,
       baseToeLength,
       baseThickness,
@@ -91,22 +124,33 @@ function Index({ excelDate, setExcelData, model }) {
           toe_distance: shareDistance,
         },
         stem: {
-          bottom: bottom,
+          bottom: stemBottom,
           height: stemHeight,
           top: stemTop,
         },
       },
-      elev: model.elev,
+      materials: {
+        fc_concrete: steelFc,
+        fy_steel: steelFy,
+        soil_unit_weight: soilUnit,
+      },
+      soil_data: {
+        active: activePressure,
+        left_el: leftEl,
+        passive: passivePressure,
+        pga: pga,
+        right_el: rightEl,
+        seismic: seismicPressure,
+        water_el: waterElevation,
+      },
       info: model.info,
-      materials: model.materials,
-      soil_data: model.soil_data,
     };
-    dispatch(setModel(newModel));
+    // dispatch(setModel(newModel));
     dispatch(getRightFormData(newModel));
   }, [
     stemHeight,
     stemTop,
-    bottom,
+    stemBottom,
     baseTotalLength,
     baseToeLength,
     setExcelData,
@@ -114,6 +158,16 @@ function Index({ excelDate, setExcelData, model }) {
     shareLength,
     shareDistance,
     shareThickness,
+    activePressure,
+    steelFy,
+    passivePressure,
+    seismicPressure,
+    leftEl,
+    rightEl,
+    waterElevation,
+    soilUnit,
+    pga,
+    steelFc
   ]);
 
   function calculateValue(value) {
@@ -127,7 +181,7 @@ function Index({ excelDate, setExcelData, model }) {
   const aiFixHandler = () => {
     setStemHeight(stemHeightInitialValue);
     setStemTop(stemTopInitialValue);
-    setBottom(bottomInitialValue);
+    setStemBottom(stemBottomInitialValue);
     setBaseTotalLength(baseTotalLengthInitialValue);
     setToeBaseLength(baseToeLengthInitialValue);
     setBaseThickness(baseThicknessInitialValue);
@@ -154,7 +208,7 @@ function Index({ excelDate, setExcelData, model }) {
         >
           <path
             d={`M176 ${300 - stemHeight * 12.5}H${stemTop * 70 + 175}L${
-              bottom * 50 + 175
+              stemBottom * 50 + 175
             } ${300}H175L1380Z`}
             fill="#D9D9D9"
           />
@@ -168,8 +222,8 @@ function Index({ excelDate, setExcelData, model }) {
           <rect
             x={29.33 * shareDistance}
             y="357"
-            width={shareLength * 43.25}
-            height={shareThickness * 17.25}
+            width={shareLength * 35}
+            height={shareThickness * 40}
             fill="#D9D9D9"
           />
         </svg>
@@ -178,7 +232,7 @@ function Index({ excelDate, setExcelData, model }) {
         <Stack direction={"row"} justifyContent={"flex-end"}>
           <Box onClick={() => aiFixHandler()}>
             <CustomButton txtColor={"#FFF"} bgColor={"#47C5FB"}>
-              AI Fix
+              Fix with AI 
             </CustomButton>
           </Box>
         </Stack>
@@ -289,7 +343,7 @@ function Index({ excelDate, setExcelData, model }) {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={bottom}
+                    value={stemBottom}
                     min={0}
                     max={4}
                     sx={{
@@ -306,10 +360,10 @@ function Index({ excelDate, setExcelData, model }) {
                     }}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
-                    onChange={(event, newValue) => setBottom(newValue)}
+                    onChange={(event, newValue) => setStemBottom(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox}>
-                    {bottom} ft
+                    {stemBottom} ft
                   </Button>
                 </Stack>
               </Grid>
@@ -486,6 +540,7 @@ function Index({ excelDate, setExcelData, model }) {
                 </Stack>
               </Grid>
             </Grid>
+
             <Grid
               container
               alignItems={"center"}
@@ -525,6 +580,7 @@ function Index({ excelDate, setExcelData, model }) {
                 </Stack>
               </Grid>
             </Grid>
+
             <Grid
               container
               alignItems={"center"}
@@ -566,15 +622,445 @@ function Index({ excelDate, setExcelData, model }) {
             </Grid>
           </Stack>
         </Box>
-        <Stack direction={"row"} spacing={1} alignItems={"center"}>
+        <Stack
+          direction={"row"}
+          spacing={1}
+          alignItems={"center"}
+          onClick={() => {
+            setIsRotated((prev) => !prev);
+          }}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+        >
           <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
             Advanced
           </Typography>
           <IconButton aria-label="Example">
-            {" "}
-            <ExpandMoreIcon sx={{ color: "#47C5FB" }} />
+            <ExpandMoreIcon
+              sx={{
+                color: "#47C5FB",
+                transform: isRotated ? "rotate(-90deg)" : "rotate(0deg)",
+                transition: "transform 0.3s ease-in-out",
+              }}
+            />
           </IconButton>
         </Stack>
+        <Box mt={1} sx={{ display: isRotated && "none" }}>
+          <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
+            Soil
+          </Typography>
+          <Stack direction={"column"}>
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Active Pressure"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={activePressure}
+                    min={0}
+                    max={activeInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setActivePressure(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {activePressure} psf
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Passive Pressure"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={passivePressure}
+                    min={0}
+                    max={passiveInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setPassivePressure(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {passivePressure} psf
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Seismic Pressure"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={seismicPressure}
+                    min={0}
+                    max={seisPressInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setSeismicPressure(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {seismicPressure} psf
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Left soil level"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={leftEl}
+                    min={0}
+                    max={leftSoilInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setleftEl(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {leftEl} ft
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Right soil level"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={rightEl}
+                    min={0}
+                    max={rightSoilInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setRightEl(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {rightEl} ft
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Water elevation"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={waterElevation}
+                    min={0}
+                    max={waterInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setWaterElevation(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {waterElevation} ft
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"PGA"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={pga}
+                    min={0}
+                    max={pgaInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setPga(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {pga}
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+          </Stack>
+        </Box>
+
+        <Box mt={1} sx={{ display: isRotated && "none" }}>
+          <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
+            Materials
+          </Typography>
+          <Stack direction={"column"}>
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Concrete f'c"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={steelFc}
+                    min={0}
+                    max={fcInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setSteelFc(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {steelFc} psi
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Steel fy"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={steelFy}
+                    min={0}
+                    max={steelFyInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    scale={calculateValue}
+                    onChange={(event, newValue) => setSteelFy(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {steelFy} ksi
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <Typography>{"Soil unit weight"}</Typography>
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={soilUnit}
+                    min={0}
+                    max={soilUnitWeightInitValue * 2}
+                    sx={{
+                      "& .MuiSlider-track": {
+                        background: "#47C5FB",
+                        borderColor: "#47C5FB",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: "#CCC",
+                      },
+                      "& .MuiSlider-thumb": {
+                        backgroundColor: "#47C5FB",
+                      },
+                    }}
+                    valueLabelDisplay="auto"
+                    // scale={calculateValue}
+                    onChange={(event, newValue) => setSoilUnit(newValue)}
+                  />
+                  <Button variant="outlined" sx={styleValueBox}>
+                    {soilUnit} pcf
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+          </Stack>
+        </Box>
       </Box>
     </Stack>
   );

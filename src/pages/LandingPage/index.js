@@ -5,7 +5,7 @@ import BodyPart from "./BodyPart/index";
 import Footer from "../../components/Footer";
 import { getStarupData } from "../../store/actions/uiActions";
 import { dispatch } from "../../store/index";
-function LangingPage() {
+function LandingPage() {
   const [excelDate, setExcelData] = useState({});
   useEffect(() => {
     dispatch(getStarupData());
@@ -28,4 +28,4 @@ function LangingPage() {
   );
 }
 
-export default LangingPage;
+export default LandingPage;

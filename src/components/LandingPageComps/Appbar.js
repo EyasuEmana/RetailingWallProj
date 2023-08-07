@@ -23,7 +23,10 @@ export default function Appbar({ excelDate, setExcelData }) {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const { model } = useSelector((state) => state.uiReducer);
+  const { model, modelData } = useSelector((state) => state.uiReducer);
+  // React.useEffect(() => {
+  //   console.log("model: ", model);
+  // }, [model]);
   const handleExportClick = () => {
     const targetComponent = document.getElementById("exportable");
     if (targetComponent) {
@@ -60,13 +63,14 @@ export default function Appbar({ excelDate, setExcelData }) {
     XLSX.writeFile(workbook, "EXCEL_" + fileName + ".xlsx");
   };
 
-  const handleDownloadExcel = async () => {
+  const handleDownloadExcel = React.useCallback(async () => {
     try {
-      const params = { model: JSON.stringify(model) };
+      const params = { model: JSON.stringify(modelData) };
       const queryString = new URLSearchParams(params).toString();
-
+      // https://ashva.pythonanywhere.com/get-excel
       const response = await fetch(
-        "https://ashva.pythonanywhere.com/get_excel?" + queryString,
+        "https://ashva.pythonanywhere.com/get-excel?model=" +
+          JSON.stringify(modelData),
         {
           method: "GET",
           headers: {
@@ -86,15 +90,45 @@ export default function Appbar({ excelDate, setExcelData }) {
     } catch (error) {
       console.error("Error downloading file:", error);
     }
-  };
+  }, [modelData]);
 
-  const handleDownloadPdf = async () => {
+  // const handleDownloadExcel =
+  // async () => {
+  //   try {
+  //     const params = { model: JSON.stringify(model) };
+  //     const queryString = new URLSearchParams(params).toString();
+
+  //     const response = await fetch(
+  //       "https://ashva.pythonanywhere.com/get_excel?" + queryString,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     const blob = await response.blob();
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement("a");
+  //     a.href = url;
+  //     a.download = "filename.xlsx";
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     document.body.removeChild(a);
+  //     window.URL.revokeObjectURL(url);
+  //   } catch (error) {
+  //     console.error("Error downloading file:", error);
+  //   }
+  // };
+
+  const handleDownloadPdf = React.useCallback(async () => {
     try {
-      const params = { model: JSON.stringify(model) };
+      const params = { model: JSON.stringify(modelData) };
       const queryString = new URLSearchParams(params).toString();
 
       const response = await fetch(
-        "https://ashva.pythonanywhere.com/get_pdf?" + queryString,
+        "https://ashva.pythonanywhere.com/get-pdf?model=" +
+          JSON.stringify(modelData),
         {
           method: "GET",
           headers: {
@@ -114,7 +148,7 @@ export default function Appbar({ excelDate, setExcelData }) {
     } catch (error) {
       console.error("Error downloading file:", error);
     }
-  };
+  }, [modelData]);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#FFF", boxShadow: 0 }}>

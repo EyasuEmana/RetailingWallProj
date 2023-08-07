@@ -1,5 +1,5 @@
 import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CustomButton from "../../../../components/CustomButton";
 import Slogan from "../../../../components/Slogan";
 import { useTheme } from "@emotion/react";
@@ -11,9 +11,27 @@ function Index() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.up("lg"));
   const isMatchXS = useMediaQuery(theme.breakpoints.down("sm"));
-  const { model, modelRight } = useSelector((state) => state.uiReducer);
+  const { modelRight } = useSelector((state) => state.uiReducer);
+  const [stabilityOpen, setStabilityOpen] = useState(true);
+  const [strengthOpen, setStrengthOpen] = useState(false);
   const { seismic, pmf } = modelRight;
   const statics = modelRight?.static;
+  const handleTabClick = (caller) => {
+    switch (caller) {
+      case "stability":
+        setStabilityOpen(true);
+        setStrengthOpen(false);
+        break;
+      case "strength":
+        setStabilityOpen(false);
+        setStrengthOpen(true);
+        break;
+      default:
+        setStabilityOpen(true);
+        setStrengthOpen(false);
+        break;
+    }
+  };
   // useEffect(() => {
   //   if (!Object.keys(model).length == 0) dispatch(getRightFormData(model));
   // }, [model]);
@@ -32,7 +50,12 @@ function Index() {
     );
   };
 
-  const OutputComponent = ({ title, value }) => {
+  const OutputComponent = ({ title, value, sf }) => {
+    console.log(
+      "sf: " + title + " =>" + sf + " == " + value,
+      parseFloat(sf) == value
+    );
+
     return (
       <Grid
         container
@@ -53,7 +76,8 @@ function Index() {
                 borderRadius: "12px",
                 backgroundColor: "#D9D9D9",
                 "& .MuiLinearProgress-bar": {
-                  background: value < 1 ? "#FF6060" : "#94D263",
+                  background:
+                    parseFloat(value) < parseFloat(sf) ? "#FF6060" : "#94D263",
                 },
                 transition: "background 0.3s ease-in-out",
               }}
@@ -89,20 +113,25 @@ function Index() {
             alignItems={"center"}
             spacing={3}
           >
-            <CustomButton
-              bgColor={"#171414"}
-              txtColor={"#FFF"}
-              sx={{ paddingX: isMatchXS ? 12 : 6 }}
-            >
-              Stability
-            </CustomButton>
-            <CustomButton
-              bgColor={"#D9D9D9"}
-              txtColor={"#000"}
-              sx={{ paddingX: isMatchXS ? 12 : 6 }}
-            >
-              Strength
-            </CustomButton>
+            <Box onClick={() => handleTabClick("stability")}>
+              <CustomButton
+                bgColor={stabilityOpen ? "#171414" : "#D9D9D9"}
+                txtColor={stabilityOpen ? "#FFF" : "#000"}
+                sx={{ paddingX: isMatchXS ? 12 : 6 }}
+              >
+                Stability
+              </CustomButton>
+            </Box>
+            <Box onClick={() => handleTabClick("strength")}>
+              <CustomButton
+                // bgColor={"#D9D9D9"}
+                bgColor={strengthOpen ? "#171414" : "#D9D9D9"}
+                txtColor={strengthOpen ? "#FFF" : "#000"}
+                sx={{ paddingX: isMatchXS ? 12 : 6 }}
+              >
+                Strength
+              </CustomButton>
+            </Box>
           </Stack>
           {/* output space */}
           <Stack direction={"column"}>
@@ -113,14 +142,28 @@ function Index() {
               <OutputComponent
                 title={"Overturning"}
                 value={statics?.overturning}
+                sf={statics?.sf_overturning}
               />
               <OutputComponent
                 title={"Compression"}
                 value={statics?.compression}
+                sf={statics?.sf_compression}
               />
-              <OutputComponent title={"Bearing"} value={statics?.bearing} />
-              <OutputComponent title={"Sliding"} value={statics?.sliding} />
-              <OutputComponent title={"Flotation"} value={statics?.flotation} />
+              <OutputComponent
+                title={"Bearing"}
+                value={statics?.bearing}
+                sf={statics?.sf_bearing}
+              />
+              <OutputComponent
+                title={"Sliding"}
+                value={statics?.sliding}
+                sf={statics?.sf_sliding}
+              />
+              <OutputComponent
+                title={"Flotation"}
+                value={statics?.flotation}
+                sf={statics?.sf_flotation}
+              />
               <Stack direction={"column"}></Stack>
             </Box>
             <Box mb={4}>
@@ -130,25 +173,59 @@ function Index() {
               <OutputComponent
                 title={"Overturning"}
                 value={seismic?.overturning}
+                sf={seismic?.sf_overturning}
               />
               <OutputComponent
                 title={"Compression"}
                 value={seismic?.compression}
+                sf={seismic?.sf_compression}
               />
-              <OutputComponent title={"Bearing"} value={seismic?.bearing} />
-              <OutputComponent title={"Sliding"} value={seismic?.sliding} />
-              <OutputComponent title={"Flotation"} value={seismic?.flotation} />
+              <OutputComponent
+                title={"Bearing"}
+                value={seismic?.bearing}
+                sf={seismic?.sf_bearing}
+              />
+              <OutputComponent
+                title={"Sliding"}
+                value={seismic?.sliding}
+                sf={seismic?.sf_sliding}
+              />
+              <OutputComponent
+                title={"Flotation"}
+                value={seismic?.flotation}
+                sf={seismic?.sf_flotation}
+              />
               <Stack direction={"column"}></Stack>
             </Box>
             <Box mb={4}>
               <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
                 Peak Maximum Flow (PMF)
               </Typography>
-              <OutputComponent title={"Overturning"} value={pmf?.overturning} />
-              <OutputComponent title={"Compression"} value={pmf?.compression} />
-              <OutputComponent title={"Bearing"} value={pmf?.bearing} />
-              <OutputComponent title={"Sliding"} value={pmf?.sliding} />
-              <OutputComponent title={"Flotation"} value={pmf?.flotation} />
+              <OutputComponent
+                title={"Overturning"}
+                value={pmf?.overturning}
+                sf={pmf?.sf_overturning}
+              />
+              <OutputComponent
+                title={"Compression"}
+                value={pmf?.compression}
+                sf={pmf?.sf_compression}
+              />
+              <OutputComponent
+                title={"Bearing"}
+                value={pmf?.bearing}
+                sf={pmf?.sf_bearing}
+              />
+              <OutputComponent
+                title={"Sliding"}
+                value={pmf?.sliding}
+                sf={pmf?.sf_sliding}
+              />
+              <OutputComponent
+                title={"Flotation"}
+                value={pmf?.flotation}
+                sf={pmf?.sf_flotation}
+              />
               <Stack direction={"column"}></Stack>
             </Box>
           </Stack>

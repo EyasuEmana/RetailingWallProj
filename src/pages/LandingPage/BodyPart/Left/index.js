@@ -17,7 +17,7 @@ function Index({ excelDate, setExcelData }) {
         </Box>
       )}
       {modelLength > 0 && (
-        <Left excelDate={excelDate} setExcelData={setExcelData} model={model} />
+        <Left  setExcelData={setExcelData}  />
       )}
     </Box>
   );

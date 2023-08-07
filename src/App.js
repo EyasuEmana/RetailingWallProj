@@ -1,5 +1,4 @@
-import "./App.css";
-import LangingPage from "./pages/LandingPage";
+import LandingPage from "./pages/LandingPage";
 import { Box, Typography } from "@mui/material";
 // import ThreeDTest from "./pages/ThreeDTest";
 import { ThemeProvider } from "@mui/material";
@@ -21,7 +20,7 @@ function App() {
                   marginBottom: 0,
                 }}
               >
-                <LangingPage />
+                <LandingPage />
               </Box>
             }
           ></Route>

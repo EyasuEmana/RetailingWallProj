@@ -12,7 +12,7 @@ function Index({ excelDate, setExcelData }) {
         container
         spacing={isMatch ? 0 : 20}
         justifyContent={"center"}
-        alignItems={"center"}
+        alignItems={"flex-start"}
       >
         <Grid item lg={6} sm={10} xs={10}>
           <LeftParent excelDate={excelDate} setExcelData={setExcelData}/>

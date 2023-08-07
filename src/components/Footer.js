@@ -14,7 +14,7 @@ function Footer() {
         paddingY={5}
       >
         <Box>
-          <hr style={{ width: 100, border: "1px solid #FFF" }} />
+          <hr style={{ width: 150, border: "2px solid #FFF" }} />
         </Box>
         <Typography sx={{ color: "#FFF" }}>San Francisco, CA</Typography>
         <Typography sx={{ color: "#FFF" }}>Give us feedback</Typography>

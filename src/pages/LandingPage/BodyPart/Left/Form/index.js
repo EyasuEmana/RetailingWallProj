@@ -9,7 +9,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CustomButton from "../../../../../components/CustomButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slogan from "../../../../../components/Slogan";
@@ -18,12 +18,32 @@ import { setModel } from "../../../../../store/reducers/uiReducer";
 import { getRightFormData } from "../../../../../store/actions/uiActions";
 import { useSelector } from "react-redux";
 const styleValueBox = {
-  borderColor: "#D9D9D9",
-  textTransform: "lowercase",
-  whiteSpace: "nowrap",
+  "&.Mui-disabled": {
+    borderColor: "#D9D9D9",
+    textTransform: "lowercase",
+    whiteSpace: "nowrap",
+    borderRadius: "12px",
+    color: "#000",
+    width: "100px",
+  },
+};
+
+const sliderStyle = {
   borderRadius: "12px",
-  color: "#000",
-  width: "100px",
+  "& .MuiSlider-track": {
+    background: "#47C5FB",
+    borderColor: "#47C5FB",
+    height: "2px",
+  },
+  "& .MuiSlider-rail": {
+    background: "#CCC",
+    height: "2px",
+  },
+  "& .MuiSlider-thumb": {
+    backgroundColor: "#47C5FB",
+    width: "10px",
+    height: "10px",
+  },
 };
 function Index() {
   const { model } = useSelector((state) => state.uiReducer);
@@ -92,13 +112,22 @@ function Index() {
   const [rightEl, setRightEl] = useState(rightSoilInitValue);
   const [waterElevation, setWaterElevation] = useState(waterInitValue);
   const [soilUnit, setSoilUnit] = useState(soilUnitWeightInitValue);
-
+  const [divHeight, setDivheight] = useState(0);
+  const [divWidth, setDivWidth] = useState(0);
   const [pga, setPga] = useState(pgaInitValue);
   const [steelFc, setSteelFc] = useState(fcInitValue);
 
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
-
+  const divRef = useRef(null);
+  useEffect(() => {
+    if (divRef.current) {
+      setDivheight(0.8 * divRef.current.offsetHeight);
+      setDivWidth(0.85 * divRef.current.offsetWidth);
+      // const widthInPixels = divRef.current.offsetWidth;
+      // console.log("Width of the div in pixels:", widthInPixels);
+    }
+  }, [window.innerWidth, window.innerHeight]);
   useEffect(() => {
     var newModel = {
       dim: {
@@ -177,57 +206,77 @@ function Index() {
     setShareDistance(shareDistanceInitialValue);
     setShareThickness(shareThicknessInitialValue);
   };
+  const CustomSliderTitle = ({ title }) => {
+    return (
+      <Typography id="" sx={{ fontSize: "12px", fontWeight: "400" }}>
+        {title}
+      </Typography>
+    );
+  };
   return (
-    <Stack direction={"column"} spacing={10}>
+    <Stack direction={"column"} spacing={12} sx={{ width: "100%" }}>
       <Stack direction={"row"} alignItems="center" spacing={3}>
         <Typography>LIVE MODEL</Typography>
         <hr style={{ width: 150, border: "1px solid #000" }} />
         {/* <TextField variant="standard" width={12}></TextField> */}
       </Stack>
       {isMatch && <Slogan />}
-
       <center>
-        <svg
-          width="85%"
-          height="80%"
-          viewBox="0 0 491 426"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          style={{
+            width: "471px",
+            height: "407px",
+            // resize: "both",
+            overflow: "auto",
+          }}
         >
-          <path
-            d={`M176 ${300 - stemHeight * 12.5}H${stemTop * 70 + 175}L${
-              stemBottom * 50 + 175
-            } ${300}H175L1380Z`}
-            fill="#D9D9D9"
-          />
-          <rect
-            x={58.5 * baseToeLength}
-            y="298"
-            width={baseTotalLength * 28.25}
-            height={baseThickness * 20}
-            fill="#D9D9D9"
-          />
-          <rect
-            x={29.33 * shareDistance}
-            y="357"
-            width={shareLength * 35}
-            height={shareThickness * 40}
-            fill="#D9D9D9"
-          />
-        </svg>
+          <svg
+            width={"85%"}
+            height={"80%"}
+            viewBox="0 0 491 426"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d={`M176 ${300 - stemHeight * 12.5}H${stemTop * 70 + 175}L${
+                stemBottom * 50 + 175
+              } ${300}H175L1380Z`}
+              fill="#D9D9D9"
+            />
+            <rect
+              x={58.5 * baseToeLength}
+              y="298"
+              width={baseTotalLength * 28.25}
+              height={baseThickness * 20}
+              fill="#D9D9D9"
+            />
+            <rect
+              x={29.33 * shareDistance}
+              y="357"
+              width={shareLength * 35}
+              height={shareThickness * 40}
+              fill="#D9D9D9"
+            />
+          </svg>
+        </div>
       </center>
-      <Box mt={1}>
+      <Box>
         <Stack direction={"row"} justifyContent={"flex-end"}>
-          <Box onClick={() => aiFixHandler()}>
-            <CustomButton txtColor={"#FFF"} bgColor={"#47C5FB"}>
-              Fix with AI
-            </CustomButton>
-          </Box>
+          {/* <Box onClick={() => aiFixHandler()}> */}
+          <CustomButton
+            txtColor={"#FFF"}
+            bgColor={"#47C5FB"}
+            fontSize={12}
+            radius={"4px"}
+            fontWeight={500}
+            disabled
+          >
+            Fix with AI
+          </CustomButton>
+          {/* </Box> */}
         </Stack>
         <Box>
-          <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
-            Stem
-          </Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>Stem</Typography>
           <Stack direction={"column"}>
             <Grid
               container
@@ -237,7 +286,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>Height</Typography>
+                <CustomSliderTitle title={"Height"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -246,18 +295,7 @@ function Index() {
                     value={stemHeight}
                     min={0}
                     max={24}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => {
@@ -269,7 +307,7 @@ function Index() {
                   {/* <Box>
 
                     </Box> */}
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" disabled sx={styleValueBox}>
                     {stemHeight} ft
                   </Button>
                 </Stack>
@@ -284,7 +322,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Top"}</Typography>
+                <CustomSliderTitle title={"Top"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -293,23 +331,12 @@ function Index() {
                     min={0}
                     max={2}
                     step={0.1}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={handleChange}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {stemTop} ft
                   </Button>
                 </Stack>
@@ -325,7 +352,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Bottom"}</Typography>
+                <CustomSliderTitle title={"Bottom"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -334,23 +361,12 @@ function Index() {
                     value={stemBottom}
                     min={0}
                     max={4}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setStemBottom(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {stemBottom} ft
                   </Button>
                 </Stack>
@@ -360,9 +376,7 @@ function Index() {
         </Box>
 
         <Box mt={1}>
-          <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
-            Base
-          </Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>Base</Typography>
           <Stack direction={"column"}>
             <Grid
               container
@@ -372,7 +386,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} xs={12}>
-                <Typography>{"Total Length"}</Typography>
+                <CustomSliderTitle title={"Total Length"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -380,24 +394,13 @@ function Index() {
                     value={baseTotalLength}
                     min={0}
                     max={16}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     step={0.1}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setBaseTotalLength(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {baseTotalLength} ft
                   </Button>
                 </Stack>
@@ -411,7 +414,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Toe length"}</Typography>
+                <CustomSliderTitle title={"Toe Length"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -419,24 +422,13 @@ function Index() {
                     value={baseToeLength}
                     min={0}
                     max={3}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     step={0.1}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setToeBaseLength(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {baseToeLength} ft
                   </Button>
                 </Stack>
@@ -450,7 +442,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Thickness"}</Typography>
+                <CustomSliderTitle title={"Thickness"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -459,23 +451,12 @@ function Index() {
                     min={0}
                     max={3}
                     step={0.1}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setBaseThickness(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {baseThickness} ft
                   </Button>
                 </Stack>
@@ -485,7 +466,7 @@ function Index() {
         </Box>
 
         <Box mt={1}>
-          <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>
             Shear Key
           </Typography>
           <Stack direction={"column"}>
@@ -497,7 +478,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Length"}</Typography>
+                <CustomSliderTitle title={"Length"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -506,23 +487,12 @@ function Index() {
                     value={shareLength}
                     min={0}
                     max={4}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setShareLength(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {shareLength} ft
                   </Button>
                 </Stack>
@@ -537,7 +507,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Toe Distance"}</Typography>
+                <CustomSliderTitle title={"Toe Distanc"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -546,23 +516,12 @@ function Index() {
                     value={shareDistance}
                     min={0}
                     max={6}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setShareDistance(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {shareDistance} ft
                   </Button>
                 </Stack>
@@ -577,7 +536,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Thickness"}</Typography>
+                <CustomSliderTitle title={"Thickness"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -586,23 +545,12 @@ function Index() {
                     value={shareThickness}
                     min={0}
                     max={2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setShareThickness(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {shareThickness} ft
                   </Button>
                 </Stack>
@@ -623,7 +571,7 @@ function Index() {
             },
           }}
         >
-          <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>
             Advanced
           </Typography>
           <IconButton aria-label="Example">
@@ -637,9 +585,7 @@ function Index() {
           </IconButton>
         </Stack>
         <Box mt={1} sx={{ display: isRotated && "none" }}>
-          <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
-            Soil
-          </Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>Soil</Typography>
           <Stack direction={"column"}>
             <Grid
               container
@@ -649,7 +595,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Active Pressure"}</Typography>
+                <CustomSliderTitle title={"Active Pressure"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -658,23 +604,12 @@ function Index() {
                     value={activePressure}
                     min={0}
                     max={activeInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setActivePressure(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {activePressure} psf
                   </Button>
                 </Stack>
@@ -689,7 +624,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Passive Pressure"}</Typography>
+                <CustomSliderTitle title={"Passive Pressure"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -698,23 +633,12 @@ function Index() {
                     value={passivePressure}
                     min={0}
                     max={passiveInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setPassivePressure(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {passivePressure} psf
                   </Button>
                 </Stack>
@@ -729,7 +653,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Seismic Pressure"}</Typography>
+                <CustomSliderTitle title={"Seismic Pressure"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -738,23 +662,12 @@ function Index() {
                     value={seismicPressure}
                     min={0}
                     max={seisPressInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setSeismicPressure(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {seismicPressure} psf
                   </Button>
                 </Stack>
@@ -769,7 +682,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Left soil level"}</Typography>
+                <CustomSliderTitle title={"Left soil level"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -778,23 +691,12 @@ function Index() {
                     value={leftEl}
                     min={0}
                     max={leftSoilInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setleftEl(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {leftEl} ft
                   </Button>
                 </Stack>
@@ -809,7 +711,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Right soil level"}</Typography>
+                <CustomSliderTitle title={"Right soil level"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -818,23 +720,12 @@ function Index() {
                     value={rightEl}
                     min={0}
                     max={rightSoilInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setRightEl(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {rightEl} ft
                   </Button>
                 </Stack>
@@ -849,7 +740,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Water elevation"}</Typography>
+                <CustomSliderTitle title={"Water elevation"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -858,23 +749,12 @@ function Index() {
                     value={waterElevation}
                     min={0}
                     max={waterInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setWaterElevation(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {waterElevation} ft
                   </Button>
                 </Stack>
@@ -889,7 +769,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"PGA"}</Typography>
+                <CustomSliderTitle title={"PGA"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -898,23 +778,12 @@ function Index() {
                     value={pga}
                     min={0}
                     max={pgaInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setPga(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {pga}
                   </Button>
                 </Stack>
@@ -924,7 +793,7 @@ function Index() {
         </Box>
 
         <Box mt={1} sx={{ display: isRotated && "none" }}>
-          <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>
             Materials
           </Typography>
           <Stack direction={"column"}>
@@ -936,7 +805,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Concrete f'c"}</Typography>
+                <CustomSliderTitle title={"Concrete f'c"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -945,23 +814,12 @@ function Index() {
                     value={steelFc}
                     min={0}
                     max={fcInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setSteelFc(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {steelFc} psi
                   </Button>
                 </Stack>
@@ -976,7 +834,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Steel fy"}</Typography>
+                <CustomSliderTitle title={"Steel fy"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -985,23 +843,12 @@ function Index() {
                     value={steelFy}
                     min={0}
                     max={steelFyInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     scale={calculateValue}
                     onChange={(event, newValue) => setSteelFy(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {steelFy} ksi
                   </Button>
                 </Stack>
@@ -1016,7 +863,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <Typography>{"Soil unit weight"}</Typography>
+                <CustomSliderTitle title={"Soil unit weight"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -1025,23 +872,12 @@ function Index() {
                     value={soilUnit}
                     min={0}
                     max={soilUnitWeightInitValue * 2}
-                    sx={{
-                      "& .MuiSlider-track": {
-                        background: "#47C5FB",
-                        borderColor: "#47C5FB",
-                      },
-                      "& .MuiSlider-rail": {
-                        background: "#CCC",
-                      },
-                      "& .MuiSlider-thumb": {
-                        backgroundColor: "#47C5FB",
-                      },
-                    }}
+                    sx={sliderStyle}
                     valueLabelDisplay="auto"
                     // scale={calculateValue}
                     onChange={(event, newValue) => setSoilUnit(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox}>
+                  <Button variant="outlined" sx={styleValueBox} disabled>
                     {soilUnit} pcf
                   </Button>
                 </Stack>

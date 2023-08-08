@@ -3,7 +3,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <Box sx={{ height: 300, backgroundColor: "#171414" }}>
+    <Box sx={{ height: "300px", backgroundColor: "#171414" }}>
       <Stack
         direction="column"
         justifyContent="center"

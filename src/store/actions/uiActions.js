@@ -19,7 +19,6 @@ export const getStarupData = createAsyncThunk(
         .then((response) => {
           res = response.data;
         });
-      // return model;
       return res;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.status);
@@ -43,7 +42,7 @@ export const getRightFormData = createAsyncThunk(
           },
         })
         .then((response) => {
-          res = { modelRight: response.data, newModel:model };
+          res = { modelRight: response.data, newModel: model };
         });
       return res;
     } catch (error) {

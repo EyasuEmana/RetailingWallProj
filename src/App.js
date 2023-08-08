@@ -15,7 +15,7 @@ function App() {
             element={
               <Box
                 sx={{
-                  paddingTop: 15,
+                  paddingTop: "82px",
                   height: "100%",
                   marginBottom: 0,
                 }}

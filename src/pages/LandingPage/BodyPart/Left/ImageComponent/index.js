@@ -16,7 +16,13 @@ const ImageWithSliders = () => {
   const [shearKeyLength, setShearKeyLength] = useState(173);
   const [shearKeyToeDistance, setShearKeyToeDistance] = useState(302.5);
   const [shearKeyThickness, setShearKeyThickness] = useState(69);
-
+  const CustomSliderTitle = (title) => {
+    return (
+      <Typography id="" sx={{ fontSize: "12px", fontWeight: "400" }}>
+        {title}
+      </Typography>
+    );
+  };
   return (
     <div>
       {/* SVG image */}
@@ -51,9 +57,9 @@ const ImageWithSliders = () => {
         aria-labelledby="stem-height-slider"
       />
 
-      <Typography id="stem-top-slider" gutterBottom>
+      <CustomSliderTitle>
         Stem Top
-      </Typography>
+      </CustomSliderTitle>
       <Slider
         value={stemTop}
         min={0}

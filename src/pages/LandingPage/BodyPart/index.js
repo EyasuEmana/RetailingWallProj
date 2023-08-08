@@ -14,10 +14,10 @@ function Index() {
         justifyContent={"center"}
         alignItems={"flex-start"}
       >
-        <Grid item lg={6} sm={10} xs={10}>
+        <Grid item lg={6} sm={10} xs={10} ml={-3}>
           <LeftParent />
         </Grid>
-        <Grid item lg={6} sm={10} xs={10}>
+        <Grid item lg={6} sm={10} xs={10} mt={"20px"}>
           <Right />
         </Grid>
       </Grid>

@@ -16,7 +16,7 @@ function LandingPage() {
         <Grid item sm={10} xs={10}>
           <Appbar />
         </Grid>
-        <Grid item lg={10} xs={12}>
+        <Grid item lg={8.5} xs={12}>
           <BodyPart />
         </Grid>
         <Grid item xs={12}>

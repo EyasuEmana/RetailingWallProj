@@ -4,9 +4,15 @@ import React from "react";
 function Slogan() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  const typoStyle = {
+    fontSize: isMatch ? 25 : 31,
+    textAlign: "left",
+    lineHeight: "1.1",
+    whiteSpace:"nowrap"
+  };
   return (
     <Stack direction={"column"} spacing={3}>
-      <Typography
+      {/* <Typography
         sx={{
           fontSize: isMatch ? 25 : 31,
           textAlign: "left",
@@ -15,7 +21,17 @@ function Slogan() {
       >
         Unlock <b>efficiency</b> with <b>intelligent automation </b>
         for stability and strength design
-      </Typography>
+      </Typography> */}
+
+      <Stack direction={"column"}>
+        <Typography sx={typoStyle}>
+          Unlock <b>efficiency</b> with <b>intelligent</b>
+        </Typography>
+        <Typography sx={typoStyle}>
+          <b>automation </b> for stability and
+        </Typography>
+        <Typography sx={typoStyle}>strength design</Typography>
+      </Stack>
       <Stack direction={"row"} spacing={2} alignItems={"center"}>
         <Typography sx={{ fontSize: 18 }}>INSTANT ANALYSIS</Typography>
         <hr style={{ width: 150, border: "1px solid #000" }} />

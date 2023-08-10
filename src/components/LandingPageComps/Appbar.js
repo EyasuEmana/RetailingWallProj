@@ -177,8 +177,8 @@ export default function Appbar() {
                 {/* <div onClick={handleExcelExport}> */}
                 <div onClick={handleDownloadExcel}>
                   <CustomButton
-                    bgColor={excelOpen ? "#171414" : "#D9D9D9"}
-                    txtColor={excelOpen ? "#FFF" : "#000"}
+                    backgroundcolor={excelOpen ? "#171414" : "#D9D9D9"}
+                    txtcolor={excelOpen ? "#FFF" : "#000"}
                     fontSize={16}
                     radius={"12px"}
                     fontWeight={700}
@@ -189,8 +189,8 @@ export default function Appbar() {
                 {/* <div onClick={handleExportClick}> */}
                 <div onClick={handleDownloadPdf}>
                   <CustomButton
-                    bgColor={pdfOpen ? "#171414" : "#D9D9D9"}
-                    txtColor={pdfOpen ? "#FFF" : "#000"}
+                    backgroundcolor={pdfOpen ? "#171414" : "#D9D9D9"}
+                    txtcolor={pdfOpen ? "#FFF" : "#000"}
                     fontSize={16}
                     radius={"12px"}
                     fontWeight={700}
@@ -207,11 +207,10 @@ export default function Appbar() {
       <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
         <List>
           <ListItem>
-            {/* <ListItemButton onClick={handleExcelExport}> */}
             <ListItemButton onClick={handleDownloadExcel}>
               <CustomButton
-                bgColor={excelOpen ? "#171414" : "#D9D9D9"}
-                txtColor={excelOpen ? "#FFF" : "#000"}
+                backgroundcolor={excelOpen ? "#171414" : "#D9D9D9"}
+                txtcolor={excelOpen ? "#FFF" : "#000"}
                 fontSize={16}
                 radius={"12px"}
                 fontWeight={700}
@@ -221,11 +220,10 @@ export default function Appbar() {
             </ListItemButton>
           </ListItem>
           <ListItem>
-            {/* <ListItemButton onClick={handleExportClick}> */}
             <ListItemButton onClick={handleDownloadPdf}>
               <CustomButton
-                bgColor={pdfOpen ? "#171414" : "#D9D9D9"}
-                txtColor={pdfOpen ? "#FFF" : "#000"}
+                backgroundcolor={pdfOpen ? "#171414" : "#D9D9D9"}
+                txtcolor={pdfOpen ? "#FFF" : "#000"}
                 fontSize={16}
                 radius={"12px"}
                 fontWeight={700}

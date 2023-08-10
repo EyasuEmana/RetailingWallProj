@@ -4,8 +4,6 @@ import CustomButton from "../../../../components/CustomButton";
 import Slogan from "../../../../components/Slogan";
 import { useTheme } from "@emotion/react";
 import { useSelector } from "react-redux";
-import { dispatch } from "../../../../store";
-import { getRightFormData } from "../../../../store/actions/uiActions";
 import LinearProgress from "@mui/material/LinearProgress";
 function Index() {
   const theme = useTheme();
@@ -32,10 +30,6 @@ function Index() {
         break;
     }
   };
-  // useEffect(() => {
-  //   if (!Object.keys(model).length == 0) dispatch(getRightFormData(model));
-  // }, [model]);
-
   const OutputComponent = ({ title, value, sf }) => {
     return (
       <Grid
@@ -85,12 +79,13 @@ function Index() {
 
       <Stack
         direction={"column"}
+        justifyContent={"center"}
         spacing={"76px"}
         sx={{
           backgroundColor: "rgba(236, 236, 236, 0.25)",
-          paddingX: 5,
           paddingY: 10,
           borderRadius: 5,
+          paddingX:2
         }}
       >
         <Stack
@@ -98,15 +93,14 @@ function Index() {
           justifyContent={"center"}
           alignItems={"center"}
           spacing={3}
-          // backgroundColor={"red"}
         >
           <Box onClick={() => handleTabClick("stability")}>
             <CustomButton
               radius={"12px"}
               fontWeight={700}
               fontSize={16}
-              bgColor={stabilityOpen ? "#171414" : "#D9D9D9"}
-              txtColor={stabilityOpen ? "#FFF" : "#000"}
+              backgroundcolor={stabilityOpen ? "#171414" : "#D9D9D9"}
+              txtcolor={stabilityOpen ? "#FFF" : "#000"}
               sx={{ paddingX: isMatchXS ? 12 : 6, width: "100%" }}
             >
               Stability
@@ -117,8 +111,8 @@ function Index() {
               radius={"12px"}
               fontSize={16}
               fontWeight={700}
-              bgColor={strengthOpen ? "#171414" : "#D9D9D9"}
-              txtColor={strengthOpen ? "#FFF" : "#000"}
+              backgroundcolor={strengthOpen ? "#171414" : "#D9D9D9"}
+              txtcolor={strengthOpen ? "#FFF" : "#000"}
               sx={{ paddingX: isMatchXS ? 12 : 6, width: "100%" }}
             >
               Strength
@@ -126,7 +120,9 @@ function Index() {
           </Box>
         </Stack>
         {/* output space */}
-        <Stack direction={"column"}>
+        <Stack
+          direction={"column"}
+        >
           <Box mb={4}>
             <Typography
               sx={{ fontWeight: 700, fontSize: 14, marginBottom: "10px" }}

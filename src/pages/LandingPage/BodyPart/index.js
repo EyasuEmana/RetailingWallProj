@@ -1,7 +1,6 @@
 import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import Right from "./Right/index";
-import Left from "./Left/Form/index";
 import LeftParent from "./Left";
 function Index() {
   const theme = useTheme();

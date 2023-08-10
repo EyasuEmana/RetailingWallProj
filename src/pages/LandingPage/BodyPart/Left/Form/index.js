@@ -8,16 +8,27 @@ import {
   IconButton,
   useTheme,
   useMediaQuery,
+  OutlinedInput,
+  styled,
+  TextField,
+  InputAdornment,
+  FormControl,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import CustomButton from "../../../../../components/CustomButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slogan from "../../../../../components/Slogan";
 import { dispatch } from "../../../../../store";
-import { setModel } from "../../../../../store/reducers/uiReducer";
 import { getRightFormData } from "../../../../../store/actions/uiActions";
+import "./inputStyle.css";
 import { useSelector } from "react-redux";
 const styleValueBox = {
+  borderColor: "#D9D9D9",
+  textTransform: "lowercase",
+  whiteSpace: "nowrap",
+  borderRadius: "12px",
+  color: "#000",
+  width: "100px",
   "&.Mui-disabled": {
     borderColor: "#D9D9D9",
     textTransform: "lowercase",
@@ -27,7 +38,15 @@ const styleValueBox = {
     width: "100px",
   },
 };
-
+const StyledInputBase = styled(OutlinedInput)(() => ({
+  borderRadius: "12px",
+  color: "#000",
+  ".MuiOutlinedInput-input": {
+    padding: "7px 8px",
+    width: 50,
+    borderRadius: "40px",
+  },
+}));
 const sliderStyle = {
   borderRadius: "12px",
   "& .MuiSlider-track": {
@@ -47,7 +66,7 @@ const sliderStyle = {
 };
 function Index() {
   const { model } = useSelector((state) => state.uiReducer);
-
+  const [displayInputField, setDisplayInputField] = useState(false);
   const stemApiData = model?.dim?.stem;
   const baseApiData = model?.dim?.base;
   const soilApiData = model?.soil_data;
@@ -112,22 +131,19 @@ function Index() {
   const [rightEl, setRightEl] = useState(rightSoilInitValue);
   const [waterElevation, setWaterElevation] = useState(waterInitValue);
   const [soilUnit, setSoilUnit] = useState(soilUnitWeightInitValue);
-  const [divHeight, setDivheight] = useState(0);
-  const [divWidth, setDivWidth] = useState(0);
   const [pga, setPga] = useState(pgaInitValue);
   const [steelFc, setSteelFc] = useState(fcInitValue);
 
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
-  const divRef = useRef(null);
-  useEffect(() => {
-    if (divRef.current) {
-      setDivheight(0.8 * divRef.current.offsetHeight);
-      setDivWidth(0.85 * divRef.current.offsetWidth);
-      // const widthInPixels = divRef.current.offsetWidth;
-      // console.log("Width of the div in pixels:", widthInPixels);
+  const downSMatch = useMediaQuery(theme.breakpoints.down("sm"));
+  const inputRef = useRef(null);
+
+  const handleOutsideClick = (event) => {
+    if (inputRef.current && !inputRef.current.contains(event.target)) {
+      setDisplayInputField(false);
     }
-  }, [window.innerWidth, window.innerHeight]);
+  };
   useEffect(() => {
     var newModel = {
       dim: {
@@ -187,11 +203,6 @@ function Index() {
     steelFc,
   ]);
 
-  function calculateValue(value) {
-    return 0.1 ** value;
-  }
-  // const [value, setValue] = React.useState(30);
-
   const handleChange = (event, newValue) => {
     setStemTop(newValue);
   };
@@ -213,8 +224,22 @@ function Index() {
       </Typography>
     );
   };
+  const inputStyle = {
+    border: "1px solid #D9D9D9",
+    textTransform: "lowercase",
+    borderRadius: "12px",
+    color: "#000",
+    padding: 5,
+    width: 65,
+    height: 20,
+  };
   return (
-    <Stack direction={"column"} spacing={12} sx={{ width: "100%" }}>
+    <Stack
+      direction={"column"}
+      spacing={12}
+      sx={{ width: "100%" }}
+      onClick={handleOutsideClick}
+    >
       <Stack direction={"row"} alignItems="center" spacing={3}>
         <Typography>LIVE MODEL</Typography>
         <hr style={{ width: 150, border: "1px solid #000" }} />
@@ -224,8 +249,8 @@ function Index() {
       <center>
         <div
           style={{
-            width: "471px",
-            height: "407px",
+            width: downSMatch ? "271px" : "471px",
+            height: downSMatch ? "207px" : "407px",
             // resize: "both",
             overflow: "auto",
           }}
@@ -233,7 +258,8 @@ function Index() {
           <svg
             width={"85%"}
             height={"80%"}
-            viewBox="0 0 491 426"
+            viewBox="0 0 510 450"
+            // viewBox="0 0 491 426"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -252,7 +278,7 @@ function Index() {
             />
             <rect
               x={29.33 * shareDistance}
-              y="357"
+              y={baseTotalLength == 0 ? 299 : 297 + baseThickness * 20}
               width={shareLength * 35}
               height={shareThickness * 40}
               fill="#D9D9D9"
@@ -264,12 +290,12 @@ function Index() {
         <Stack direction={"row"} justifyContent={"flex-end"}>
           {/* <Box onClick={() => aiFixHandler()}> */}
           <CustomButton
-            txtColor={"#FFF"}
-            bgColor={"#47C5FB"}
+            txtcolor={"#FFF"}
+            backgroundcolor={"#47C5FB"}
             fontSize={12}
             radius={"4px"}
             fontWeight={500}
-            disabled
+            // disabled
           >
             Fix with AI
           </CustomButton>
@@ -297,10 +323,7 @@ function Index() {
                     max={24}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => {
-                      // setStemTop(24 - newValue);
-                      // setStemTop((prev) => newValue * 12.5);
                       setStemHeight(newValue);
                     }}
                   />
@@ -333,7 +356,6 @@ function Index() {
                     step={0.1}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={handleChange}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -363,7 +385,6 @@ function Index() {
                     max={4}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setStemBottom(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -397,7 +418,6 @@ function Index() {
                     sx={sliderStyle}
                     step={0.1}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setBaseTotalLength(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -425,7 +445,6 @@ function Index() {
                     sx={sliderStyle}
                     step={0.1}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setToeBaseLength(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -453,7 +472,6 @@ function Index() {
                     step={0.1}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setBaseThickness(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -489,7 +507,6 @@ function Index() {
                     max={4}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setShareLength(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -507,7 +524,7 @@ function Index() {
               mb={0.5}
             >
               <Grid item lg={3} md={3} sm={12} xs={12}>
-                <CustomSliderTitle title={"Toe Distanc"} />
+                <CustomSliderTitle title={"Toe Distance"} />
               </Grid>
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -518,12 +535,62 @@ function Index() {
                     max={6}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setShareDistance(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {shareDistance} ft
-                  </Button>
+                  {/* {true ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "12px",
+                        width: "100px",
+                        paddingY: 1,
+                        paddingX: 1,
+                      }}
+                    >
+                      <input
+                        ref={inputRef}
+                        className="style-input"
+                        value={shareDistance}
+                        onChange={(event, newValue) =>
+                          setShareDistance(newValue)
+                        }
+                        // onFocus={() => setDisplayInputField(true)}
+                      />
+                      ft
+                    </Box>
+                  ) : (
+                    <Button
+                      variant="outlined"
+                      sx={styleValueBox}
+                      // disabled
+                      onClick={() => setDisplayInputField(true)}
+                    >
+                      {shareDistance} ft
+                    </Button>
+                  )} */}
+                  <Button
+                      variant="outlined"
+                      sx={styleValueBox}
+                      // disabled
+                      onClick={() => setDisplayInputField(true)}
+                    >
+                      {shareDistance} ft
+                    </Button>
+                  {/* <FormControl sx={{ m: 1, width: 100 }} variant="outlined">
+                    <StyledInputBase
+                      id="outlined-adornment-weight"
+                      endAdornment={
+                        <InputAdornment position="end">ft</InputAdornment>
+                      }
+                      aria-describedby="outlined-weight-helper-text"
+                      inputProps={{
+                        "aria-label": "weight",
+                      }}
+                    />
+                  </FormControl> */}
                 </Stack>
               </Grid>
             </Grid>
@@ -547,7 +614,6 @@ function Index() {
                     max={2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setShareThickness(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -606,7 +672,6 @@ function Index() {
                     max={activeInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setActivePressure(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -635,7 +700,6 @@ function Index() {
                     max={passiveInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setPassivePressure(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -664,7 +728,6 @@ function Index() {
                     max={seisPressInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setSeismicPressure(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -693,7 +756,6 @@ function Index() {
                     max={leftSoilInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setleftEl(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -722,7 +784,6 @@ function Index() {
                     max={rightSoilInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setRightEl(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -751,7 +812,6 @@ function Index() {
                     max={waterInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setWaterElevation(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -780,7 +840,6 @@ function Index() {
                     max={pgaInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setPga(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -816,7 +875,6 @@ function Index() {
                     max={fcInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setSteelFc(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -845,7 +903,6 @@ function Index() {
                     max={steelFyInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    scale={calculateValue}
                     onChange={(event, newValue) => setSteelFy(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>
@@ -874,7 +931,7 @@ function Index() {
                     max={soilUnitWeightInitValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    // scale={calculateValue}
+                    //
                     onChange={(event, newValue) => setSoilUnit(newValue)}
                   />
                   <Button variant="outlined" sx={styleValueBox} disabled>

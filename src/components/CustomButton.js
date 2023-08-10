@@ -3,25 +3,25 @@ import { Box, Button } from "@mui/material";
 import React from "react";
 
 function CustomButton(props) {
-  const { children, bgColor, txtColor, fontSize, radius,fontWeight } = props;
+  const { children, backgroundcolor, txtcolor, fontSize, radius,fontWeight } = props;
   const StyledBtn = styled(Button)((props) => ({
     ...props,
     fontFamily: "Poppins",
     fontStyle: "normal",
-    backgroundColor: bgColor,
+    backgroundColor: backgroundcolor,
     borderRadius: radius,
     textTransform: "capitalize",
     paddingY: 2,
     fontSize: fontSize,
-    color: txtColor,
+    color: txtcolor,
     boxShadow: "none",
     fontWeight: fontWeight,
     "&:hover": {
-      backgroundColor: bgColor,
+      backgroundColor: backgroundcolor,
     },
     "&.Mui-disabled": {
-      backgroundColor: bgColor,
-      color: txtColor,
+      backgroundColor: backgroundcolor,
+      color: txtcolor,
     },
   }));
   return (

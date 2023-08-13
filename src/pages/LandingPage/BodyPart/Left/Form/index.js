@@ -41,7 +41,9 @@ const styleValueBox = {
 const StyledInputBase = styled(OutlinedInput)(() => ({
   borderRadius: "12px",
   color: "#000",
+  textAlign: "center",
   ".MuiOutlinedInput-input": {
+    textAlign: "center",
     padding: "7px 8px",
     width: 50,
     borderRadius: "40px",
@@ -66,14 +68,14 @@ const sliderStyle = {
 };
 function Index() {
   const { model } = useSelector((state) => state.uiReducer);
-  const [displayInputField, setDisplayInputField] = useState(false);
+  const [weight, setWeight] = React.useState("");
   const stemApiData = model?.dim?.stem;
   const baseApiData = model?.dim?.base;
   const soilApiData = model?.soil_data;
   const materialApiData = model?.materials;
   const shearKeyApiData = model?.dim?.shear_key;
 
-  const stemHeightInitialValue = stemApiData?.height;
+  const stemHeightInitialValue = stemApiData?.height + "";
   const stemTopInitialValue = stemApiData?.top;
   const stemBottomInitialValue = stemApiData?.bottom;
 
@@ -97,7 +99,9 @@ function Index() {
   const seisPressInitValue = soilApiData?.seismic;
 
   const [isRotated, setIsRotated] = useState(true);
-
+  const handleWeightChange = (event) => {
+    setWeight(event.target.value);
+  };
   // const stemHeightInitialValue = 12;
   // const stemTopInitialValue = 1;
   // const stemBottomInitialValue = 2;
@@ -108,6 +112,7 @@ function Index() {
   // const shareDistanceInitialValue = 119;
   // const shareThicknessInitialValue = 1;
   const [stemHeight, setStemHeight] = useState(stemHeightInitialValue);
+  const [inputter, setInputter] = useState("");
   const [stemTop, setStemTop] = useState(stemTopInitialValue);
   const [stemBottom, setStemBottom] = useState(stemBottomInitialValue);
 
@@ -139,9 +144,15 @@ function Index() {
   const downSMatch = useMediaQuery(theme.breakpoints.down("sm"));
   const inputRef = useRef(null);
 
-  const handleOutsideClick = (event) => {
-    if (inputRef.current && !inputRef.current.contains(event.target)) {
-      setDisplayInputField(false);
+  const handleInputChange = (newValue, initValue, setter) => {
+    console.log("new value", newValue, " vs ", initValue * 2);
+    // const newValue = parseFloat(event.target.value);
+    const maxValue = 2.0 * initValue;
+    if (isNaN(newValue)) {
+      setter(newValue);
+    }
+    if (newValue <= maxValue) {
+      setter(newValue);
     }
   };
   useEffect(() => {
@@ -206,6 +217,10 @@ function Index() {
   const handleChange = (event, newValue) => {
     setStemTop(newValue);
   };
+  const handleShareDistanceChange = (newValue) => {
+    setShareDistance(newValue);
+  };
+
   const aiFixHandler = () => {
     setStemHeight(stemHeightInitialValue);
     setStemTop(stemTopInitialValue);
@@ -224,22 +239,20 @@ function Index() {
       </Typography>
     );
   };
-  const inputStyle = {
-    border: "1px solid #D9D9D9",
-    textTransform: "lowercase",
-    borderRadius: "12px",
-    color: "#000",
-    padding: 5,
-    width: 65,
-    height: 20,
-  };
-  return (
-    <Stack
-      direction={"column"}
-      spacing={12}
-      sx={{ width: "100%" }}
-      onClick={handleOutsideClick}
+  const CustomIndornment = ({ title }) => (
+    <InputAdornment
+      position="end"
+      sx={{
+        ".css-ycevnx-MuiTypography-root": {
+          color: `rgba(0, 0, 0, 1.0)`,
+        },
+      }}
     >
+      {title}
+    </InputAdornment>
+  );
+  return (
+    <Stack direction={"column"} spacing={12} sx={{ width: "100%" }}>
       <Stack direction={"row"} alignItems="center" spacing={3}>
         <Typography>LIVE MODEL</Typography>
         <hr style={{ width: 150, border: "1px solid #000" }} />
@@ -264,13 +277,13 @@ function Index() {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d={`M176 ${300 - stemHeight * 12.5}H${stemTop * 70 + 175}L${
-                stemBottom * 50 + 175
-              } ${300}H175L1380Z`}
+              d={`M0 ${300 - stemHeight * 12.5}H${stemTop * 70}L${
+                stemBottom * 50
+              } ${300}H0L1380Z`}
               fill="#D9D9D9"
             />
             <rect
-              x={58.5 * baseToeLength}
+              x={/* 175.2 - */ 29.2 * baseToeLength}
               y="298"
               width={baseTotalLength * 28.25}
               height={baseThickness * 20}
@@ -320,19 +333,31 @@ function Index() {
                     step={0.1}
                     value={stemHeight}
                     min={0}
-                    max={24}
+                    max={2 * stemHeightInitialValue}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => {
                       setStemHeight(newValue);
                     }}
                   />
-                  {/* <Box>
-
-                    </Box> */}
-                  <Button variant="outlined" disabled sx={styleValueBox}>
-                    {stemHeight} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      min={0}
+                      value={stemHeight}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          stemHeightInitialValue,
+                          setStemHeight
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                      inputProps={{
+                        step: "0.1",
+                      }}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -352,15 +377,26 @@ function Index() {
                   <Slider
                     value={stemTop}
                     min={0}
-                    max={2}
+                    max={2 * stemTopInitialValue}
                     step={0.1}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
                     onChange={handleChange}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {stemTop} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={stemTop}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          stemTopInitialValue,
+                          setStemTop
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -382,14 +418,25 @@ function Index() {
                     step={0.1}
                     value={stemBottom}
                     min={0}
-                    max={4}
+                    max={2 * stemBottomInitialValue}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setStemBottom(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {stemBottom} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={stemBottom}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          stemBottomInitialValue,
+                          setStemBottom
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -414,18 +461,30 @@ function Index() {
                   <Slider
                     value={baseTotalLength}
                     min={0}
-                    max={16}
+                    max={2 * baseTotalLengthInitialValue}
                     sx={sliderStyle}
                     step={0.1}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setBaseTotalLength(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {baseTotalLength} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={baseTotalLength}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          baseTotalLengthInitialValue,
+                          setBaseTotalLength
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
+
             <Grid
               container
               alignItems={"center"}
@@ -441,18 +500,30 @@ function Index() {
                   <Slider
                     value={baseToeLength}
                     min={0}
-                    max={3}
+                    max={2 * baseToeLengthInitialValue}
                     sx={sliderStyle}
                     step={0.1}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setToeBaseLength(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {baseToeLength} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={baseToeLength}
+                      onChange={(event) => {
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          baseToeLengthInitialValue,
+                          setToeBaseLength
+                        );
+                      }}
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
+
             <Grid
               container
               alignItems={"center"}
@@ -468,15 +539,26 @@ function Index() {
                   <Slider
                     value={baseThickness}
                     min={0}
-                    max={3}
+                    max={baseThicknessInitialValue * 2}
                     step={0.1}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setBaseThickness(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {baseThickness} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={baseThickness}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          baseThicknessInitialValue,
+                          setBaseThickness
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -504,14 +586,25 @@ function Index() {
                     step={0.1}
                     value={shareLength}
                     min={0}
-                    max={4}
+                    max={shareLengthInitialValue * 2}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setShareLength(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {shareLength} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={shareLength}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          shareLengthInitialValue,
+                          setShareLength
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -532,65 +625,25 @@ function Index() {
                     step={0.1}
                     value={shareDistance}
                     min={0}
-                    max={6}
+                    max={2 * shareDistanceInitialValue}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setShareDistance(newValue)}
                   />
-                  {/* {true ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "12px",
-                        width: "100px",
-                        paddingY: 1,
-                        paddingX: 1,
-                      }}
-                    >
-                      <input
-                        ref={inputRef}
-                        className="style-input"
-                        value={shareDistance}
-                        onChange={(event, newValue) =>
-                          setShareDistance(newValue)
-                        }
-                        // onFocus={() => setDisplayInputField(true)}
-                      />
-                      ft
-                    </Box>
-                  ) : (
-                    <Button
-                      variant="outlined"
-                      sx={styleValueBox}
-                      // disabled
-                      onClick={() => setDisplayInputField(true)}
-                    >
-                      {shareDistance} ft
-                    </Button>
-                  )} */}
-                  <Button
-                      variant="outlined"
-                      sx={styleValueBox}
-                      // disabled
-                      onClick={() => setDisplayInputField(true)}
-                    >
-                      {shareDistance} ft
-                    </Button>
-                  {/* <FormControl sx={{ m: 1, width: 100 }} variant="outlined">
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
-                      id="outlined-adornment-weight"
-                      endAdornment={
-                        <InputAdornment position="end">ft</InputAdornment>
+                      type="number"
+                      value={shareDistance}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          shareDistanceInitialValue,
+                          setShareDistance
+                        )
                       }
-                      aria-describedby="outlined-weight-helper-text"
-                      inputProps={{
-                        "aria-label": "weight",
-                      }}
+                      endAdornment={<CustomIndornment title={"ft"} />}
                     />
-                  </FormControl> */}
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -611,14 +664,25 @@ function Index() {
                     step={0.1}
                     value={shareThickness}
                     min={0}
-                    max={2}
+                    max={2 * shareThicknessInitialValue}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setShareThickness(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {shareThickness} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={shareThickness}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          shareThicknessInitialValue,
+                          setShareThickness
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -674,9 +738,21 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setActivePressure(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {activePressure} psf
-                  </Button>
+
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={activePressure}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          activeInitValue,
+                          setActivePressure
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"psf"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -702,9 +778,20 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setPassivePressure(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {passivePressure} psf
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={passivePressure}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          passiveInitValue,
+                          setPassivePressure
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"psf"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -730,9 +817,21 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setSeismicPressure(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {seismicPressure} psf
-                  </Button>
+
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={seismicPressure}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          seisPressInitValue,
+                          setSeismicPressure
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"psf"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -758,9 +857,20 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setleftEl(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {leftEl} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={leftEl}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          leftSoilInitValue,
+                          setleftEl
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -786,9 +896,20 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setRightEl(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {rightEl} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={rightEl}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          rightSoilInitValue,
+                          setRightEl
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -814,9 +935,20 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setWaterElevation(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {waterElevation} ft
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={waterElevation}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          waterInitValue,
+                          setWaterElevation
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -842,9 +974,20 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setPga(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {pga}
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={pga}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          pgaInitValue,
+                          setPga
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={""} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -877,9 +1020,20 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setSteelFc(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {steelFc} psi
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={steelFc}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          fcInitValue,
+                          setSteelFc
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"psi"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -905,9 +1059,20 @@ function Index() {
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => setSteelFy(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {steelFy} ksi
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={steelFy}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          steelFyInitValue,
+                          setSteelFy
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ksi"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>
@@ -934,9 +1099,20 @@ function Index() {
                     //
                     onChange={(event, newValue) => setSoilUnit(newValue)}
                   />
-                  <Button variant="outlined" sx={styleValueBox} disabled>
-                    {soilUnit} pcf
-                  </Button>
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      value={soilUnit}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          soilUnitWeightInitValue,
+                          setSoilUnit
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"pcf"} />}
+                    />
+                  </FormControl>
                 </Stack>
               </Grid>
             </Grid>

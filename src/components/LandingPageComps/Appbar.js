@@ -180,7 +180,6 @@ export default function Appbar() {
                     backgroundcolor={excelOpen ? "#171414" : "#D9D9D9"}
                     txtcolor={excelOpen ? "#FFF" : "#000"}
                     fontSize={16}
-                    radius={"12px"}
                     fontWeight={700}
                   >
                     Excel
@@ -192,7 +191,6 @@ export default function Appbar() {
                     backgroundcolor={pdfOpen ? "#171414" : "#D9D9D9"}
                     txtcolor={pdfOpen ? "#FFF" : "#000"}
                     fontSize={16}
-                    radius={"12px"}
                     fontWeight={700}
                   >
                     Download PDF
@@ -212,7 +210,6 @@ export default function Appbar() {
                 backgroundcolor={excelOpen ? "#171414" : "#D9D9D9"}
                 txtcolor={excelOpen ? "#FFF" : "#000"}
                 fontSize={16}
-                radius={"12px"}
                 fontWeight={700}
               >
                 Excel
@@ -225,7 +222,6 @@ export default function Appbar() {
                 backgroundcolor={pdfOpen ? "#171414" : "#D9D9D9"}
                 txtcolor={pdfOpen ? "#FFF" : "#000"}
                 fontSize={16}
-                radius={"12px"}
                 fontWeight={700}
               >
                 Download PDF

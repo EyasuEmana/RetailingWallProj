@@ -19,9 +19,10 @@ import CustomButton from "../../../../../components/CustomButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slogan from "../../../../../components/Slogan";
 import { dispatch } from "../../../../../store";
-import { getRightFormData } from "../../../../../store/actions/uiActions";
+import { getStabilityTabData, getStrengthTabData } from "../../../../../store/actions/uiActions";
 import "./inputStyle.css";
 import { useSelector } from "react-redux";
+import ThreeDWrapper from "../../../../ThreeDTest/parent";
 const styleValueBox = {
   borderColor: "#D9D9D9",
   textTransform: "lowercase",
@@ -45,7 +46,7 @@ const StyledInputBase = styled(OutlinedInput)(() => ({
   ".MuiOutlinedInput-input": {
     textAlign: "center",
     padding: "7px 8px",
-    width: 50,
+    width: "50%",
     borderRadius: "40px",
   },
 }));
@@ -68,16 +69,18 @@ const sliderStyle = {
 };
 function Index() {
   const { model } = useSelector((state) => state.uiReducer);
-  const [weight, setWeight] = React.useState("");
   const stemApiData = model?.dim?.stem;
   const baseApiData = model?.dim?.base;
   const soilApiData = model?.soil_data;
   const materialApiData = model?.materials;
   const shearKeyApiData = model?.dim?.shear_key;
 
-  const stemHeightInitialValue = stemApiData?.height + "";
+  const [stemHeightInitialValue, setStemHeightInitialValue] = useState(
+    stemApiData?.height + ""
+  );
   const stemTopInitialValue = stemApiData?.top;
   const stemBottomInitialValue = stemApiData?.bottom;
+  const stemToeOffsetInitialValue = 5;
 
   const baseTotalLengthInitialValue = baseApiData?.total_length;
   const baseToeLengthInitialValue = baseApiData?.toe_length;
@@ -99,22 +102,10 @@ function Index() {
   const seisPressInitValue = soilApiData?.seismic;
 
   const [isRotated, setIsRotated] = useState(true);
-  const handleWeightChange = (event) => {
-    setWeight(event.target.value);
-  };
-  // const stemHeightInitialValue = 12;
-  // const stemTopInitialValue = 1;
-  // const stemBottomInitialValue = 2;
-  // const baseTotalLengthInitialValue = 8;
-  // const baseToeLengthInitialValue = 238;
-  // const baseThicknessInitialValue = 1.5;
-  // const shareLengthInitialValue = 2;
-  // const shareDistanceInitialValue = 119;
-  // const shareThicknessInitialValue = 1;
   const [stemHeight, setStemHeight] = useState(stemHeightInitialValue);
-  const [inputter, setInputter] = useState("");
   const [stemTop, setStemTop] = useState(stemTopInitialValue);
   const [stemBottom, setStemBottom] = useState(stemBottomInitialValue);
+  const [stemToeOffset, setStemToeOffset] = useState(stemToeOffsetInitialValue);
 
   const [baseTotalLength, setBaseTotalLength] = useState(
     baseTotalLengthInitialValue
@@ -145,15 +136,10 @@ function Index() {
   const inputRef = useRef(null);
 
   const handleInputChange = (newValue, initValue, setter) => {
-    console.log("new value", newValue, " vs ", initValue * 2);
-    // const newValue = parseFloat(event.target.value);
-    const maxValue = 2.0 * initValue;
     if (isNaN(newValue)) {
       setter(newValue);
     }
-    if (newValue <= maxValue) {
-      setter(newValue);
-    }
+    setter(newValue);
   };
   useEffect(() => {
     var newModel = {
@@ -191,7 +177,8 @@ function Index() {
       info: model.info,
     };
     // dispatch(setModel(newModel));
-    dispatch(getRightFormData(newModel));
+    dispatch(getStabilityTabData(newModel));
+    dispatch(getStrengthTabData(newModel));
   }, [
     stemHeight,
     stemTop,
@@ -268,37 +255,50 @@ function Index() {
             overflow: "auto",
           }}
         >
-          <svg
-            width={"85%"}
-            height={"80%"}
-            viewBox="0 0 510 450"
-            // viewBox="0 0 491 426"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d={`M0 ${300 - stemHeight * 12.5}H${stemTop * 70}L${
-                stemBottom * 50
-              } ${300}H0L1380Z`}
-              fill="#D9D9D9"
-            />
-            <rect
-              x={/* 175.2 - */ 29.2 * baseToeLength}
-              y="298"
-              width={baseTotalLength * 28.25}
-              height={baseThickness * 20}
-              fill="#D9D9D9"
-            />
-            <rect
-              x={29.33 * shareDistance}
-              y={baseTotalLength == 0 ? 299 : 297 + baseThickness * 20}
-              width={shareLength * 35}
-              height={shareThickness * 40}
-              fill="#D9D9D9"
-            />
-          </svg>
+          <ThreeDWrapper
+            baseToeLength={baseToeLength}
+            stemHeight={stemHeight}
+            stemTop={stemTop}
+            stemBottom={stemBottom}
+            baseTotalLength={baseTotalLength}
+            baseThickness={baseThickness}
+            shearLength={shareLength}
+            shearThickness={shareThickness}
+            shearDistance={shareDistance}
+          />
         </div>
       </center>
+
+      {/* <svg
+        width={"85%"}
+        height={"80%"}
+        viewBox="0 0 510 450"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d={`M${29.2 * baseToeLength} ${300 - stemHeight * 12.5}H${
+            stemTop * 70 + 29.2 * baseToeLength
+          }L${stemBottom * 50 + 29.2 * baseToeLength} ${300}H${
+            29.2 * baseToeLength
+          }L1380Z`}
+          fill="#D9D9D9"
+        />
+        <rect
+          x="0"
+          y="298"
+          width={baseTotalLength * 28.25}
+          height={baseThickness * 20}
+          fill="#D9D9D9"
+        />
+        <rect
+          x={29.33 * shareDistance}
+          y={baseTotalLength == 0 ? 299 : 297 + baseThickness * 20}
+          width={shareLength * 35}
+          height={shareThickness * 40}
+          fill="#D9D9D9"
+        />
+      </svg> */}
       <Box>
         <Stack direction={"row"} justifyContent={"flex-end"}>
           {/* <Box onClick={() => aiFixHandler()}> */}
@@ -331,7 +331,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={stemHeight}
+                    value={Number(stemHeight)}
                     min={0}
                     max={2 * stemHeightInitialValue}
                     sx={sliderStyle}
@@ -375,7 +375,7 @@ function Index() {
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
-                    value={stemTop}
+                    value={Number(stemTop)}
                     min={0}
                     max={2 * stemTopInitialValue}
                     step={0.1}
@@ -416,7 +416,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={stemBottom}
+                    value={Number(stemBottom)}
                     min={0}
                     max={2 * stemBottomInitialValue}
                     sx={sliderStyle}
@@ -435,6 +435,51 @@ function Index() {
                         )
                       }
                       endAdornment={<CustomIndornment title={"ft"} />}
+                    />
+                  </FormControl>
+                </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              spacing={2}
+              mb={0.5}
+            >
+              <Grid item lg={3} md={3} sm={12} xs={12}>
+                <CustomSliderTitle title={"Toe offset"} />
+              </Grid>
+              <Grid item lg={9} md={9} sm={12} xs={12}>
+                <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                  <Slider
+                    step={0.1}
+                    value={Number(stemToeOffset)}
+                    min={0}
+                    max={2 * stemToeOffsetInitialValue}
+                    sx={sliderStyle}
+                    valueLabelDisplay="auto"
+                    onChange={(event, newValue) => {
+                      setStemToeOffset(newValue);
+                    }}
+                  />
+                  <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
+                    <StyledInputBase
+                      type="number"
+                      min={0}
+                      value={stemToeOffset}
+                      onChange={(event) =>
+                        handleInputChange(
+                          parseFloat(event.target.value),
+                          stemToeOffsetInitialValue,
+                          setStemToeOffset
+                        )
+                      }
+                      endAdornment={<CustomIndornment title={"ft"} />}
+                      inputProps={{
+                        step: "0.1",
+                      }}
                     />
                   </FormControl>
                 </Stack>
@@ -459,7 +504,7 @@ function Index() {
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
-                    value={baseTotalLength}
+                    value={Number(baseTotalLength)}
                     min={0}
                     max={2 * baseTotalLengthInitialValue}
                     sx={sliderStyle}
@@ -470,7 +515,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={baseTotalLength}
+                      value={Number(baseTotalLength)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -498,7 +543,7 @@ function Index() {
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
-                    value={baseToeLength}
+                    value={Number(baseToeLength)}
                     min={0}
                     max={2 * baseToeLengthInitialValue}
                     sx={sliderStyle}
@@ -509,7 +554,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={baseToeLength}
+                      value={Number(baseToeLength)}
                       onChange={(event) => {
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -537,7 +582,7 @@ function Index() {
               <Grid item lg={9} md={9} sm={12} xs={12}>
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
-                    value={baseThickness}
+                    value={Number(baseThickness)}
                     min={0}
                     max={baseThicknessInitialValue * 2}
                     step={0.1}
@@ -548,7 +593,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={baseThickness}
+                      value={Number(baseThickness)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -584,7 +629,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={shareLength}
+                    value={Number(shareLength)}
                     min={0}
                     max={shareLengthInitialValue * 2}
                     sx={sliderStyle}
@@ -594,7 +639,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={shareLength}
+                      value={Number(shareLength)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -623,7 +668,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={shareDistance}
+                    value={Number(shareDistance)}
                     min={0}
                     max={2 * shareDistanceInitialValue}
                     sx={sliderStyle}
@@ -633,7 +678,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={shareDistance}
+                      value={Number(shareDistance)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -662,7 +707,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={shareThickness}
+                    value={Number(shareThickness)}
                     min={0}
                     max={2 * shareThicknessInitialValue}
                     sx={sliderStyle}
@@ -672,7 +717,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={shareThickness}
+                      value={Number(shareThickness)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -731,7 +776,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={activePressure}
+                    value={Number(activePressure)}
                     min={0}
                     max={activeInitValue * 2}
                     sx={sliderStyle}
@@ -742,7 +787,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={activePressure}
+                      value={Number(activePressure)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -771,7 +816,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={passivePressure}
+                    value={Number(passivePressure)}
                     min={0}
                     max={passiveInitValue * 2}
                     sx={sliderStyle}
@@ -781,7 +826,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={passivePressure}
+                      value={Number(passivePressure)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -810,7 +855,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={seismicPressure}
+                    value={Number(seismicPressure)}
                     min={0}
                     max={seisPressInitValue * 2}
                     sx={sliderStyle}
@@ -821,7 +866,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={seismicPressure}
+                      value={Number(seismicPressure)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -850,7 +895,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={leftEl}
+                    value={Number(leftEl)}
                     min={0}
                     max={leftSoilInitValue * 2}
                     sx={sliderStyle}
@@ -860,7 +905,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={leftEl}
+                      value={Number(leftEl)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -889,7 +934,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={rightEl}
+                    value={Number(rightEl)}
                     min={0}
                     max={rightSoilInitValue * 2}
                     sx={sliderStyle}
@@ -899,7 +944,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={rightEl}
+                      value={Number(rightEl)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -928,7 +973,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={waterElevation}
+                    value={Number(waterElevation)}
                     min={0}
                     max={waterInitValue * 2}
                     sx={sliderStyle}
@@ -938,7 +983,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={waterElevation}
+                      value={Number(waterElevation)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -967,7 +1012,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={pga}
+                    value={Number(pga)}
                     min={0}
                     max={pgaInitValue * 2}
                     sx={sliderStyle}
@@ -977,7 +1022,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={pga}
+                      value={Number(pga)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -1013,7 +1058,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={steelFc}
+                    value={Number(steelFc)}
                     min={0}
                     max={fcInitValue * 2}
                     sx={sliderStyle}
@@ -1023,7 +1068,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={steelFc}
+                      value={Number(steelFc)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),
@@ -1052,7 +1097,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     step={0.1}
-                    value={steelFy}
+                    value={Number(steelFy)}
                     min={0}
                     max={steelFyInitValue * 2}
                     sx={sliderStyle}
@@ -1062,7 +1107,7 @@ function Index() {
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
-                      value={steelFy}
+                      value={Number(steelFy)}
                       onChange={(event) =>
                         handleInputChange(
                           parseFloat(event.target.value),

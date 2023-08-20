@@ -1,36 +1,54 @@
 import styled from "@emotion/styled";
-import { Box, Button } from "@mui/material";
-import React from "react";
+import { Button } from "@mui/material";
 
-function CustomButton(props) {
-  const { children, backgroundcolor, txtcolor, fontSize, radius,fontWeight } = props;
-  const StyledBtn = styled(Button)((props) => ({
-    ...props,
-    fontFamily: "Poppins",
-    fontStyle: "normal",
-    backgroundColor: backgroundcolor,
-    borderRadius: radius,
-    textTransform: "capitalize",
-    paddingY: 2,
-    fontSize: fontSize,
-    color: txtcolor,
-    boxShadow: "none",
-    fontWeight: fontWeight,
-    "&:hover": {
+const CustomButton = styled(Button)(
+  ({
+    backgroundcolor,
+    txtcolor,
+    fontSize,
+    radius,
+    fontWeight,
+    bordercolor,
+    variant,
+    ...props
+  }) => {
+    const getContainedStyle = () => ({
+      ...props,
+      fontFamily: "Poppins",
+      fontStyle: "normal",
       backgroundColor: backgroundcolor,
-    },
-    "&.Mui-disabled": {
-      backgroundColor: backgroundcolor,
+      borderRadius: radius,
+      textTransform: "capitalize",
+      paddingY: 2,
+      fontSize: fontSize,
       color: txtcolor,
-    },
-  }));
-  return (
-    <Box>
-      <StyledBtn variant="contained" {...props}>
-        {children}
-      </StyledBtn>
-    </Box>
-  );
-}
+      boxShadow: "none",
+      fontWeight: fontWeight,
+      border: variant === "outlined" ? `1px solid ${bordercolor}` : "none",
+      "&:hover": {
+        backgroundColor: backgroundcolor,
+        ...(variant === "outlined" && {
+          border: `1px solid ${bordercolor}`,
+        }),
+        "&.Mui-disabled": {
+          backgroundColor: backgroundcolor,
+          color: txtcolor,
+        },
+      },
+    });
+    return {
+      ...getContainedStyle(),
+    };
+  }
+);
 
+CustomButton.defaultProps = {
+  backgroundcolor: "#FFF",
+  txtcolor: "#000",
+  fontWeight: 400,
+  fontSize: "12px",
+  bordercolor: "#FFF",
+  variant: "contained",
+  radius: "12px",
+};
 export default CustomButton;

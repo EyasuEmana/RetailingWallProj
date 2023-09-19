@@ -53,7 +53,6 @@ function Strength() {
   }, []);
 
   React.useEffect(() => {
-    console.log("strengthTabData: ", strengthTabData);
   }, [strengthTabData]);
   // const StyledAccordionTest = styled(Accordion)((props) => {
   //   console.log(props);
@@ -253,7 +252,6 @@ function Strength() {
                 fontSize={"10px"}
                 onClick={(event) => {
                   event.stopPropagation();
-                  console.log("button clicked");
                 }}
               >
                 Show Controlling

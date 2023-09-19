@@ -135,7 +135,6 @@ function Index({ loadCombo }) {
               value={loadCombo1}
               onChange={(event) => setLc1(event.target.value)}
               onBlur={() => {
-                console.log("unfucused1");
               }}
               sx={styleOutlinedInput}
               id="filled-adornment-weight"
@@ -156,7 +155,6 @@ function Index({ loadCombo }) {
               value={loadCombo2}
               onChange={(event) => setLc2(event.target.value)}
               onBlur={() => {
-                console.log("unfucused2");
               }}
               sx={styleOutlinedInput}
               id="filled-adornment-weight"
@@ -177,7 +175,6 @@ function Index({ loadCombo }) {
               value={loadCombo3}
               onChange={(event) => setLc3(event.target.value)}
               onBlur={() => {
-                console.log("unfucused3");
               }}
               sx={styleOutlinedInput}
               id="filled-adornment-weight"
@@ -198,7 +195,6 @@ function Index({ loadCombo }) {
               value={loadCombo4}
               onChange={(event) => setLc4(event.target.value)}
               onBlur={() => {
-                console.log("unfucused4");
               }}
               sx={styleOutlinedInput}
               id="filled-adornment-weight"
@@ -219,7 +215,6 @@ function Index({ loadCombo }) {
               value={loadCombo5}
               onChange={(event) => setLc5(event.target.value)}
               onBlur={() => {
-                console.log("unfucused5");
               }}
               sx={styleOutlinedInput}
               id="filled-adornment-weight"

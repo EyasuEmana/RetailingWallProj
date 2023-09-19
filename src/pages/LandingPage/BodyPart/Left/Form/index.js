@@ -19,10 +19,19 @@ import CustomButton from "../../../../../components/CustomButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slogan from "../../../../../components/Slogan";
 import { dispatch } from "../../../../../store";
-import { getStabilityTabData, getStrengthTabData } from "../../../../../store/actions/uiActions";
+import {
+  getStabilityTabData,
+  getStrengthTabData,
+} from "../../../../../store/actions/uiActions";
 import "./inputStyle.css";
 import { useSelector } from "react-redux";
-import ThreeDWrapper from "../../../../ThreeDTest/parent";
+import ThreeDWrapper from "../../../../ThreeD/parent";
+import CustomTypo from "../../../../../components/CustomTypo";
+import Reinforcement from "./Reinforcement";
+import CustomSliderTitle from "../../../../../components/CustomSliderTitle";
+import StyledInputBase from "../../../../../components/StyledInputBase";
+import CustomIndornment from "../../../../../components/CustomIndornment";
+import { sliderStyle } from "./sliderStyle";
 const styleValueBox = {
   borderColor: "#D9D9D9",
   textTransform: "lowercase",
@@ -39,45 +48,17 @@ const styleValueBox = {
     width: "100px",
   },
 };
-const StyledInputBase = styled(OutlinedInput)(() => ({
-  borderRadius: "12px",
-  color: "#000",
-  textAlign: "center",
-  ".MuiOutlinedInput-input": {
-    textAlign: "center",
-    padding: "7px 8px",
-    width: "50%",
-    borderRadius: "40px",
-  },
-}));
-const sliderStyle = {
-  borderRadius: "12px",
-  "& .MuiSlider-track": {
-    background: "#47C5FB",
-    borderColor: "#47C5FB",
-    height: "2px",
-  },
-  "& .MuiSlider-rail": {
-    background: "#CCC",
-    height: "2px",
-  },
-  "& .MuiSlider-thumb": {
-    backgroundColor: "#47C5FB",
-    width: "10px",
-    height: "10px",
-  },
-};
+
 function Index() {
   const { model } = useSelector((state) => state.uiReducer);
   const stemApiData = model?.dim?.stem;
   const baseApiData = model?.dim?.base;
   const soilApiData = model?.soil_data;
+  const reinforcementData = model?.reinforcement;
   const materialApiData = model?.materials;
   const shearKeyApiData = model?.dim?.shear_key;
 
-  const [stemHeightInitialValue, setStemHeightInitialValue] = useState(
-    stemApiData?.height + ""
-  );
+  const stemHeightInitialValue = stemApiData?.height;
   const stemTopInitialValue = stemApiData?.top;
   const stemBottomInitialValue = stemApiData?.bottom;
   const stemToeOffsetInitialValue = 5;
@@ -104,6 +85,7 @@ function Index() {
   const [isRotated, setIsRotated] = useState(true);
   const [stemHeight, setStemHeight] = useState(stemHeightInitialValue);
   const [stemTop, setStemTop] = useState(stemTopInitialValue);
+  const [stemTopOffset, setStemTopOffset] = useState(stemTopInitialValue);
   const [stemBottom, setStemBottom] = useState(stemBottomInitialValue);
   const [stemToeOffset, setStemToeOffset] = useState(stemToeOffsetInitialValue);
 
@@ -134,6 +116,68 @@ function Index() {
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
   const downSMatch = useMediaQuery(theme.breakpoints.down("sm"));
   const inputRef = useRef(null);
+
+  const stemVerticalBarsInitValue = reinforcementData?.stem?.vertical_bars;
+  const stemVerticalSpacingInitValue =
+    reinforcementData?.stem?.vertical_spacing;
+  const stemHorizontalBarsInitValue = reinforcementData?.stem?.horiz_bars;
+  const stemHorizontalSpacingInitValue = reinforcementData?.stem?.horiz_spacing;
+
+  const heelTraverseBarsInitValue = reinforcementData?.heel?.transverse_bars;
+  const heelTraverseSpacingInitValue =
+    reinforcementData?.heel?.transverse_spacing;
+  const heelHorizontalBarsInitValue = reinforcementData?.heel?.horiz_bars;
+  const heelHorizontalSpacingInitValue = reinforcementData?.heel?.horiz_spacing;
+
+  const toeHorizontalBarsInitValue = reinforcementData?.toe?.horiz_bars;
+  const toeHorizontalSpacingInitValue = reinforcementData?.toe?.horiz_spacing;
+  const skVertikalBarsInitValue = reinforcementData?.shear_key?.vertical_bars;
+  const skVerticalSpacingInitValue =
+    reinforcementData?.shear_key?.vertical_spacing;
+  const sKHorizontalBarsInitValue = reinforcementData?.shear_key?.horiz_bars;
+  const skHorizontalSpacingInitValue =
+    reinforcementData?.shear_key?.horiz_spacing;
+
+  const [stemVerticalBars, setStemVerticalBars] = useState(
+    stemVerticalBarsInitValue
+  );
+  const [stemVerticalSpacing, setStemVerticalSpacing] = useState(
+    stemVerticalSpacingInitValue
+  );
+  const [stemHorizontalBars, setStemHorizontalBars] = useState(
+    stemHorizontalBarsInitValue
+  );
+  const [stemHorizontalSpacing, setStemHorizontalSpacing] = useState(
+    stemHorizontalSpacingInitValue
+  );
+  const [heelTraverseBars, setHeelTraverseBars] = useState(
+    heelTraverseBarsInitValue
+  );
+  const [heelTraverseSpacing, setHeelTraverseSpacing] = useState(
+    heelTraverseSpacingInitValue
+  );
+  const [heelHorizontalBars, setHeelHorizontalBars] = useState(
+    heelHorizontalBarsInitValue
+  );
+  const [heelHorizontalSpacing, setHeelHorizontalSpacing] = useState(
+    heelHorizontalSpacingInitValue
+  );
+  const [toeHorizontalBars, setToeHorizontalBars] = useState(
+    toeHorizontalBarsInitValue
+  );
+  const [toeHorizontalSpacing, setToeHorizontalSpacing] = useState(
+    toeHorizontalSpacingInitValue
+  );
+  const [skVertikalBars, setskVertikalBars] = useState(skVertikalBarsInitValue);
+  const [skVerticalSpacing, setskVerticalSpacing] = useState(
+    skVerticalSpacingInitValue
+  );
+  const [sKHorizontalBars, setsKHorizontalBars] = useState(
+    sKHorizontalBarsInitValue
+  );
+  const [skHorizontalSpacing, setSkHorizontalSpacing] = useState(
+    skHorizontalSpacingInitValue
+  );
 
   const handleInputChange = (newValue, initValue, setter) => {
     if (isNaN(newValue)) {
@@ -219,25 +263,7 @@ function Index() {
     setShareDistance(shareDistanceInitialValue);
     setShareThickness(shareThicknessInitialValue);
   };
-  const CustomSliderTitle = ({ title }) => {
-    return (
-      <Typography id="" sx={{ fontSize: "12px", fontWeight: "400" }}>
-        {title}
-      </Typography>
-    );
-  };
-  const CustomIndornment = ({ title }) => (
-    <InputAdornment
-      position="end"
-      sx={{
-        ".css-ycevnx-MuiTypography-root": {
-          color: `rgba(0, 0, 0, 1.0)`,
-        },
-      }}
-    >
-      {title}
-    </InputAdornment>
-  );
+
   return (
     <Stack direction={"column"} spacing={12} sx={{ width: "100%" }}>
       <Stack direction={"row"} alignItems="center" spacing={3}>
@@ -258,13 +284,26 @@ function Index() {
           <ThreeDWrapper
             baseToeLength={baseToeLength}
             stemHeight={stemHeight}
+            stemHorizontalSpacing={stemHorizontalSpacing}
             stemTop={stemTop}
+            stemTopOffset={stemTopOffset}
             stemBottom={stemBottom}
             baseTotalLength={baseTotalLength}
             baseThickness={baseThickness}
             shearLength={shareLength}
             shearThickness={shareThickness}
             shearDistance={shareDistance}
+            stemToeOffset={stemToeOffset}
+            stemVerticalBars={stemVerticalBars}
+            stemVerticalSpacing={stemVerticalSpacing}
+            heelHorizontalBars={heelHorizontalBars}
+            toeHorizontalBars={toeHorizontalBars}
+            toeHorizontalSpacing={toeHorizontalSpacing}
+            sKHorizontalBars={sKHorizontalBars}
+            heelTraverseBars={heelTraverseBars}
+            stemHorizontalBars={stemHorizontalBars}
+            heelTraverseSpacing={heelTraverseSpacing}
+            heelHorizontalSpacing={heelHorizontalSpacing}
           />
         </div>
       </center>
@@ -381,19 +420,20 @@ function Index() {
                     step={0.1}
                     sx={sliderStyle}
                     valueLabelDisplay="auto"
-                    onChange={handleChange}
+                    onChange={(event, newValue) => setStemTop(newValue)}
                   />
                   <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                     <StyledInputBase
                       type="number"
                       value={stemTop}
-                      onChange={(event) =>
+                      onChange={(event) => {
                         handleInputChange(
                           parseFloat(event.target.value),
                           stemTopInitialValue,
                           setStemTop
-                        )
-                      }
+                        );
+                        setStemTopOffset(parseFloat(event.target.value));
+                      }}
                       endAdornment={<CustomIndornment title={"ft"} />}
                     />
                   </FormControl>
@@ -505,7 +545,7 @@ function Index() {
                 <Stack direction={"row"} spacing={4} alignItems={"center"}>
                   <Slider
                     value={Number(baseTotalLength)}
-                    min={0}
+                    min={stemBottom + baseToeLength}
                     max={2 * baseTotalLengthInitialValue}
                     sx={sliderStyle}
                     step={0.1}
@@ -1163,6 +1203,52 @@ function Index() {
             </Grid>
           </Stack>
         </Box>
+        <>
+          <Reinforcement
+            stemVerticalBars={stemVerticalBars}
+            stemVerticalSpacing={stemVerticalSpacing}
+            stemHorizontalBars={stemHorizontalBars}
+            stemHorizontalSpacing={stemHorizontalSpacing}
+            heelTraverseBars={heelTraverseBars}
+            heelTraverseSpacing={heelTraverseSpacing}
+            heelHorizontalBars={heelHorizontalBars}
+            heelHorizontalSpacing={heelHorizontalSpacing}
+            toeHorizontalBars={toeHorizontalBars}
+            toeHorizontalSpacing={toeHorizontalSpacing}
+            skVertikalBars={skVertikalBars}
+            skVerticalSpacing={skVerticalSpacing}
+            sKHorizontalBars={sKHorizontalBars}
+            skHorizontalSpacing={skHorizontalSpacing}
+            setStemVerticalBars={setStemVerticalBars}
+            setStemVerticalSpacing={setStemVerticalSpacing}
+            setStemHorizontalBars={setStemHorizontalBars}
+            setStemHorizontalSpacing={setStemHorizontalSpacing}
+            setHeelTraverseBars={setHeelTraverseBars}
+            setHeelTraverseSpacing={setHeelTraverseSpacing}
+            setHeelHorizontalBars={setHeelHorizontalBars}
+            setHeelHorizontalSpacing={setHeelHorizontalSpacing}
+            setToeHorizontalBars={setToeHorizontalBars}
+            setToeHorizontalSpacing={setToeHorizontalSpacing}
+            setskVertikalBars={setskVertikalBars}
+            setskVerticalSpacing={setskVerticalSpacing}
+            setsKHorizontalBars={setsKHorizontalBars}
+            setSkHorizontalSpacing={setSkHorizontalSpacing}
+            stemVerticalBarsInitValue={stemVerticalBarsInitValue}
+            stemVerticalSpacingInitValue={stemVerticalSpacingInitValue}
+            stemHorizontalBarsInitValue={stemHorizontalBarsInitValue}
+            stemHorizontalSpacingInitValue={stemHorizontalSpacingInitValue}
+            heelTraverseBarsInitValue={heelTraverseBarsInitValue}
+            heelTraverseSpacingInitValue={heelTraverseSpacingInitValue}
+            heelHorizontalBarsInitValue={heelHorizontalBarsInitValue}
+            heelHorizontalSpacingInitValue={heelHorizontalSpacingInitValue}
+            toeHorizontalBarsInitValue={toeHorizontalBarsInitValue}
+            toeHorizontalSpacingInitValue={toeHorizontalSpacingInitValue}
+            skVertikalBarsInitValue={skVertikalBarsInitValue}
+            skVerticalSpacingInitValue={skVerticalSpacingInitValue}
+            sKHorizontalBarsInitValue={sKHorizontalBarsInitValue}
+            skHorizontalSpacingInitValue={skHorizontalSpacingInitValue}
+          />
+        </>
       </Box>
     </Stack>
   );

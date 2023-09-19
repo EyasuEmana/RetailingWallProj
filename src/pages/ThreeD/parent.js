@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import ThreeDTest from "./index";
+import ThreeDTest2 from "../ThreedLastUpdate";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
@@ -106,13 +107,15 @@ function ThreeDWrapper(props) {
   }
 
   return (
-    <Canvas>
-      {/* <Lights/> */}
+    <Canvas >
+       {/* <axesHelper args={[5]} /> */}
+     {/* <gridHelper /> */}
       <ambientLight position={[1, 1.5, 0]} color={"red"} />
-      <OrbitControls target0={[0, 0.35, 0]} maxPolarAngle={6} />
-      <PerspectiveCamera makeDefault fov={50} position={[3, 2, 5]} />
+      <OrbitControls target={[0, 0.35, 0]} maxPolarAngle={6} />
+      <PerspectiveCamera makeDefault fov={50} position={[1, 0.6, 5]} />
       {/* <color args={[0, 0, 0]} attach="background" /> */}
-      <ThreeDTest {...props} />
+      {/* <ThreeDTest {...props} /> */}
+      <ThreeDTest2 {...props} />
     </Canvas>
   );
 }

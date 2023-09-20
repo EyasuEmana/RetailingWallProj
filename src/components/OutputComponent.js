@@ -24,7 +24,7 @@ const OutputComponent = ({ title, value, sf }) => {
           {title}
         </Typography>
       </Grid>
-      <Grid item sm={6} xs={9}>
+      <Grid item sm={7} xs={9}>
         <Box>
           <LinearProgress
             variant="determinate"
@@ -42,7 +42,7 @@ const OutputComponent = ({ title, value, sf }) => {
           />
         </Box>
       </Grid>
-      <Grid item sm={2} xs={3}>
+      <Grid item sm={1} xs={3} /* sx={{backgroundColor:"red"}} */>
         <Typography
           sx={{ fontSize: "12px", fontWeight: 400, marginBottom: "6px" }}
         >

@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import StemDesignTabBody from "../TabsBody/stemDesignTabBody";
+import HeelDesignTabBody from "../TabsBody/heelDesignTabBody";
 import CustomTabs from "../CommonFiles/CustomTabs";
 
 function Index({ designOfHeel }) {
@@ -28,11 +28,10 @@ function Index({ designOfHeel }) {
         break;
     }
   }, [value]);
-
   return (
     <Box>
       <CustomTabs value={value} setValue={setValue} />
-      <StemDesignTabBody tabData={tabData} />
+      <HeelDesignTabBody tabData={tabData} />
     </Box>
   );
 }

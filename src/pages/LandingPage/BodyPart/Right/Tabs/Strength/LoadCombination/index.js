@@ -13,6 +13,8 @@ import {
 import CustomTypo from "../../../../../../../components/CustomTypo";
 import CustomButton from "../../../../../../../components/CustomButton";
 import { useState } from "react";
+import { BASE_URL } from "../../../../../../../constants";
+import axios from "axios";
 
 function Index({ loadCombo }) {
   // const { lc1, lc2, lc3, lc4, lc5 } = loadCombo;
@@ -22,11 +24,41 @@ function Index({ loadCombo }) {
   const [loadCombo4, setLc4] = useState(loadCombo?.lc4?.value);
   const [loadCombo5, setLc5] = useState(loadCombo?.lc5?.value);
 
-  const [lc1Check, setLc1Check] = useState(false);
-  const [lc2Check, setLc2Check] = useState(true);
-  const [lc3Check, setLc3Check] = useState(false);
-  const [lc4Check, setLc4Check] = useState(false);
-  const [lc5Check, setLc5Check] = useState(false);
+  const [lc1Check, setLc1Check] = useState(loadCombo?.lc1?.is_check);
+  const [lc2Check, setLc2Check] = useState(loadCombo?.lc2?.is_check);
+  const [lc3Check, setLc3Check] = useState(loadCombo?.lc3?.is_check);
+  const [lc4Check, setLc4Check] = useState(loadCombo?.lc4?.is_check);
+  const [lc5Check, setLc5Check] = useState(loadCombo?.lc5?.is_check);
+
+  const [isLc1Valid, setIsLc1Valid] = useState(false);
+  const [isLc2Valid, setIsLc2Valid] = useState(false);
+  const [isLc3Valid, setIsLc3Valid] = useState(false);
+  const [isLc4Valid, setIsLc4Valid] = useState(false);
+  const [isLc5Valid, setIsLc5Valid] = useState(false);
+
+  const [isLc1Controlling, setIsLc1Controlling] = useState(
+    loadCombo?.lc1?.controlling
+  );
+  const [isLc2Controlling, setIsLc2Controlling] = useState(
+    loadCombo?.lc2?.controlling
+  );
+  const [isLc3Controlling, setIsLc3Controlling] = useState(
+    loadCombo?.lc3?.controlling
+  );
+  const [isLc4Controlling, setIsLc4Controlling] = useState(
+    loadCombo?.lc4?.controlling
+  );
+  const [isLc5Controlling, setIsLc5Controlling] = useState(
+    loadCombo?.lc5?.controlling
+  );
+
+  React.useEffect(() => {
+    setIsLc1Valid(checkLoanCombo(loadCombo1));
+    setIsLc2Valid(checkLoanCombo(loadCombo2));
+    setIsLc3Valid(checkLoanCombo(loadCombo3));
+    setIsLc4Valid(checkLoanCombo(loadCombo4));
+    setIsLc5Valid(checkLoanCombo(loadCombo5));
+  }, []);
 
   const [checkAll, setCheckAll] = useState(false);
   const CheckIcon = () => (
@@ -60,14 +92,16 @@ function Index({ loadCombo }) {
       border: "2px solid #47C5FB",
     },
   };
-  const styleOutlinedInput = {
-    height: "24px",
-    fontSize: "10px",
-    width: "full",
-    border: "1px solid #D9D9D9",
-    ".Mui-focused": {
-      border: "2px solid #47C5FB",
-    },
+  const styleOutlinedInput = (isControlling) => {
+    return {
+      height: "24px",
+      fontSize: "10px",
+      width: "full",
+      border: isControlling ? "2px solid #47C5FB" : "1px solid #D9D9D9",
+      ".Mui-focused": {
+        border: "2px solid #47C5FB",
+      },
+    };
   };
   const styleMiniStack = {
     display: "flex",
@@ -84,7 +118,7 @@ function Index({ loadCombo }) {
       </CustomTypo>
     </Box>
   );
-  const CustomCheckBox = ({ checked, setChecked }) => (
+  const CustomCheckBox = ({ checked, setChecked, isValid }) => (
     <Stack direction="row" justifyContent={"center"} alignItems={"center"}>
       <Checkbox
         checked={checked}
@@ -92,8 +126,7 @@ function Index({ loadCombo }) {
         icon={<UnCheckIcon />}
         checkedIcon={<CheckIcon />}
       />
-
-      <WarinigIcon isWarning={true} />
+      <WarinigIcon isWarning={!isValid} />
     </Stack>
   );
 
@@ -112,6 +145,30 @@ function Index({ loadCombo }) {
       setLc5Check(true);
     }
     setCheckAll(!checkAll);
+  };
+
+  const checkLoadComboApiCaller = async (input_load_combo) => {
+    return await axios.get(
+      `${BASE_URL}/get-strength?check_load_combo="${input_load_combo}"`
+    );
+  };
+
+  const checkLoanCombo = async (input_load_combo) => {
+    const result = await checkLoadComboApiCaller(input_load_combo);
+    return result?.data?.is_valid;
+  };
+
+  const checkLoanComboOnBlur = async (input_load_combo, setter) => {
+    const result = await checkLoadComboApiCaller(input_load_combo);
+    // console.log("is valid: ", result);
+    setter(result?.data?.is_valid);
+  };
+  const ControllingIndorsement = ({ isControlling }) => {
+    return isControlling ? (
+      <InputAdornment position="end">
+        <CustomTypo fontsize={"8px"}>Controlling</CustomTypo>
+      </InputAdornment>
+    ) : null;
   };
   return (
     <div>
@@ -135,17 +192,22 @@ function Index({ loadCombo }) {
               value={loadCombo1}
               onChange={(event) => setLc1(event.target.value)}
               onBlur={() => {
+                const input_load_combo = loadCombo1;
+                checkLoanComboOnBlur(input_load_combo, setIsLc1Valid);
               }}
-              sx={styleOutlinedInput}
+              sx={styleOutlinedInput(isLc1Controlling)}
               id="filled-adornment-weight"
               endAdornment={
-                <InputAdornment position="end">
-                  <CustomTypo fontsize={"8px"}>Controlling</CustomTypo>
-                </InputAdornment>
+                <ControllingIndorsement isControlling={isLc1Controlling} />
               }
             />
           </FormControl>
-          <CustomCheckBox checked={lc1Check} setChecked={setLc1Check} />
+
+          <CustomCheckBox
+            checked={lc1Check}
+            setChecked={setLc1Check}
+            isValid={isLc1Valid}
+          />
         </Box>
 
         <Box sx={styleMiniStack}>
@@ -155,17 +217,21 @@ function Index({ loadCombo }) {
               value={loadCombo2}
               onChange={(event) => setLc2(event.target.value)}
               onBlur={() => {
+                const input_load_combo = loadCombo2;
+                checkLoanComboOnBlur(input_load_combo, setIsLc2Valid);
               }}
-              sx={styleOutlinedInput}
+              sx={styleOutlinedInput(isLc2Controlling)}
               id="filled-adornment-weight"
               endAdornment={
-                <InputAdornment position="end">
-                  <CustomTypo fontsize={"8px"}>Controlling</CustomTypo>
-                </InputAdornment>
+                <ControllingIndorsement isControlling={isLc2Controlling} />
               }
             />
           </FormControl>
-          <CustomCheckBox checked={lc2Check} setChecked={setLc2Check} />
+          <CustomCheckBox
+            checked={lc2Check}
+            setChecked={setLc2Check}
+            isValid={isLc2Valid}
+          />
         </Box>
 
         <Box sx={styleMiniStack}>
@@ -175,17 +241,22 @@ function Index({ loadCombo }) {
               value={loadCombo3}
               onChange={(event) => setLc3(event.target.value)}
               onBlur={() => {
+                const input_load_combo = loadCombo3;
+                checkLoanComboOnBlur(input_load_combo, setIsLc3Valid);
               }}
-              sx={styleOutlinedInput}
+              sx={styleOutlinedInput(isLc3Controlling)}
               id="filled-adornment-weight"
               endAdornment={
-                <InputAdornment position="end">
-                  <CustomTypo fontsize={"8px"}>Controlling</CustomTypo>
-                </InputAdornment>
+                <ControllingIndorsement isControlling={isLc3Controlling} />
               }
             />
           </FormControl>
-          <CustomCheckBox checked={lc3Check} setChecked={setLc3Check} />
+
+          <CustomCheckBox
+            checked={lc3Check}
+            setChecked={setLc3Check}
+            isValid={isLc3Valid}
+          />
         </Box>
 
         <Box sx={styleMiniStack}>
@@ -195,17 +266,22 @@ function Index({ loadCombo }) {
               value={loadCombo4}
               onChange={(event) => setLc4(event.target.value)}
               onBlur={() => {
+                const input_load_combo = loadCombo4;
+                checkLoanComboOnBlur(input_load_combo, setIsLc4Valid);
               }}
-              sx={styleOutlinedInput}
+              sx={styleOutlinedInput(isLc4Controlling)}
               id="filled-adornment-weight"
               endAdornment={
-                <InputAdornment position="end">
-                  <CustomTypo fontsize={"8px"}>Controlling</CustomTypo>
-                </InputAdornment>
+                <ControllingIndorsement isControlling={isLc4Controlling} />
               }
             />
           </FormControl>
-          <CustomCheckBox checked={lc4Check} setChecked={setLc4Check} />
+
+          <CustomCheckBox
+            checked={lc4Check}
+            setChecked={setLc4Check}
+            isValid={isLc4Valid}
+          />
         </Box>
 
         <Box sx={styleMiniStack}>
@@ -215,17 +291,21 @@ function Index({ loadCombo }) {
               value={loadCombo5}
               onChange={(event) => setLc5(event.target.value)}
               onBlur={() => {
+                const input_load_combo = loadCombo5;
+                checkLoanComboOnBlur(input_load_combo, setIsLc5Valid);
               }}
-              sx={styleOutlinedInput}
+              sx={styleOutlinedInput(isLc5Controlling)}
               id="filled-adornment-weight"
               endAdornment={
-                <InputAdornment position="end">
-                  <CustomTypo fontsize={"8px"}>Controlling</CustomTypo>
-                </InputAdornment>
+                <ControllingIndorsement isControlling={isLc5Controlling} />
               }
             />
           </FormControl>
-          <CustomCheckBox checked={lc5Check} setChecked={setLc5Check} />
+          <CustomCheckBox
+            checked={lc5Check}
+            setChecked={setLc5Check}
+            isValid={isLc5Valid}
+          />
         </Box>
       </Stack>
     </div>

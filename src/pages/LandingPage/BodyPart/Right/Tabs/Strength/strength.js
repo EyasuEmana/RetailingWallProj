@@ -53,7 +53,21 @@ function Strength() {
   }, []);
 
   React.useEffect(() => {
-  }, [strengthTabData]);
+    const allExpanded =
+    isDesignStemExpanded &&
+    isDesignHeelExpanded &&
+    isDesignToeExpanded &&
+    isDesignShearExpanded &&
+    isDesignButtressExpanded;
+
+  setExpandAll(allExpanded);
+  }, [
+    isDesignStemExpanded,
+    isDesignHeelExpanded,
+    isDesignToeExpanded,
+    isDesignShearExpanded,
+    isDesignButtressExpanded,
+  ]);
   // const StyledAccordionTest = styled(Accordion)((props) => {
   //   console.log(props);
   //   return {
@@ -158,6 +172,7 @@ function Strength() {
     }
     setExpandAll(!expandAll);
   };
+
   return (
     <Box>
       <Stack direction={"column"} spacing={"10px"}>
@@ -262,7 +277,7 @@ function Strength() {
                 fontSize={"10px"}
                 onClick={(event) => handleExpandAll(event)}
               >
-                Expand All
+                {expandAll ? "Close All" : "Expand All"}
               </CustomButton>
             </Stack>
           </Stack>

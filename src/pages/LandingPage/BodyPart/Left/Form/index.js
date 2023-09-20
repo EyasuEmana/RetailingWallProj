@@ -218,7 +218,33 @@ function Index() {
         seismic: seismicPressure,
         water_el: waterElevation,
       },
+      reinforcement: {
+        heel: {
+          horiz_bars: heelHorizontalBars,
+          horiz_spacing: heelHorizontalSpacing,
+          transverse_bars: heelTraverseBars,
+          transverse_spacing: heelTraverseSpacing,
+        },
+        shear_key: {
+          horiz_bars: sKHorizontalBars,
+          horiz_spacing: skHorizontalSpacing,
+          vertical_bars: skVertikalBars,
+          vertical_spacing: skVerticalSpacing,
+        },
+        stem: {
+          horiz_bars: stemHorizontalBars,
+          horiz_spacing: stemHorizontalSpacing,
+          vertical_bars: stemVerticalBars,
+          vertical_spacing: stemVerticalSpacing,
+        },
+        toe: {
+          horiz_bars: 8,
+          horiz_spacing: 7,
+        },
+      },
       info: model.info,
+      bearing_capacity: model.bearing_capacity,
+      units: model.units,
     };
     // dispatch(setModel(newModel));
     dispatch(getStabilityTabData(newModel));
@@ -243,6 +269,18 @@ function Index() {
     soilUnit,
     pga,
     steelFc,
+    heelHorizontalBars,
+    heelHorizontalSpacing,
+    heelTraverseBars,
+    heelTraverseSpacing,
+    sKHorizontalBars,
+    skHorizontalSpacing,
+    skVertikalBars,
+    skVerticalSpacing,
+    stemHorizontalBars,
+    stemHorizontalSpacing,
+    stemVerticalBars,
+    stemVerticalSpacing,
   ]);
 
   const handleChange = (event, newValue) => {

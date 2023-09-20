@@ -10,7 +10,6 @@ import React from "react";
 
 const OutputComponent = ({ title, value, sf }) => {
   const theme = useTheme();
-  const isMatch = useMediaQuery(theme.breakpoints.up("lg"));
   const isMatchXS = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Grid

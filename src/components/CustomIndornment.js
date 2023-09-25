@@ -2,7 +2,7 @@ import { InputAdornment } from "@mui/material";
 
 const CustomIndornment = ({ title }) => (
   <InputAdornment
-    position="end"
+    position="start"
     sx={{
       ".css-ycevnx-MuiTypography-root": {
         color: `rgba(0, 0, 0, 1.0)`,

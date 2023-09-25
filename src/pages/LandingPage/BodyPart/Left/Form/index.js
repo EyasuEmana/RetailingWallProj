@@ -82,7 +82,8 @@ function Index() {
   const passiveInitValue = soilApiData?.passive;
   const seisPressInitValue = soilApiData?.seismic;
 
-  const [isRotated, setIsRotated] = useState(true);
+  const [isRotated, setIsRotated] = useState(false);
+  const [isDimmensionCollapsed, setIsDimmensionCollapsed] = useState(false);
   const [stemHeight, setStemHeight] = useState(stemHeightInitialValue);
   const [stemTop, setStemTop] = useState(stemTopInitialValue);
   const [stemTopOffset, setStemTopOffset] = useState(stemTopInitialValue);
@@ -377,21 +378,56 @@ function Index() {
         />
       </svg> */}
       <Box>
-        <Stack direction={"row"} justifyContent={"flex-end"}>
-          {/* <Box onClick={() => aiFixHandler()}> */}
-          <CustomButton
-            txtcolor={"#FFF"}
-            backgroundcolor={"#47C5FB"}
-            fontSize={12}
-            radius={"4px"}
-            fontWeight={500}
-            // disabled
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Stack
+            direction={"row"}
+            spacing={1}
+            alignItems={"center"}
+            onClick={() => {
+              setIsDimmensionCollapsed((prev) => !prev);
+            }}
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
           >
-            Fix with AI
-          </CustomButton>
-          {/* </Box> */}
+            <Typography sx={{ fontWeight: 700, fontSize: 14 }}>
+              Dimensions
+            </Typography>
+            <IconButton aria-label="Example">
+              <ExpandMoreIcon
+                sx={{
+                  color: "#47C5FB",
+                  transform: isDimmensionCollapsed
+                    ? "rotate(-90deg)"
+                    : "rotate(0deg)",
+                  transition: "transform 0.3s ease-in-out",
+                }}
+              />
+            </IconButton>
+          </Stack>
+          <Stack direction={"row"} justifyContent={"flex-end"}>
+            {/* <Box onClick={() => aiFixHandler()}> */}
+            <CustomButton
+              txtcolor={"#FFF"}
+              backgroundcolor={"#47C5FB"}
+              fontSize={12}
+              radius={"4px"}
+              fontWeight={500}
+              // disabled
+            >
+              Fix with AI
+            </CustomButton>
+            {/* </Box> */}
+          </Stack>
         </Stack>
-        <Box>
+
+       <Box sx={{ display: isDimmensionCollapsed && "none" }}>
           <Typography sx={{ fontWeight: 700, fontSize: 14 }}>Stem</Typography>
           <Stack direction={"column"}>
             <Grid
@@ -566,7 +602,7 @@ function Index() {
           </Stack>
         </Box>
 
-        <Box mt={1}>
+        <Box mt={1} sx={{ display: isDimmensionCollapsed && "none" }}>
           <Typography sx={{ fontWeight: 700, fontSize: 14 }}>Base</Typography>
           <Stack direction={"column"}>
             <Grid
@@ -688,7 +724,7 @@ function Index() {
           </Stack>
         </Box>
 
-        <Box mt={1}>
+        <Box mt={1} sx={{ display: isDimmensionCollapsed && "none" }}>
           <Typography sx={{ fontWeight: 700, fontSize: 14 }}>
             Shear Key
           </Typography>
@@ -811,6 +847,7 @@ function Index() {
             </Grid>
           </Stack>
         </Box>
+        
         <Stack
           direction={"row"}
           spacing={1}

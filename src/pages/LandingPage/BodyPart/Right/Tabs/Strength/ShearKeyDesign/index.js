@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import CustomTabs from "../CommonFiles/CustomTabs";
 import ShearKeyDesignTabBody from "../TabsBody/shearKeyDesignTabBody";
 
-function Index({ designOfShearKey }) {
-  const [value, setValue] = useState(designOfShearKey?.controlling_case - 1);
+function Index({ designOfShearKey, controllerSetter, controllerValue }) {
   const [tabData, setTabDSData] = useState();
   useEffect(() => {
-    switch (value) {
+    switch (controllerValue) {
       case 0:
         setTabDSData(designOfShearKey?.lc_1);
         break;
@@ -27,11 +26,11 @@ function Index({ designOfShearKey }) {
         setTabDSData(designOfShearKey?.lc_1);
         break;
     }
-  }, [value]);
+  }, [controllerValue]);
 
   return (
     <Box>
-      <CustomTabs value={value} setValue={setValue} />
+      <CustomTabs value={controllerValue} setValue={controllerSetter} />
       <ShearKeyDesignTabBody tabData={tabData} />
     </Box>
   );

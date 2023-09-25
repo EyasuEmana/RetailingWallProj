@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import ButtressDesignTabBody from "../TabsBody/ButtressDesignTabBody";
 import CustomTabs from "../CommonFiles/CustomTabs";
 
-function Index({ designOfButtress }) {
-  const [value, setValue] = useState(designOfButtress?.controlling_case - 1);
+function Index({ designOfButtress, controllerValue, controllerSetter }) {
   const [tabData, setTabDSData] = useState();
   useEffect(() => {
-    switch (value) {
+    switch (controllerValue) {
       case 0:
         setTabDSData(designOfButtress?.lc_1);
         break;
@@ -27,11 +26,11 @@ function Index({ designOfButtress }) {
         setTabDSData(designOfButtress?.lc_1);
         break;
     }
-  }, [value]);
+  }, [controllerValue]);
 
   return (
     <Box>
-      <CustomTabs value={value} setValue={setValue} />
+      <CustomTabs value={controllerValue} setValue={controllerSetter} />
       <ButtressDesignTabBody tabData={tabData} />
     </Box>
   );

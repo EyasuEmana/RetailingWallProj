@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import ToeDesignTabBody from "../TabsBody/toeDesignTabBody";
 import CustomTabs from "../CommonFiles/CustomTabs";
 
-function Index({ designOfToe }) {
-  const [value, setValue] = useState(designOfToe?.controlling_case - 1);
+function Index({ designOfToe, controllerValue, controllerSetter }) {
   const [tabData, setTabDSData] = useState();
   useEffect(() => {
-    switch (value) {
+    switch (controllerValue) {
       case 0:
         setTabDSData(designOfToe?.lc_1);
         break;
@@ -27,11 +26,11 @@ function Index({ designOfToe }) {
         setTabDSData(designOfToe?.lc_1);
         break;
     }
-  }, [value]);
+  }, [controllerValue]);
 
   return (
     <Box>
-      <CustomTabs value={value} setValue={setValue} />
+      <CustomTabs value={controllerValue} setValue={controllerSetter} />
       <ToeDesignTabBody tabData={tabData} />
     </Box>
   );

@@ -2,7 +2,6 @@ import * as React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
 import LoadCombination from "./LoadCombination";
 import StemDesign from "./StemDesign";
 import HeelDesign from "./HeelDesign";
@@ -33,6 +32,32 @@ function Strength() {
   const { stabilityTabData, strengthTabData } = useSelector(
     (state) => state.uiReducer
   );
+
+  const designOfStemControllingInitValue =
+    strengthTabData?.results?.design_of_stem?.controlling_case - 1;
+  
+    const shearKeyDesignControllingInitValue =
+    strengthTabData?.results?.design_of_shear_key?.controlling_case - 1;
+
+    const designOfToeControllingInitValue=   strengthTabData?.results?.design_of_toe?.controlling_case - 1;
+
+    const heelDesignInitValue=strengthTabData?.results?.design_of_heel?.controlling_case - 1
+    const buttressDesignInitValue=strengthTabData?.results?.design_of_buttress?.controlling_case - 1
+
+    const [designOfStemControlling, setDesignOfStemControlling] = useState(
+    designOfStemControllingInitValue
+  );
+
+  const [shearKeyDesignControlling, setShearKeyDesignControlling] = useState(
+    shearKeyDesignControllingInitValue
+  );
+
+  const [toeDesignControlling, setToeDesignControlling] = useState(
+    designOfToeControllingInitValue);
+    const [heelDesign, setHeelDesign] = useState(heelDesignInitValue);
+
+  const [buttressDesignControlling, setButtressDesignControlling] = useState(buttressDesignInitValue);
+
   const IsCorrectIcon = () => (
     <img
       src={isCorrectIcon}
@@ -54,13 +79,13 @@ function Strength() {
 
   React.useEffect(() => {
     const allExpanded =
-    isDesignStemExpanded &&
-    isDesignHeelExpanded &&
-    isDesignToeExpanded &&
-    isDesignShearExpanded &&
-    isDesignButtressExpanded;
+      isDesignStemExpanded &&
+      isDesignHeelExpanded &&
+      isDesignToeExpanded &&
+      isDesignShearExpanded &&
+      isDesignButtressExpanded;
 
-  setExpandAll(allExpanded);
+    setExpandAll(allExpanded);
   }, [
     isDesignStemExpanded,
     isDesignHeelExpanded,
@@ -68,31 +93,7 @@ function Strength() {
     isDesignShearExpanded,
     isDesignButtressExpanded,
   ]);
-  // const StyledAccordionTest = styled(Accordion)((props) => {
-  //   console.log(props);
-  //   return {
-  //     // ".MuiSvgIconRoot": {
-  //     //   display: "none",
-  //     // },
-  //     // ".MuiPaper-root-MuiAccordion-root:before": {
-  //     //   height: "0px",
-  //     //   backgroundColor: "red",
-  //     // },
-  //     ".MuiPaper-root.MuiAccordion-root:before": {
-  //       // Target the :before pseudo-element
-  //       position: "absolute",
-  //       left: "0",
-  //       top: "-1px",
-  //       right: "0",
-  //       height: "1px",
-  //       opacity: "1",
-  //       backgroundColor: "rgba(0, 0, 0, 0.12)",
-  //       transition:
-  //         "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-  //       content: '""', // Add this line to specify the pseudo-element content
-  //     },
-  //   };
-  // });
+
   const styleAccordion = {
     ".MuiAccordionSummary-root": { paddingLeft: 0 },
     ".MuiAccordionDetails-root": {
@@ -267,6 +268,11 @@ function Strength() {
                 fontSize={"10px"}
                 onClick={(event) => {
                   event.stopPropagation();
+                  setDesignOfStemControlling(designOfStemControllingInitValue);
+                  setShearKeyDesignControlling(shearKeyDesignControllingInitValue);
+                  setToeDesignControlling(designOfToeControllingInitValue);
+                  setHeelDesign(heelDesignInitValue)
+                  setButtressDesignControlling(buttressDesignInitValue)
                 }}
               >
                 Show Controlling
@@ -285,6 +291,8 @@ function Strength() {
         <AccordionDetails>
           {strengthTabData?.results?.design_of_stem && (
             <StemDesign
+              controllerValue={designOfStemControlling}
+              controllerSetter={setDesignOfStemControlling}
               designOfStem={strengthTabData?.results?.design_of_stem}
             />
           )}
@@ -313,6 +321,8 @@ function Strength() {
         <AccordionDetails>
           {strengthTabData?.results?.design_of_heel && (
             <HeelDesign
+            controllerValue={heelDesign}
+            controllerSetter={setHeelDesign}
               designOfHeel={strengthTabData?.results?.design_of_heel}
             />
           )}
@@ -340,7 +350,10 @@ function Strength() {
         </AccordionSummary>
         <AccordionDetails>
           {strengthTabData?.results?.design_of_toe && (
-            <ToeDesign designOfToe={strengthTabData?.results?.design_of_toe} />
+            <ToeDesign   
+              controllerValue={toeDesignControlling}
+              controllerSetter={setToeDesignControlling} 
+              designOfToe={strengthTabData?.results?.design_of_toe} />
           )}
         </AccordionDetails>
       </Accordion>
@@ -367,6 +380,8 @@ function Strength() {
         <AccordionDetails>
           {strengthTabData?.results?.design_of_shear_key && (
             <ShearKeyDesign
+            controllerValue={shearKeyDesignControlling}
+            controllerSetter={setShearKeyDesignControlling}
               designOfShearKey={strengthTabData?.results?.design_of_shear_key}
             />
           )}
@@ -395,6 +410,8 @@ function Strength() {
         <AccordionDetails>
           {strengthTabData?.results?.design_of_buttress && (
             <ButtressDesign
+            controllerValue={buttressDesignControlling}
+              controllerSetter={setButtressDesignControlling}
               designOfButtress={strengthTabData?.results?.design_of_buttress}
             />
           )}

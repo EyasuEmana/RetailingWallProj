@@ -1,15 +1,12 @@
-import { Box, Stack, Tab, Tabs } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomTabs from "../CommonFiles/CustomTabs";
-import CustomTypo from "../../../../../../../components/CustomTypo";
-import OutputComponent from "../../../../../../../components/OutputComponent";
 import StemDesignTabBody from "../TabsBody/stemDesignTabBody";
 
-function Index({ designOfStem }) {
-  const [value, setValue] = useState(designOfStem?.controlling_case - 1);
+function Index({ designOfStem, controllerValue, controllerSetter }) {
   const [tabData, setTabDSData] = useState();
   useEffect(() => {
-    switch (value) {
+    switch (controllerValue) {
       case 0:
         setTabDSData(designOfStem?.lc_1);
         break;
@@ -29,11 +26,11 @@ function Index({ designOfStem }) {
         setTabDSData(designOfStem?.lc_1);
         break;
     }
-  }, [value]);
+  }, [controllerValue]);
 
   return (
     <Box>
-      <CustomTabs value={value} setValue={setValue} />
+      <CustomTabs value={controllerValue} setValue={controllerSetter} />
       <StemDesignTabBody tabData={tabData} />
     </Box>
   );

@@ -9,7 +9,7 @@ const CustomTabs = ({ value, setValue }) => {
   };
   const styleTabText = { fontSize: "16px", fontWeight: 700 };
   return (
-    <Box sx={{ marginX: 2, marginBottom: "26px" }}>
+    <Box sx={{ marginX: 2, marginBottom: "26px", width: 460,overflow:"auto" }}>
       <Box className="indicator-container">
         <Tabs
           sx={{

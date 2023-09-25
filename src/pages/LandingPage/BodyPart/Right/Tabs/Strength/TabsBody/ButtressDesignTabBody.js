@@ -3,7 +3,7 @@ import React from "react";
 import CustomTypo from "../../../../../../../components/CustomTypo";
 import OutputComponent from "../../../../../../../components/OutputComponent";
 
-function StemDesignTabBody({ tabData }) {
+function ButtressDesignTabBody({ tabData }) {
   return (
     <Box>
       <Stack
@@ -16,15 +16,10 @@ function StemDesignTabBody({ tabData }) {
           DCR
         </CustomTypo>
       </Stack>
-      {/* <OutputComponent title={"Moment, Mu"} value={tabData?.moment} sf={0.3} />
-      <OutputComponent title={"Shear, Vu"} value={tabData?.shear} sf={0.3} />
-      <OutputComponent
-        title={"Shear Friction"}
-        value={tabData?.shear_friction}
-        sf={0.3}
-      /> */}
+      <OutputComponent title={"Tension check"} value={tabData?.tension_check} sf={0.3} />
+      
     </Box>
   );
 }
 
-export default StemDesignTabBody;
+export default ButtressDesignTabBody;

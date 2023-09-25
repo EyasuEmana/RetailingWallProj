@@ -152,6 +152,7 @@ function Reinforcement(props) {
                 <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                   <StyledInputBase
                     type="number"
+                    sx={{ paddingLeft: "30px" }}
                     value={Number(stemVerticalBars)}
                     onChange={(event) =>
                       handleInputChange(
@@ -160,7 +161,7 @@ function Reinforcement(props) {
                         setStemVerticalBars
                       )
                     }
-                    endAdornment={<CustomIndornment title={"psi"} />}
+                    startAdornment={<CustomIndornment title={"#"} />}
                   />
                 </FormControl>
               </Stack>
@@ -202,7 +203,7 @@ function Reinforcement(props) {
                         setStemVerticalSpacing
                       )
                     }
-                    endAdornment={<CustomIndornment title={"ksi"} />}
+                    endAdornment={<CustomIndornment title={"in"} />}
                   />
                 </FormControl>
               </Stack>
@@ -237,6 +238,7 @@ function Reinforcement(props) {
                 <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                   <StyledInputBase
                     type="number"
+                    sx={{ paddingLeft: "30px" }}
                     value={stemHorizontalBars}
                     onChange={(event) =>
                       handleInputChange(
@@ -245,7 +247,7 @@ function Reinforcement(props) {
                         setStemHorizontalBars
                       )
                     }
-                    endAdornment={<CustomIndornment title={"pcf"} />}
+                    startAdornment={<CustomIndornment title={"#"} />}
                   />
                 </FormControl>
               </Stack>
@@ -286,7 +288,7 @@ function Reinforcement(props) {
                         setStemHorizontalSpacing
                       )
                     }
-                    endAdornment={<CustomIndornment title={"ft"} />}
+                    endAdornment={<CustomIndornment title={"in"} />}
                   />
                 </FormControl>
               </Stack>
@@ -323,6 +325,7 @@ function Reinforcement(props) {
                 <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                   <StyledInputBase
                     type="number"
+                    sx={{ paddingLeft: "30px" }}
                     value={Number(heelTraverseBars)}
                     onChange={(event) =>
                       handleInputChange(
@@ -331,7 +334,7 @@ function Reinforcement(props) {
                         setHeelTraverseBars
                       )
                     }
-                    endAdornment={<CustomIndornment title={"psi"} />}
+                    startAdornment={<CustomIndornment title={"#"} />}
                   />
                 </FormControl>
               </Stack>
@@ -372,7 +375,7 @@ function Reinforcement(props) {
                         setHeelTraverseSpacing
                       )
                     }
-                    endAdornment={<CustomIndornment title={"ksi"} />}
+                    endAdornment={<CustomIndornment title={"in"} />}
                   />
                 </FormControl>
               </Stack>
@@ -407,6 +410,7 @@ function Reinforcement(props) {
                 <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                   <StyledInputBase
                     type="number"
+                    sx={{ paddingLeft: "30px" }}
                     value={heelHorizontalBars}
                     onChange={(event) =>
                       handleInputChange(
@@ -415,7 +419,7 @@ function Reinforcement(props) {
                         setHeelHorizontalBars
                       )
                     }
-                    endAdornment={<CustomIndornment title={"pcf"} />}
+                    startAdornment={<CustomIndornment title={"#"} />}
                   />
                 </FormControl>
               </Stack>
@@ -456,7 +460,7 @@ function Reinforcement(props) {
                         setHeelHorizontalSpacing
                       )
                     }
-                    endAdornment={<CustomIndornment title={"ft"} />}
+                    endAdornment={<CustomIndornment title={"in"} />}
                   />
                 </FormControl>
               </Stack>
@@ -494,6 +498,7 @@ function Reinforcement(props) {
                 <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                   <StyledInputBase
                     type="number"
+                    sx={{ paddingLeft: "30px" }}
                     value={toeHorizontalBars}
                     onChange={(event) =>
                       handleInputChange(
@@ -502,7 +507,7 @@ function Reinforcement(props) {
                         setToeHorizontalBars
                       )
                     }
-                    endAdornment={<CustomIndornment title={"pcf"} />}
+                    startAdornment={<CustomIndornment title={"#"} />}
                   />
                 </FormControl>
               </Stack>
@@ -543,7 +548,7 @@ function Reinforcement(props) {
                         setToeHorizontalSpacing
                       )
                     }
-                    endAdornment={<CustomIndornment title={"ft"} />}
+                    endAdornment={<CustomIndornment title={"in"} />}
                   />
                 </FormControl>
               </Stack>
@@ -581,6 +586,7 @@ function Reinforcement(props) {
                 <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                   <StyledInputBase
                     type="number"
+                    sx={{ paddingLeft: "30px" }}
                     value={Number(skVertikalBars)}
                     onChange={(event) =>
                       handleInputChange(
@@ -589,7 +595,7 @@ function Reinforcement(props) {
                         setskVertikalBars
                       )
                     }
-                    endAdornment={<CustomIndornment title={"psi"} />}
+                    startAdornment={<CustomIndornment title={"#"} />}
                   />
                 </FormControl>
               </Stack>
@@ -628,7 +634,7 @@ function Reinforcement(props) {
                         setskVerticalSpacing
                       )
                     }
-                    endAdornment={<CustomIndornment title={"ksi"} />}
+                    endAdornment={<CustomIndornment title={"in"} />}
                   />
                 </FormControl>
               </Stack>
@@ -660,6 +666,7 @@ function Reinforcement(props) {
                 />
                 <FormControl sx={{ m: 1, width: 190 }} variant="outlined">
                   <StyledInputBase
+                    sx={{ paddingLeft: "30px" }}
                     type="number"
                     value={sKHorizontalBars}
                     onChange={(event) =>
@@ -669,7 +676,7 @@ function Reinforcement(props) {
                         setsKHorizontalBars
                       )
                     }
-                    endAdornment={<CustomIndornment title={"pcf"} />}
+                    startAdornment={<CustomIndornment title={"#"} />}
                   />
                 </FormControl>
               </Stack>
@@ -689,8 +696,7 @@ function Reinforcement(props) {
             <Grid item lg={9} md={9} sm={12} xs={12}>
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
                 <Slider
-                  step={null}
-                  marks={marks}
+                  step={0.1}
                   value={Number(skHorizontalSpacing)}
                   min={0}
                   max={24}
@@ -711,7 +717,7 @@ function Reinforcement(props) {
                         setSkHorizontalSpacing
                       )
                     }
-                    endAdornment={<CustomIndornment title={"ft"} />}
+                    endAdornment={<CustomIndornment title={"in"} />}
                   />
                 </FormControl>
               </Stack>

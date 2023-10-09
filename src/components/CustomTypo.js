@@ -19,6 +19,7 @@ function CustomTypo(props) {
 CustomTypo.defaultProps = {
   txtcolor: "#000",
   fontsize: "14px",
+  // whiteSpace: "nowrap",
   fontweight: 700,
 };
 

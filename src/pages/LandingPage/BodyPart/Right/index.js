@@ -10,7 +10,6 @@ function Index() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.up("lg"));
   const isMatchXS = useMediaQuery(theme.breakpoints.down("sm"));
-  const { stabilityTabData } = useSelector((state) => state.uiReducer);
   const [stabilityOpen, setStabilityOpen] = useState(true);
   const [strengthOpen, setStrengthOpen] = useState(false);
   const [activeTab, setactiveTab] = useState(1);

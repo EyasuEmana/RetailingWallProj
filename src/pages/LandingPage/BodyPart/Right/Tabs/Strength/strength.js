@@ -10,7 +10,15 @@ import ShearKeyDesign from "./ShearKeyDesign";
 import ButtressDesign from "./ButtressDesign";
 
 import { IoIosArrowDown } from "react-icons/io";
-import { Box, IconButton, Stack, styled } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Stack,
+  Typography,
+  styled,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import CustomTypo from "../../../../../../components/CustomTypo";
 import { useState } from "react";
 import { dispatch } from "../../../../../../store";
@@ -32,19 +40,23 @@ function Strength() {
   const { stabilityTabData, strengthTabData } = useSelector(
     (state) => state.uiReducer
   );
-
+  const theme = useTheme();
+  const isMatchXS = useMediaQuery(theme.breakpoints.down("sm"));
   const designOfStemControllingInitValue =
     strengthTabData?.results?.design_of_stem?.controlling_case - 1;
-  
-    const shearKeyDesignControllingInitValue =
+
+  const shearKeyDesignControllingInitValue =
     strengthTabData?.results?.design_of_shear_key?.controlling_case - 1;
 
-    const designOfToeControllingInitValue=   strengthTabData?.results?.design_of_toe?.controlling_case - 1;
+  const designOfToeControllingInitValue =
+    strengthTabData?.results?.design_of_toe?.controlling_case - 1;
 
-    const heelDesignInitValue=strengthTabData?.results?.design_of_heel?.controlling_case - 1
-    const buttressDesignInitValue=strengthTabData?.results?.design_of_buttress?.controlling_case - 1
+  const heelDesignInitValue =
+    strengthTabData?.results?.design_of_heel?.controlling_case - 1;
+  const buttressDesignInitValue =
+    strengthTabData?.results?.design_of_buttress?.controlling_case - 1;
 
-    const [designOfStemControlling, setDesignOfStemControlling] = useState(
+  const [designOfStemControlling, setDesignOfStemControlling] = useState(
     designOfStemControllingInitValue
   );
 
@@ -53,10 +65,13 @@ function Strength() {
   );
 
   const [toeDesignControlling, setToeDesignControlling] = useState(
-    designOfToeControllingInitValue);
-    const [heelDesign, setHeelDesign] = useState(heelDesignInitValue);
+    designOfToeControllingInitValue
+  );
+  const [heelDesign, setHeelDesign] = useState(heelDesignInitValue);
 
-  const [buttressDesignControlling, setButtressDesignControlling] = useState(buttressDesignInitValue);
+  const [buttressDesignControlling, setButtressDesignControlling] = useState(
+    buttressDesignInitValue
+  );
 
   const IsCorrectIcon = () => (
     <img
@@ -96,6 +111,7 @@ function Strength() {
 
   const styleAccordion = {
     ".MuiAccordionSummary-root": { paddingLeft: 0 },
+    backgroundColor: "transparent",
     ".MuiAccordionDetails-root": {
       paddingTop: 1,
       paddingX: 0,
@@ -114,32 +130,32 @@ function Strength() {
   };
 
   const styleDropdownIcon = {
-    transform: isExpanded ? "rotate(-180deg)" : "rotate(0)",
+    transform: isExpanded ? "rotate(0)" : "rotate(-90deg)",
     transition: "0.3s ease-in-out",
   };
 
   const styleDropdownIcon2 = {
-    transform: isDesignStemExpanded ? "rotate(-180deg)" : "rotate(0)",
+    transform: isDesignStemExpanded ? "rotate(0)" : "rotate(-90deg)",
     transition: "0.3s ease-in-out",
   };
 
   const styleDropdownIcon3 = {
-    transform: isDesignHeelExpanded ? "rotate(-180deg)" : "rotate(0)",
+    transform: isDesignHeelExpanded ? "rotate(0)" : "rotate(-90deg)",
     transition: "0.3s ease-in-out",
   };
 
   const styleDropdownIcon4 = {
-    transform: isDesignToeExpanded ? "rotate(-180deg)" : "rotate(0)",
+    transform: isDesignToeExpanded ? "rotate(0)" : "rotate(-90deg)",
     transition: "0.3s ease-in-out",
   };
 
   const styleDropdownIcon5 = {
-    transform: isDesignShearExpanded ? "rotate(-180deg)" : "rotate(0)",
+    transform: isDesignShearExpanded ? "rotate(0)" : "rotate(-90deg)",
     transition: "0.3s ease-in-out",
   };
 
   const styleDropdownIcon6 = {
-    transform: isDesignButtressExpanded ? "rotate(-180deg)" : "rotate(0)",
+    transform: isDesignButtressExpanded ? "rotate(0)" : "rotate(-90deg)",
     transition: "0.3s ease-in-out",
   };
   const StyledAccordion = styled((props) => (
@@ -246,11 +262,21 @@ function Strength() {
           >
             <Stack
               spacing={3}
+              ml={isMatchXS ? 5 : 0}
               direction={"row"}
               alignItems={"center"}
               justifyContent={"center"}
             >
-              <CustomTypo>Design of Stem</CustomTypo>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  color: "#000",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Design of Stem
+              </Typography>
               <IconButton style={styleDropdownIcon2}>
                 <IoIosArrowDown color="#47C5FB" />
               </IconButton>
@@ -260,8 +286,8 @@ function Strength() {
               spacing={"6px"}
               justifyContent={"flex-end"}
               alignItems={"center"}
+              sx={{ marginRight: -3 }}
             >
-              <Box onClick={() => console.log("boom")}></Box>
               <CustomButton
                 bordercolor={"#D9D9D9"}
                 variant="outlined"
@@ -269,10 +295,12 @@ function Strength() {
                 onClick={(event) => {
                   event.stopPropagation();
                   setDesignOfStemControlling(designOfStemControllingInitValue);
-                  setShearKeyDesignControlling(shearKeyDesignControllingInitValue);
+                  setShearKeyDesignControlling(
+                    shearKeyDesignControllingInitValue
+                  );
                   setToeDesignControlling(designOfToeControllingInitValue);
-                  setHeelDesign(heelDesignInitValue)
-                  setButtressDesignControlling(buttressDesignInitValue)
+                  setHeelDesign(heelDesignInitValue);
+                  setButtressDesignControlling(buttressDesignInitValue);
                 }}
               >
                 Show Controlling
@@ -321,8 +349,8 @@ function Strength() {
         <AccordionDetails>
           {strengthTabData?.results?.design_of_heel && (
             <HeelDesign
-            controllerValue={heelDesign}
-            controllerSetter={setHeelDesign}
+              controllerValue={heelDesign}
+              controllerSetter={setHeelDesign}
               designOfHeel={strengthTabData?.results?.design_of_heel}
             />
           )}
@@ -350,10 +378,11 @@ function Strength() {
         </AccordionSummary>
         <AccordionDetails>
           {strengthTabData?.results?.design_of_toe && (
-            <ToeDesign   
+            <ToeDesign
               controllerValue={toeDesignControlling}
-              controllerSetter={setToeDesignControlling} 
-              designOfToe={strengthTabData?.results?.design_of_toe} />
+              controllerSetter={setToeDesignControlling}
+              designOfToe={strengthTabData?.results?.design_of_toe}
+            />
           )}
         </AccordionDetails>
       </Accordion>
@@ -380,8 +409,8 @@ function Strength() {
         <AccordionDetails>
           {strengthTabData?.results?.design_of_shear_key && (
             <ShearKeyDesign
-            controllerValue={shearKeyDesignControlling}
-            controllerSetter={setShearKeyDesignControlling}
+              controllerValue={shearKeyDesignControlling}
+              controllerSetter={setShearKeyDesignControlling}
               designOfShearKey={strengthTabData?.results?.design_of_shear_key}
             />
           )}
@@ -410,7 +439,7 @@ function Strength() {
         <AccordionDetails>
           {strengthTabData?.results?.design_of_buttress && (
             <ButtressDesign
-            controllerValue={buttressDesignControlling}
+              controllerValue={buttressDesignControlling}
               controllerSetter={setButtressDesignControlling}
               designOfButtress={strengthTabData?.results?.design_of_buttress}
             />

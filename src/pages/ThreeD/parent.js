@@ -111,8 +111,8 @@ function ThreeDWrapper(props) {
        {/* <axesHelper args={[5]} /> */}
      {/* <gridHelper /> */}
       <ambientLight position={[1, 1.5, 0]} color={"red"} />
-      <OrbitControls target={[0, 0.35, 0]} maxPolarAngle={6} />
-      <PerspectiveCamera makeDefault fov={50} position={[1, 0.6, 5]} />
+      <OrbitControls target={[0, 1.2, 0]} maxPolarAngle={6} />
+      <PerspectiveCamera makeDefault fov={50} position={[2.9, 1.9, 5]} />
       {/* <color args={[0, 0, 0]} attach="background" /> */}
       {/* <ThreeDTest {...props} /> */}
       <ThreeDTest2 {...props} />

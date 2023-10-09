@@ -318,6 +318,7 @@ function Index() {
             height: downSMatch ? "207px" : "407px",
             // resize: "both",
             overflow: "auto",
+            // border:"2px solid #CCC"
           }}
         >
           <ThreeDWrapper
@@ -427,7 +428,7 @@ function Index() {
           </Stack>
         </Stack>
 
-       <Box sx={{ display: isDimmensionCollapsed && "none" }}>
+        <Box sx={{ display: isDimmensionCollapsed && "none" }}>
           <Typography sx={{ fontWeight: 700, fontSize: 14 }}>Stem</Typography>
           <Stack direction={"column"}>
             <Grid
@@ -847,7 +848,7 @@ function Index() {
             </Grid>
           </Stack>
         </Box>
-        
+
         <Stack
           direction={"row"}
           spacing={1}

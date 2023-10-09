@@ -10,7 +10,7 @@ const sliderStyle = {
     height: "2px",
   },
   "& .MuiSlider-mark": {
-    color: "#EEE",
+    display:"none"
   },
   "& .MuiSlider-thumb": {
     backgroundColor: "#47C5FB",

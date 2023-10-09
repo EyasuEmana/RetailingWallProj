@@ -7,21 +7,30 @@ const CustomTabs = ({ value, setValue }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const styleTabText = { fontSize: "16px", fontWeight: 700 };
+  const numTabs = 5;
+  const maxWidth = 410;
+  const tabWidth = maxWidth / numTabs;
+
+  const styleTabText = {
+    fontSize: "16px",
+    fontWeight: 700,
+    minWidth: "20%",
+  
+  };
+  const styleTabs = {
+    backgroundColor: "transparent",
+    width: "100%",
+    ".MuiTabs-indicator": {
+      display:"none",
+      // height: "0px",
+      // width: "100%",
+    },
+  };
+
   return (
-    <Box sx={{ marginX: 2, marginBottom: "26px", width: 460,overflow:"auto" }}>
+    <Box sx={{ marginBottom: "26px", width: "100%", overflow: "none" }}>
       <Box className="indicator-container">
-        <Tabs
-          sx={{
-            display: "hidden",
-            ".MuiTabs-indicator": {
-              height: "0px",
-              width: "100%",
-            },
-          }}
-          value={value}
-          onChange={handleChange}
-        >
+        <Tabs sx={styleTabs} value={value} onChange={handleChange}>
           <Tab label="1" sx={styleTabText} />
           <Tab label=" 2" sx={styleTabText} />
           <Tab label=" 3" sx={styleTabText} />
@@ -41,7 +50,9 @@ const CustomTabs = ({ value, setValue }) => {
               : "fifth-tab"
           }`}
         >
-          <span style={styleTabText}>{`${value + 1}`}</span>
+          <span style={{ fontSize: "16px", fontWeight: 700 }}>{`${
+            value + 1
+          }`}</span>
         </Box>
       </Box>
     </Box>

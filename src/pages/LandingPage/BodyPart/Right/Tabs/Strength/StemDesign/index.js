@@ -29,8 +29,11 @@ function Index({ designOfStem, controllerValue, controllerSetter }) {
   }, [controllerValue]);
 
   return (
-    <Box>
-      <CustomTabs value={controllerValue} setValue={controllerSetter} />
+    <Box sx={{ width: "100%" }}>
+      <center>
+        <CustomTabs value={controllerValue} setValue={controllerSetter} />
+      </center>
+
       <StemDesignTabBody tabData={tabData} />
     </Box>
   );

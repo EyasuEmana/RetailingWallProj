@@ -29,7 +29,10 @@ function Index({ designOfHeel, controllerValue, controllerSetter }) {
   }, [controllerValue]);
   return (
     <Box>
-      <CustomTabs value={controllerValue} setValue={controllerSetter} />
+      <center>
+        <CustomTabs value={controllerValue} setValue={controllerSetter} />
+      </center>
+
       <HeelDesignTabBody tabData={tabData} />
     </Box>
   );

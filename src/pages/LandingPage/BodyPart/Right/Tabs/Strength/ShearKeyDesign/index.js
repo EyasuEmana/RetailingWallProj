@@ -30,7 +30,9 @@ function Index({ designOfShearKey, controllerSetter, controllerValue }) {
 
   return (
     <Box>
-      <CustomTabs value={controllerValue} setValue={controllerSetter} />
+      <center>
+        <CustomTabs value={controllerValue} setValue={controllerSetter} />
+      </center>
       <ShearKeyDesignTabBody tabData={tabData} />
     </Box>
   );

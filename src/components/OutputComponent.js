@@ -16,7 +16,7 @@ const OutputComponent = ({ title, value, sf }) => {
       container
       alignItems={"center"}
       justifyContent={"space-between"}
-      spacing={isMatchXS ? 0 : 2}
+      // spacing={isMatchXS ? 0 : 2}
       mb={"6px"}
     >
       <Grid item sm={4} xs={12}>
@@ -24,7 +24,8 @@ const OutputComponent = ({ title, value, sf }) => {
           {title}
         </Typography>
       </Grid>
-      <Grid item sm={7} xs={9}>
+      
+      <Grid item sm={7.3} xs={11.1} pr={1}>
         <Box>
           <LinearProgress
             variant="determinate"
@@ -42,7 +43,8 @@ const OutputComponent = ({ title, value, sf }) => {
           />
         </Box>
       </Grid>
-      <Grid item sm={1} xs={3} /* sx={{backgroundColor:"red"}} */>
+
+      <Grid item sm={0.7} xs={0.9} /* sx={{backgroundColor:"red"}} */>
         <Typography
           sx={{ fontSize: "12px", fontWeight: 400, marginBottom: "6px" }}
         >

@@ -30,7 +30,9 @@ function Index({ designOfButtress, controllerValue, controllerSetter }) {
 
   return (
     <Box>
-      <CustomTabs value={controllerValue} setValue={controllerSetter} />
+      <center>
+        <CustomTabs value={controllerValue} setValue={controllerSetter} />
+      </center>
       <ButtressDesignTabBody tabData={tabData} />
     </Box>
   );

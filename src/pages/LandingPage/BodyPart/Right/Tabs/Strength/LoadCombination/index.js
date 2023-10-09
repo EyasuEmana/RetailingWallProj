@@ -17,7 +17,6 @@ import { BASE_URL } from "../../../../../../../constants";
 import axios from "axios";
 
 function Index({ loadCombo }) {
-  // const { lc1, lc2, lc3, lc4, lc5 } = loadCombo;
   const [loadCombo1, setLc1] = useState(loadCombo?.lc1?.value);
   const [loadCombo2, setLc2] = useState(loadCombo?.lc2?.value);
   const [loadCombo3, setLc3] = useState(loadCombo?.lc3?.value);
@@ -86,6 +85,7 @@ function Index({ loadCombo }) {
 
   const styleFormControl = {
     m: 1,
+    mr:3,
     width: "100%",
     borderColor: "#47C5FB",
     ".Mui-focused": {
@@ -109,7 +109,7 @@ function Index({ loadCombo }) {
     justifyContent: "space-between",
     alignItems: "center",
     spacing: "10px",
-    paddingRight: "25px",
+    // paddingRight: "1px",
   };
   const Title = ({ title }) => (
     <Box sx={{ width: "50px" }}>
@@ -119,7 +119,7 @@ function Index({ loadCombo }) {
     </Box>
   );
   const CustomCheckBox = ({ checked, setChecked, isValid }) => (
-    <Stack direction="row" justifyContent={"center"} alignItems={"center"}>
+    <Stack direction="row" justifyContent={"center"} alignItems={"center"} sx={{marginRight:2}}>
       <Checkbox
         checked={checked}
         onChange={() => setChecked(!checked)}
@@ -172,7 +172,11 @@ function Index({ loadCombo }) {
   };
   return (
     <div>
-      <Box display="flex" justifyContent="flex-end" mt={-6}>
+      <Box
+        display="flex"
+        justifyContent="flex-end"
+        mt={-6}
+      >
         <Box onClick={() => handleCheckUncheck()}>
           <CustomButton
             bordercolor={"#D9D9D9"}
@@ -307,6 +311,7 @@ function Index({ loadCombo }) {
             isValid={isLc5Valid}
           />
         </Box>
+
       </Stack>
     </div>
   );

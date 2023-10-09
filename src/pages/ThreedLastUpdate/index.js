@@ -254,7 +254,7 @@ function Index(props) {
     width
   );
   return (
-    <group scale={[0.15, 0.15, 0.15]}>
+    <group scale={[0.195, 0.195, 0.195]}>
       <group>
         {getNumberArray(stemVerticalMax).map((key) => {
           const updatedZAxis = key * (stemVerticalSpacing / TO_INCH_FACTOR);
